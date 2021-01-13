@@ -1,0 +1,27 @@
+#main-header {
+  padding: var(--s400);
+  align-items: center;
+  background-color: var(--dark);
+  color: var(--light);
+}
+
+#main-header a {
+  color: var(--light);
+}
+
+#main-nav > ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+#main-nav > ul > li {
+  margin-inline-start: var(--s400);
+}
+
+.flex-row-parent > * {
+  flex-basis: auto;
+}
+

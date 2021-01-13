@@ -59,6 +59,34 @@ const fetchCells = {
   D3: { key: 'D3', value: '', expr: '' },
   D4: { key: 'D4', value: '', expr: '' },
 };
+
+const worksheetHistory = [
+  {
+    id: 1,
+    modified: '2021-01-13T02:32:02.304Z',
+    client: 'Thomas G. Dildy',
+  },
+  {
+    id: 2,
+    modified: '2021-01-12T01:12:02.304Z',
+    client: 'Ruby A. Miller',
+  },
+  {
+    id: 3,
+    modified: '2021-01-11T03:02:02.304Z',
+    client: 'Ruby A. Miller',
+  },
+  {
+    id: 4,
+    modified: '2021-01-10T01:21:02.304Z',
+    client: 'Ruby A. Miller',
+  }, {
+    id: 5,
+    modified: '2021-01-09T02:08:02.304Z',
+    client: 'Ruby A. Miller',
+  },
+];
+
 const TESTDATA = {
   testForm: [
     {
@@ -83,6 +111,7 @@ const TESTDATA = {
       grid: fetchCells,
     },
   ],
+  worksheetHistory,
 };
 
 export default TESTDATA;

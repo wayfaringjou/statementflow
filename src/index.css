@@ -1,13 +1,198 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css?family=Roboto:400");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+:root {
+  /* Design tokens */
+  /* Colors */
+  --dark: #121111;
+  --light: #f8f8f8;
+  --primary: #fdd110;
+  --secondary: #ea1c5c;
+  --secondary-shade: #da0044;
+  --tertiary: #55dde0;
+  /* Scale */
+  --s300: 0.833rem;
+  --s400: 1rem;
+  --s500: 1.2rem;
+  --s600: 1.44rem;
+  --s700: 1.728rem;
+  --s800: 2.074rem;
+  --s900: 2.488rem;
+  /* Breakpoints */
+  --xs: 0;
+  --sm: 16em;
+  --md: 48em;
+  --lg: 62em;
+  --xl: 75em;
+  --xxl: 87.5em;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Composition */
+
+html {
+  font-size: 100%;
+} /*16px*/
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 1em 0 1em;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  line-height: 1.3rem;
+}
+
+h1 {
+  font-size: 2.488rem;
+  font-weight: 300;
+  letter-spacing: 0.09375rem;
+}
+
+h2 {
+  font-size: 2.074rem;
+  font-weight: 300;
+  letter-spacing: 0.03125rem;
+}
+
+h3 {
+  font-size: 1.728rem;
+  letter-spacing: 0;
+}
+
+h4 {
+  font-size: 1.44rem;
+  letter-spacing: 0.015625rem;
+}
+
+h5 {
+  font-size: 1.2rem;
+  letter-spacing: 0;
+}
+
+h6 {
+  font-size: 1.0833rem;
+  font-weight: 500;
+  letter-spacing: 0.009375rem;
+}
+
+small,
+.text_small {
+  font-size: 0.833rem;
+}
+
+/* Utilities */
+
+.stack * + * {
+  margin-top: var(--flow-space, 1rem);
+}
+
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s400);
+}
+
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sidebar[data-size] {
+  flex-basis: attr(data-size rem, 25%);
+  flex-grow: 1;
+}
+
+.not-sidebar {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: 50%;
+}
+
+.flex-row-parent {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flex-row-parent > * {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 30ch;
+}
+
+.col.span1 {
+  grid-column: auto / span 1;
+}
+
+.col.span2 {
+  grid-column: auto / span 2;
+}
+
+.col.span3 {
+  grid-column: auto / span 3;
+}
+
+.col.span4 {
+  grid-column: auto / span 4;
+}
+
+@media only screen and (min-width: var(--sm)) {
+  /* [class*='grid-'] {} */
+  h1 {
+    font-size: 3.052rem;
+  }
+
+  h2 {
+    font-size: 2.441rem;
+  }
+
+  h3 {
+    font-size: 1.953rem;
+  }
+
+  h4 {
+    font-size: 1.563rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+
+  small,
+  .text_small {
+    font-size: 0.8rem;
+  }
+
+  .grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: var(--s400);
+  }
+
+  .col.span1 {
+    grid-column: auto / span 2;
+  }
+
+  .col.span2 {
+    grid-column: auto / span 4;
+  }
+
+  .col.span3 {
+    grid-column: auto / span 6;
+  }
+
+  .col.span4 {
+    grid-column: auto / span 8;
+  }
 }
