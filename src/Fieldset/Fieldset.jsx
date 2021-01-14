@@ -6,7 +6,7 @@ export default function Fieldset({ instance }) {
       {instance.fields.map((field) => (
         <label htmlFor={field.label} key={field.id}>
           <p>{field.label}</p>
-          <input id={field.label} key={field.type} />
+          <input id={field.label} key={field.type} value={field.value} />
         </label>
       ))}
     </fieldset>

@@ -9,20 +9,22 @@ export default function Worksheet({
   worksheetTemplates,
   worksheetHistory,
 }) {
-  const [worksheetData, setWorksheetData] = useState(dummyStatementData);
-  const [modifiedWorksheetData, setModifiedWorksheetData] = useState([]);
-
   let { worksheetId } = useParams();
   worksheetId = parseInt(worksheetId, 10);
+
   const currentWorksheet = worksheetHistory
     .find((worksheet) => worksheet.id === worksheetId);
-  const currentTemplate = worksheetTemplates
-    .find((template) => template.id === currentWorksheet.templateId);
+  const currentClient = dummyStatementData
+    .find((statement) => statement.clientId === currentWorksheet.clientId);
+
+  const [worksheetData, setWorksheetData] = useState(currentClient.values);
+  const [modifiedWorksheetData, setModifiedWorksheetData] = useState([]);
+
   return (
     <div id="worksheet">
       <h2>Worksheet</h2>
       {/* <i className="material-icons">face</i> */}
-      {currentTemplate.template
+      {worksheetData
         .map((componentInstance) => componentHelper(componentInstance))}
     </div>
   );

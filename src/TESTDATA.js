@@ -153,50 +153,244 @@ const dummyWorksheetTemplates = [
 ];
 
 const dummyStatementData = [
-
   {
     clientId: 1,
     values: [
-      'Client value',
-      100.0,
-      table3,
-      table4,
+      {
+        id: 1,
+        component: 'section',
+        title: 'Assets',
+        articles: [
+          {
+            id: 1,
+            component: 'fieldset',
+            fields: [
+              {
+                id: 1,
+                label: 'Test',
+                type: 'text',
+                value: 'This client\'s text',
+              },
+              {
+                id: 2,
+                label: 'Cash',
+                type: 'number',
+                value: 100.00,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        component: 'section',
+        title: 'Liabilities',
+        articles: [
+          {
+            id: 1,
+            component: 'table',
+            value: table3,
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'A table',
+        component: 'table',
+        value: table4,
+      },
     ],
   },
   {
     clientId: 2,
     values: [
-      'Client value',
-      200.0,
-      table3,
-      table4,
+      {
+        id: 1,
+        component: 'section',
+        title: 'Assets',
+        articles: [
+          {
+            id: 1,
+            component: 'fieldset',
+            fields: [
+              {
+                id: 1,
+                label: 'Test',
+                type: 'text',
+                value: 'This client\'s text',
+              },
+              {
+                id: 2,
+                label: 'Cash',
+                type: 'number',
+                value: 200.00,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        component: 'section',
+        title: 'Liabilities',
+        articles: [
+          {
+            id: 1,
+            component: 'table',
+            value: table3,
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'A table',
+        component: 'table',
+        value: table4,
+      },
     ],
   },
   {
     clientId: 3,
     values: [
-      'Client value',
-      300.0,
-      table3,
-      table4,
+      {
+        id: 1,
+        component: 'section',
+        title: 'Assets',
+        articles: [
+          {
+            id: 1,
+            component: 'fieldset',
+            fields: [
+              {
+                id: 1,
+                label: 'Test',
+                type: 'text',
+                value: 'This client\'s text',
+              },
+              {
+                id: 2,
+                label: 'Cash',
+                type: 'number',
+                value: 300.00,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        component: 'section',
+        title: 'Liabilities',
+        articles: [
+          {
+            id: 1,
+            component: 'table',
+            value: table3,
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'A table',
+        component: 'table',
+        value: table4,
+      },
     ],
   },
   {
     clientId: 4,
     values: [
-      'Client value',
-      400.0,
-      table3,
-      table4,
+      {
+        id: 1,
+        component: 'section',
+        title: 'Assets',
+        articles: [
+          {
+            id: 1,
+            component: 'fieldset',
+            fields: [
+              {
+                id: 1,
+                label: 'Test',
+                type: 'text',
+                value: 'This client\'s text',
+              },
+              {
+                id: 2,
+                label: 'Cash',
+                type: 'number',
+                value: 400.00,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        component: 'section',
+        title: 'Liabilities',
+        articles: [
+          {
+            id: 1,
+            component: 'table',
+            value: table3,
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'A table',
+        component: 'table',
+        value: table4,
+      },
     ],
   },
   {
     clientId: 5,
     values: [
-      'Client value',
-      500.0,
-      table3,
-      table4,
+      {
+        id: 1,
+        component: 'section',
+        title: 'Assets',
+        articles: [
+          {
+            id: 1,
+            component: 'fieldset',
+            fields: [
+              {
+                id: 1,
+                label: 'Test',
+                type: 'text',
+                value: 'This client\'s text',
+              },
+              {
+                id: 2,
+                label: 'Cash',
+                type: 'number',
+                value: 500.00,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        component: 'section',
+        title: 'Liabilities',
+        articles: [
+          {
+            id: 1,
+            component: 'table',
+            value: table3,
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: 'A table',
+        component: 'table',
+        value: table4,
+      },
     ],
   },
 ];
