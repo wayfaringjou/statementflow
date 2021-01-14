@@ -1,117 +1,209 @@
-const testGrid = [
+const table1 = [
   [
     { value: 'Bank Name', readOnly: true },
     { value: 'Account Title', readOnly: true },
     { value: 'Reconciled Balance', readOnly: true },
   ],
-  [{ value: 'Your Bank', expr: '' },
-    { value: 'Your Account', expr: '' },
-    { value: 100.0 }],
+  [{ value: '', expr: '' },
+    { value: '', expr: '' },
+    { value: 0.00 }],
 ];
 
-const fetchCells = {
-  '00': {
-    key: '0', value: 'name', readOnly: true, expr: '',
-  },
-  '01': {
-    key: '1', value: 'one', readOnly: true, expr: '',
-  },
-  '02': {
-    key: '2', value: 'two', readOnly: true, expr: '',
-  },
-  '03': {
-    key: '3', value: 'three', readOnly: true, expr: '',
-  },
-  '04': {
-    key: '4', value: 'four', readOnly: true, expr: '',
-  },
-  A0: {
-    key: 'A0', value: 'January', readOnly: true, expr: '',
-  },
-  A1: { key: 'A1', value: '200', expr: '' },
-  A2: {
-    key: 'A2',
-    value: '200',
-    expr: '=A1',
-    readOnly: true,
-  },
-  A3: { key: 'A3', value: '', expr: '' },
-  A4: { key: 'A4', value: '', expr: '' },
-  B0: {
-    key: 'B0', value: 'February', readOnly: true, expr: '',
-  },
-  B1: { key: 'B1', value: '', expr: '' },
-  B2: { key: 'B2', value: '', expr: '' },
-  B3: { key: 'B3', value: '', expr: '' },
-  B4: { key: 'B4', value: '', expr: '' },
-  C0: {
-    key: 'C0', value: 'March', readOnly: true, expr: '',
-  },
-  C1: { key: 'C1', value: '', expr: '' },
-  C2: { key: 'C2', value: '', expr: '' },
-  C3: { key: 'C3', value: '', expr: '' },
-  C4: { key: 'C4', value: '', expr: '' },
-  D0: {
-    key: 'D0', value: 'April', readOnly: true, expr: '',
-  },
-  D1: { key: 'D1', value: '', expr: '' },
-  D2: { key: 'D2', value: '', expr: '' },
-  D3: { key: 'D3', value: '', expr: '' },
-  D4: { key: 'D4', value: '', expr: '' },
-};
+const table2 = [
+  [
+    { value: 'Address', readOnly: true },
+    { value: 'Aproximate Square Footage', readOnly: true },
+    { value: 'Current Value', readOnly: true },
+  ],
+  [{ value: '', expr: '' },
+    { value: '', expr: '' },
+    { value: 100.00 }],
+];
 
-const worksheetHistory = [
+const table3 = [
+  [
+    { value: 'Bank Name', readOnly: true },
+    { value: 'Account Title', readOnly: true },
+    { value: 'Reconciled Balance', readOnly: true },
+  ],
+  [{ value: 'Dummy Bank', expr: '' },
+    { value: 'Main Account', expr: '' },
+    { value: 400.00 }],
+];
+
+const table4 = [
+  [
+    { value: 'Address', readOnly: true },
+    { value: 'Aproximate Square Footage', readOnly: true },
+    { value: 'Current Value', readOnly: true },
+  ],
+  [{ value: '4509 Asylum Avenue New York, CT 10013', expr: '' },
+    { value: '1700', expr: '' },
+    { value: 209100 }],
+];
+
+const dummyWorksheetHistory = [
   {
     id: 1,
     modified: '2021-01-13T02:32:02.304Z',
-    client: 'Thomas G. Dildy',
+    clientId: 2,
+    templateId: 1,
   },
   {
     id: 2,
     modified: '2021-01-12T01:12:02.304Z',
-    client: 'Ruby A. Miller',
+    clientId: 1,
+    templateId: 1,
   },
   {
     id: 3,
     modified: '2021-01-11T03:02:02.304Z',
-    client: 'Ruby A. Miller',
+    clientId: 5,
+    templateId: 1,
   },
   {
     id: 4,
     modified: '2021-01-10T01:21:02.304Z',
-    client: 'Ruby A. Miller',
-  }, {
+    clientId: 4,
+    templateId: 1,
+  },
+  {
     id: 5,
     modified: '2021-01-09T02:08:02.304Z',
-    client: 'Ruby A. Miller',
+    clientId: 3,
+    templateId: 1,
   },
 ];
 
-const TESTDATA = {
-  testForm: [
-    {
-      id: 1,
-      component: 'form',
-      fields: [
-        {
-          id: 1,
-          label: 'Test',
-          type: 'text',
-        },
-        {
-          id: 2,
-          label: 'password',
-          type: 'password',
-        },
-      ],
-    },
-    {
-      id: 2,
-      component: 'table',
-      grid: fetchCells,
-    },
-  ],
-  worksheetHistory,
-};
+const dummyClients = [
+  {
+    id: 1,
+    name: 'Thomas G. Dildy',
+  },
+  {
+    id: 2,
+    name: 'Ruby A. Miller',
+  },
+  {
+    id: 3,
+    name: 'Arline S. Gillespie',
+  },
+  {
+    id: 4,
+    name: 'Thelma S. Moyer',
+  },
+  {
+    id: 5,
+    name: 'Francis A. Walker',
+  },
+];
 
-export default TESTDATA;
+const personalStatement = [
+  {
+    id: 1,
+    component: 'section',
+    title: 'Assets',
+    articles: [
+      {
+        id: 1,
+        component: 'fieldset',
+        fields: [
+          {
+            id: 1,
+            label: 'Test',
+            type: 'text',
+            value: '',
+          },
+          {
+            id: 2,
+            label: 'Cash',
+            type: 'number',
+            value: '',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 2,
+    component: 'section',
+    title: 'Liabilities',
+    articles: [
+      {
+        id: 1,
+        component: 'table',
+        value: table1,
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: 'A table',
+    component: 'table',
+    value: table2,
+  },
+];
+
+const dummyWorksheetTemplates = [
+  {
+    id: 1,
+    name: 'Personal Finance Statement',
+    template: personalStatement,
+  },
+];
+
+const dummyStatementData = [
+
+  {
+    clientId: 1,
+    values: [
+      'Client value',
+      100.0,
+      table3,
+      table4,
+    ],
+  },
+  {
+    clientId: 2,
+    values: [
+      'Client value',
+      200.0,
+      table3,
+      table4,
+    ],
+  },
+  {
+    clientId: 3,
+    values: [
+      'Client value',
+      300.0,
+      table3,
+      table4,
+    ],
+  },
+  {
+    clientId: 4,
+    values: [
+      'Client value',
+      400.0,
+      table3,
+      table4,
+    ],
+  },
+  {
+    clientId: 5,
+    values: [
+      'Client value',
+      500.0,
+      table3,
+      table4,
+    ],
+  },
+];
+
+export {
+  dummyWorksheetTemplates,
+  dummyClients,
+  dummyWorksheetHistory,
+  dummyStatementData,
+};

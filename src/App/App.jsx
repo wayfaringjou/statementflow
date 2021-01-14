@@ -2,23 +2,22 @@ import React, { useState } from 'react';
 import { Route, Link } from 'react-router-dom';
 import AppContext from '../AppContext';
 import WorksheetsList from '../WorksheetList';
-import Worksheets from '../Worksheets';
+import Worksheet from '../Worksheet';
 import Header from '../Header';
 import Banner from '../Banner';
-import Modal from '../Modal/Modal';
+
 // TODO implement API
-import TESTDATA from '../TESTDATA';
+import {
+  dummyWorksheetTemplates,
+  dummyClients,
+  dummyWorksheetHistory,
+} from '../TESTDATA';
 
 export default function App() {
   // Hooks to hold state
-  // Tests
-  const [testForm, setTestForm] = useState(TESTDATA.testForm);
-  const [statementHistory, setStatementHistory] = useState(TESTDATA.worksheetHistory);
-  // Actual
-  const [worksheetTemplate, setWorkSheetTemplate] = useState(TESTDATA.testForm);
-  const [worksheetHistory, setWorksheetHistory] = useState([]);
-  const [worksheetData, setWorksheetData] = useState([]);
-  const [modifiedWorksheet, setModifiedWorksheet] = useState([]);
+  const [worksheetTemplates, setWorkSheetTemplates] = useState(dummyWorksheetTemplates);
+  const [worksheetHistory, setWorksheetHistory] = useState(dummyWorksheetHistory);
+  const [clients, setClients] = useState(dummyClients);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalOpen = () => setIsModalOpen(true);
@@ -27,8 +26,26 @@ export default function App() {
   const routes = () => (
     <>
       <Route exact path="/" component={Banner} />
-      <Route exact path="/worksheets" component={WorksheetsList} />
-      <Route path="/worksheets/:worksheetId" component={Worksheets} />
+      <Route
+        exact
+        path="/worksheets"
+        render={() => (
+          <WorksheetsList
+            worksheetHistory={worksheetHistory}
+            clients={clients}
+          />
+        )}
+      />
+      <Route
+        path="/worksheets/:worksheetId"
+        render={() => (
+          <Worksheet
+            worksheetTemplates={worksheetTemplates}
+            worksheetHistory={worksheetHistory}
+            clients={clients}
+          />
+        )}
+      />
     </>
   );
   return (

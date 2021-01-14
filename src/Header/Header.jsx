@@ -29,7 +29,12 @@ export default function Header() {
             </ul>
           </nav>
           <Modal modalOpen={isModalOpen} onModalClose={onModalClose}>
-            Create new statement from template
+            <h3>Create new from template</h3>
+            <ul>
+              <li>
+                <Link to="/worksheet/new">Personal</Link>
+              </li>
+            </ul>
           </Modal>
         </header>
       )}
