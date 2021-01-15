@@ -11,6 +11,7 @@ import {
   dummyWorksheetTemplates,
   dummyClients,
   dummyWorksheetHistory,
+  dummyStatementData,
 } from '../TESTDATA';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
   const [worksheetTemplates, setWorkSheetTemplates] = useState(dummyWorksheetTemplates);
   const [worksheetHistory, setWorksheetHistory] = useState(dummyWorksheetHistory);
   const [clients, setClients] = useState(dummyClients);
+  const [clientsStatementData, setClientsStatementData] = useState(dummyStatementData);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleModalOpen = () => setIsModalOpen(true);
@@ -43,6 +45,7 @@ export default function App() {
             worksheetTemplates={worksheetTemplates}
             worksheetHistory={worksheetHistory}
             clients={clients}
+            clientsStatementData={clientsStatementData}
           />
         )}
       />

@@ -9,19 +9,23 @@ const Components = {
   table: Table,
 };
 
-export default function componentHelper(instance, callback) {
-  if (typeof Components[instance.component] !== 'undefined') {
-    return React.createElement(Components[instance.component], {
-      key: instance.id,
+export default function componentHelper(instance, sectionKey, componentKey) {
+  console.log(instance);
+  if (typeof Components[instance.type] !== 'undefined') {
+    return React.createElement(Components[instance.type], {
+      key: componentKey,
+      componentKey,
+      sectionKey,
       instance,
-      callback,
     });
   }
   return React.createElement(
     () => (
       <div>
         The component
-        {instance.component}
+        {' '}
+        {instance.type}
+        {' '}
         has not been created yet.
       </div>
     ),

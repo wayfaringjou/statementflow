@@ -1,7 +1,10 @@
 import React, { useReducer } from 'react';
+import WorksheetContext from '../WorksheetContext';
 import Input from '../Input';
+import AppContext from '../AppContext';
 
-export default function Fieldset({ instance }) {
+export default function Fieldset({ instance, sectionKey, componentKey }) {
+  /*
   const initialState = instance.fields;
   console.log(initialState);
 
@@ -12,18 +15,27 @@ export default function Fieldset({ instance }) {
   }
 
   const [state, dispatch] = useReducer(reducer, initialState);
+*/
+  const fieldKeys = Object.keys(instance.fields);
 
   return (
-    <fieldset className="worksheet-fieldset" form="worksheet">
-      {instance.fields.map((field, index) => (
-        <Input
-          handleChange={({ target: { value } }) => dispatch({ value, index })}
-          key={field.id}
-          id={field.label}
-          value={state[index].value}
-          label={state[index].label}
-        />
-      ))}
-    </fieldset>
+    <WorksheetContext.Consumer>
+      {({ worksheetData, dispatch }) => (
+
+        <fieldset className="worksheet-fieldset" form="worksheet">
+          {fieldKeys.map((fieldKey) => (
+            <Input
+              handleChange={({ target: { value } }) => dispatch({
+                value, sectionKey, componentKey, fieldKey,
+              })}
+              key={fieldKey}
+              id={instance.fields[fieldKey].label}
+              value={instance.fields[fieldKey].value}
+              label={instance.fields[fieldKey].label}
+            />
+          ))}
+        </fieldset>
+      )}
+    </WorksheetContext.Consumer>
   );
 }

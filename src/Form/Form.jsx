@@ -1,21 +1,45 @@
-import React from 'react';
+/* eslint-disable no-param-reassign */
+import React, { useReducer, useMemo, useCallback } from 'react';
+// import Immutable from 'immutable';
 
-// eslint-disable-next-line react/prop-types
-export default function Form({ instance }) {
+// the reducer (similar to what we'd have in redux)
+const formReducer = (state, { field, value }) => state.set(field, value);
+
+// the initial state (separated out here in case we wish to easily reset the state)
+const initialState = {
+  name: '',
+  address: '',
+  age: '',
+  favouriteSubject: '',
+  likesChess: false,
+};
+console.log(new Map(initialState));
+// the field names (useful below)
+const fieldNames = Object.keys(initialState);
+
+const Form = () => {
+  // get current state and the dispatcher, wrap the state as an immutable map
+  const [state, dispatch] = useReducer(formReducer, new Map(initialState));
+
+  // build the onChange handlers
+  const handlers = fieldNames.reduce((m, field) => {
+    // the onChange handler for this field is only re-created if the dispatch method changes
+    // eslint-disable-next-line max-len
+    m[field] = useCallback((e) => dispatch({ field, value: e.currentTarget.value }), [field, dispatch]);
+    console.log(m);
+    return m;
+  }, {});
+
+  // convert the immutable back to an object for easy access
+  const stateAsObj = useMemo(() => state.toObject(), [state]);
+
   return (
-    <div className="form">
-      {console.log('loaded form')}
-      {console.log(instance)}
-      <form>
-        <fieldset>
-          {instance.fields.map((field) => (
-            <label htmlFor={field.label} key={field.id}>
-              <p>{field.label}</p>
-              <input id={field.label} type={field.type} />
-            </label>
-          ))}
-        </fieldset>
-      </form>
-    </div>
+    <form>
+      {fieldNames.forEach((field) => (
+        <input key={field} type="text" value={stateAsObj[field]} onChange={handlers[field]} />
+      ))}
+    </form>
   );
-}
+};
+
+export default Form;

@@ -98,7 +98,37 @@ const dummyClients = [
   },
 ];
 
-const personalStatement = [
+const personalStatement = {
+  a1: {
+    sectionTitle: 'Assets',
+    components: {
+      a2: {
+        type: 'fieldset',
+        fields: {
+          a3: {
+            label: '',
+            value: '',
+          },
+          a4: {
+            label: '',
+            value: '',
+          },
+        },
+      },
+    },
+  },
+  b1: {
+    sectionTitle: 'Liabilities',
+    components: {
+      b2: {
+        type: 'table',
+        value: table1,
+      },
+    },
+  },
+};
+
+const oldpersonalStatement = [
   {
     id: 1,
     component: 'section',
@@ -156,51 +186,35 @@ const dummyWorksheetTemplates = [
 const dummyStatementData = [
   {
     clientId: 1,
-    values: [
-      {
-        id: 1,
-        component: 'section',
-        title: 'Assets',
-        articles: [
-          {
-            id: 1,
-            component: 'fieldset',
-            fields: [
-              {
-                id: 1,
+    values: {
+      a1: {
+        sectionTitle: 'Assets',
+        components: {
+          a2: {
+            type: 'fieldset',
+            fields: {
+              a3: {
                 label: 'Test',
-                type: 'text',
-                value: 'This client\'s text',
+                value: 'Client text',
               },
-              {
-                id: 2,
-                label: 'Cash',
-                type: 'number',
-                value: 100.00,
+              a4: {
+                label: 'Another field',
+                value: 'More info',
               },
-            ],
+            },
           },
-        ],
+        },
       },
-      {
-        id: 2,
-        component: 'section',
-        title: 'Liabilities',
-        articles: [
-          {
-            id: 1,
-            component: 'table',
+      b1: {
+        sectionTitle: 'Liabilities',
+        components: {
+          b2: {
+            type: 'table',
             value: table3,
           },
-          {
-            id: 3,
-            title: 'A table',
-            component: 'table',
-            value: table4,
-          },
-        ],
+        },
       },
-    ],
+    },
   },
   {
     clientId: 2,
