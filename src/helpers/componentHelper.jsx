@@ -9,11 +9,12 @@ const Components = {
   table: Table,
 };
 
-export default function componentHelper(instance) {
+export default function componentHelper(instance, callback) {
   if (typeof Components[instance.component] !== 'undefined') {
     return React.createElement(Components[instance.component], {
       key: instance.id,
       instance,
+      callback,
     });
   }
   return React.createElement(

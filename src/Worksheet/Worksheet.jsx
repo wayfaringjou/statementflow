@@ -20,12 +20,25 @@ export default function Worksheet({
   const [worksheetData, setWorksheetData] = useState(currentClient.values);
   const [modifiedWorksheetData, setModifiedWorksheetData] = useState([]);
 
+  worksheetData.map((w, i) => console.log(w, i));
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log(event);
+  }
+
   return (
     <div id="worksheet">
       <h2>Worksheet</h2>
-      {/* <i className="material-icons">face</i> */}
-      {worksheetData
-        .map((componentInstance) => componentHelper(componentInstance))}
+      <form id="worksheet" onSubmit={handleSubmit}>
+
+        {/* <i className="material-icons">face</i> */}
+        {worksheetData
+          .map((componentInstance) => componentHelper(componentInstance, setModifiedWorksheetData))}
+        <section>
+          <button type="submit">Save</button>
+        </section>
+      </form>
     </div>
   );
 }
