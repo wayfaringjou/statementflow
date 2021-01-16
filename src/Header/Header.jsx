@@ -5,9 +5,22 @@ import Modal from '../Modal';
 import './Header.css';
 
 export default function Header() {
+  const modalContent = (
+    <>
+      <h3>Create new from template</h3>
+      <ul>
+        <li>
+          <Link to="/worksheet/new">Personal</Link>
+        </li>
+      </ul>
+    </>
+  );
+
   return (
     <AppContext.Consumer>
-      {({ isModalOpen, onModalClose, onModalOpen }) => (
+      {({
+        isModalOpen, onModalClose, onModalOpen, setModalContent,
+      }) => (
         <header id="main-header" className="flex-row-parent">
           <h2>
             <Link to="/">
@@ -22,20 +35,18 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <button type="button" onClick={onModalOpen}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setModalContent(modalContent);
+                    onModalOpen();
+                  }}
+                >
                   New Worksheet
                 </button>
               </li>
             </ul>
           </nav>
-          <Modal modalOpen={isModalOpen} onModalClose={onModalClose}>
-            <h3>Create new from template</h3>
-            <ul>
-              <li>
-                <Link to="/worksheet/new">Personal</Link>
-              </li>
-            </ul>
-          </Modal>
         </header>
       )}
     </AppContext.Consumer>

@@ -1,0 +1,7 @@
+.data-editor {
+  height: fit-content !important;
+}
+
+.cell {
+  min-width: 100px !important;
+}

@@ -22,13 +22,13 @@ const table2 = [
 
 const table3 = [
   [
-    { value: 'Bank Name', readOnly: true },
-    { value: 'Account Title', readOnly: true },
-    { value: 'Reconciled Balance', readOnly: true },
+    { value: 'Bank Name' },
+    { value: 'Account Title' },
+    { value: 'Reconciled Balance' },
   ],
-  [{ value: 'Dummy Bank', expr: '' },
-    { value: 'Main Account', expr: '' },
-    { value: 400.00 }],
+  [{ value: 'Dummy Bank' },
+    { value: 'Main Account' },
+    { value: 400.00, isTotal: true }],
 ];
 
 const table4 = [
@@ -104,6 +104,7 @@ const personalStatement = {
     components: {
       a2: {
         type: 'fieldset',
+        name: '',
         fields: {
           a3: {
             label: '',
@@ -122,6 +123,7 @@ const personalStatement = {
     components: {
       b2: {
         type: 'table',
+        name: '',
         value: table1,
       },
     },
@@ -143,12 +145,14 @@ const oldpersonalStatement = [
             label: 'Test',
             type: 'text',
             value: '',
+            isTotal: false,
           },
           {
             id: 2,
             label: 'Cash',
             type: 'number',
             value: '',
+            isTotal: false,
           },
         ],
       },
@@ -192,6 +196,7 @@ const dummyStatementData = [
         components: {
           a2: {
             type: 'fieldset',
+            name: 'Test fieldset',
             fields: {
               a3: {
                 label: 'Test',
@@ -206,10 +211,11 @@ const dummyStatementData = [
         },
       },
       b1: {
-        sectionTitle: 'Liabilities',
+        sectionTitle: 'Liabilities & Net Worth',
         components: {
           b2: {
             type: 'table',
+            name: 'Test table',
             value: table3,
           },
         },

@@ -21,8 +21,8 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
-
         <fieldset className="worksheet-fieldset" form="worksheet">
+          {instance.name && <legend><h3>{instance.name}</h3></legend>}
           {fieldKeys.map((fieldKey) => (
             <Input
               handleChange={({ target: { value } }) => dispatch({

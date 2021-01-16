@@ -2,7 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.css';
 
-export default function Modal({ children, modalOpen, onModalClose }) {
+export default function Modal({ modalContent, modalOpen, onModalClose }) {
   if (!modalOpen) return null;
 
   return createPortal(
@@ -10,7 +10,7 @@ export default function Modal({ children, modalOpen, onModalClose }) {
       <div className="overlay" />
       <article className="modal">
         <button type="button" onClick={onModalClose}>Close</button>
-        <span>{children}</span>
+        <span>{modalContent}</span>
       </article>
     </>,
     document.getElementById('portal'),

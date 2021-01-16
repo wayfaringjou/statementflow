@@ -26,11 +26,17 @@ export default function Worksheet({
   clientsStatementData,
 }) {
   let { worksheetId } = useParams();
+
   worksheetId = parseInt(worksheetId, 10);
+  // Identify current worksheet details
   const currentWorksheet = worksheetHistory
     .find((worksheet) => worksheet.id === worksheetId);
+  // Identify current client
   const currentClient = clientsStatementData
     .find((statement) => statement.clientId === currentWorksheet.clientId);
+  // Identify current worksheet template
+  const currentTemplate = worksheetTemplates
+    .find((template) => template.id === currentWorksheet.templateId);
 
   const initialState = { ...currentClient.values };
 
@@ -42,7 +48,7 @@ export default function Worksheet({
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(event);
+    console.log(worksheetData);
   }
 
   return (
@@ -63,10 +69,13 @@ export default function Worksheet({
                 key={key}
                 sectionKey={key}
                 instance={worksheetData[key]}
+                worksheetData={worksheetData}
+                worksheetTemplate={currentTemplate.template}
               />
             ))}
           <section>
             <button type="submit">Save</button>
+            <button type="button">Generate Docx</button>
           </section>
         </form>
       </div>

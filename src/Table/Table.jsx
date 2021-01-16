@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import ReactDataSheet from 'react-datasheet';
 import 'react-datasheet/lib/react-datasheet.css';
+import './Table.css';
 import WorksheetContext from '../WorksheetContext';
 
 // eslint-disable-next-line react/prop-types
 export default function Table({ instance, sectionKey, componentKey }) {
   // const { value } = instance;
 
-  const [gridData, setGridData] = useState(instance.value);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   function onCellsChanged(grid, changes) {
     const updateGrid = grid;
@@ -21,14 +22,86 @@ export default function Table({ instance, sectionKey, componentKey }) {
     return updateGrid;
   }
 
+  function addRow(grid) {
+    const newRow = grid[0].map(() => ({ value: '' }));
+    grid.push(newRow);
+    return grid;
+  }
+
+  function delRow(grid) {
+    if (grid.length > 1) {
+      grid.pop();
+    }
+    return grid;
+  }
+
+  function addCol(grid) {
+    grid.forEach((row) => row.push({ value: '' }));
+    return grid;
+  }
+
+  function delCol(grid) {
+    if (grid[0].length > 1) {
+      grid.forEach((row) => row.pop());
+    }
+    return grid;
+  }
+
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
-
         <div className="worksheet-table">
-          <h2>Table</h2>
+          {instance.name && <h3>{instance.name}</h3>}
           {console.log('loaded table')}
           {console.log(instance)}
+          <div className="table-menu">
+            <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
+            {isMenuOpen && (
+              <ul>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const value = addRow(instance.value);
+                      return dispatch({ value, sectionKey, componentKey });
+                    }}
+                  >
+                    Add row
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const value = delRow(instance.value);
+                      return dispatch({ value, sectionKey, componentKey });
+                    }}
+                  >
+                    Delete row
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const value = addCol(instance.value);
+                      return dispatch({ value, sectionKey, componentKey });
+                    }}
+                  >
+                    Add column
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const value = delCol(instance.value);
+                      return dispatch({ value, sectionKey, componentKey });
+                    }}
+                  >
+                    Delete column
+                  </button>
+                </li>
+              </ul>
+
+            )}
+          </div>
           <ReactDataSheet
             data={instance.value}
             valueRenderer={(cell) => cell.value}
