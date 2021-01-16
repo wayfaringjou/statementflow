@@ -104,14 +104,14 @@ const personalStatement = {
     components: {
       a2: {
         type: 'fieldset',
-        name: '',
+        name: 'Test Fieldset',
         fields: {
           a3: {
-            label: '',
+            label: 'Test',
             value: '',
           },
           a4: {
-            label: '',
+            label: 'Another Field',
             value: '',
           },
         },

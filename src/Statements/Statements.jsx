@@ -9,7 +9,6 @@ import Components from './components';
 export default function Statement({ customForm }) {
   return (
     <div className="statement">
-      {console.log(customForm)}
       {customForm.map((componentInstance) => Components(componentInstance))}
     </div>
   );

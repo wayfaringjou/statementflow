@@ -4,6 +4,7 @@ import ReactDataSheet from 'react-datasheet';
 import 'react-datasheet/lib/react-datasheet.css';
 import './Table.css';
 import WorksheetContext from '../WorksheetContext';
+import { ACTIONS } from '../Worksheet';
 
 // eslint-disable-next-line react/prop-types
 export default function Table({ instance, sectionKey, componentKey }) {
@@ -18,7 +19,6 @@ export default function Table({ instance, sectionKey, componentKey }) {
     }) => {
       updateGrid[row][col] = { ...updateGrid[row][col], value };
     });
-    console.log(updateGrid);
     return updateGrid;
   }
 
@@ -52,8 +52,6 @@ export default function Table({ instance, sectionKey, componentKey }) {
       {({ worksheetData, dispatch }) => (
         <div className="worksheet-table">
           {instance.name && <h3>{instance.name}</h3>}
-          {console.log('loaded table')}
-          {console.log(instance)}
           <div className="table-menu">
             <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
             {isMenuOpen && (
@@ -63,7 +61,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                     type="button"
                     onClick={() => {
                       const value = addRow(instance.value);
-                      return dispatch({ value, sectionKey, componentKey });
+                      return dispatch({
+                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                      });
                     }}
                   >
                     Add row
@@ -72,7 +72,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                     type="button"
                     onClick={() => {
                       const value = delRow(instance.value);
-                      return dispatch({ value, sectionKey, componentKey });
+                      return dispatch({
+                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                      });
                     }}
                   >
                     Delete row
@@ -83,7 +85,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                     type="button"
                     onClick={() => {
                       const value = addCol(instance.value);
-                      return dispatch({ value, sectionKey, componentKey });
+                      return dispatch({
+                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                      });
                     }}
                   >
                     Add column
@@ -92,7 +96,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                     type="button"
                     onClick={() => {
                       const value = delCol(instance.value);
-                      return dispatch({ value, sectionKey, componentKey });
+                      return dispatch({
+                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                      });
                     }}
                   >
                     Delete column
@@ -105,10 +111,12 @@ export default function Table({ instance, sectionKey, componentKey }) {
           <ReactDataSheet
             data={instance.value}
             valueRenderer={(cell) => cell.value}
-        // dataRenderer={(cell) => cell.expr}
+          // dataRenderer={(cell) => cell.expr}
             onCellsChanged={(changes) => {
               const value = onCellsChanged(instance.value, changes);
-              return dispatch({ value, sectionKey, componentKey });
+              return dispatch({
+                value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+              });
             }}
           />
         </div>

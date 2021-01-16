@@ -10,7 +10,6 @@ const Components = {
 };
 
 export default function componentHelper(instance, sectionKey, componentKey) {
-  console.log(instance);
   if (typeof Components[instance.type] !== 'undefined') {
     return React.createElement(Components[instance.type], {
       key: componentKey,

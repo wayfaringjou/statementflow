@@ -13,7 +13,6 @@ const initialState = {
   favouriteSubject: '',
   likesChess: false,
 };
-console.log(new Map(initialState));
 // the field names (useful below)
 const fieldNames = Object.keys(initialState);
 
@@ -26,7 +25,6 @@ const Form = () => {
     // the onChange handler for this field is only re-created if the dispatch method changes
     // eslint-disable-next-line max-len
     m[field] = useCallback((e) => dispatch({ field, value: e.currentTarget.value }), [field, dispatch]);
-    console.log(m);
     return m;
   }, {});
 

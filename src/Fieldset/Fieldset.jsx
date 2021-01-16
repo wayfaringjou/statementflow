@@ -1,12 +1,12 @@
 import React, { useReducer } from 'react';
 import WorksheetContext from '../WorksheetContext';
 import Input from '../Input';
+import { ACTIONS } from '../Worksheet';
 import AppContext from '../AppContext';
 
 export default function Fieldset({ instance, sectionKey, componentKey }) {
   /*
   const initialState = instance.fields;
-  console.log(initialState);
 
   function reducer(state, { value, index }) {
     const updatedItem = { ...state[index] };
@@ -26,7 +26,7 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
           {fieldKeys.map((fieldKey) => (
             <Input
               handleChange={({ target: { value } }) => dispatch({
-                value, sectionKey, componentKey, fieldKey,
+                value, sectionKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
               })}
               key={fieldKey}
               id={instance.fields[fieldKey].label}
