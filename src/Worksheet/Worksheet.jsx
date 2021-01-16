@@ -9,6 +9,8 @@ export const ACTIONS = {
   CHANGE_DATA: 'change-data',
   DEL_ITEM: 'del-item',
   ADD_ITEM: 'add-item',
+  SET_ITEM_TOTAL: 'set-item-total',
+  UNSET_ITEM_TOTAL: 'unset-item-total',
 };
 
 function reducer(state, action) {
@@ -34,6 +36,15 @@ function reducer(state, action) {
       modifiedState[action.sectionKey]
         .components[action.componentKey] = action.template[action.sectionKey]
           .components[action.componentKey];
+      return modifiedState;
+    case ACTIONS.SET_ITEM_TOTAL:
+      modifiedState[action.sectionKey]
+        .components[action.componentKey]
+        .componentTotal = action.componentTotal;
+      return modifiedState;
+    case ACTIONS.UNSET_ITEM_TOTAL:
+      delete modifiedState[action.sectionKey]
+        .components[action.componentKey].componentTotal;
       return modifiedState;
     default:
       return state;

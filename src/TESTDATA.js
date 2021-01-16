@@ -123,8 +123,8 @@ const personalStatement = {
     components: {
       b2: {
         type: 'table',
-        name: '',
-        value: table1,
+        name: 'Test Table',
+        value: table3,
       },
     },
   },
@@ -207,6 +207,11 @@ const dummyStatementData = [
                 value: 'More info',
               },
             },
+            componentTotal: {
+              sectionKey: 'a1',
+              componentKey: 'a2',
+              fieldKey: 'a4',
+            },
           },
         },
       },
@@ -217,6 +222,14 @@ const dummyStatementData = [
             type: 'table',
             name: 'Test table',
             value: table3,
+            componentTotal: {
+              sectionKey: 'b1',
+              componentKey: 'b2',
+              cell: {
+                row: 1,
+                col: 2,
+              },
+            },
           },
         },
       },

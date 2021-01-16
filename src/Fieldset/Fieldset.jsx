@@ -24,16 +24,54 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
         <fieldset className="worksheet-fieldset" form="worksheet">
           {instance.name && <legend><h3>{instance.name}</h3></legend>}
           {fieldKeys.map((fieldKey) => (
-            <Input
-              handleChange={({ target: { value } }) => dispatch({
-                value, sectionKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
-              })}
-              key={fieldKey}
-              id={instance.fields[fieldKey].label}
-              value={instance.fields[fieldKey].value}
-              label={instance.fields[fieldKey].label}
-            />
+            <>
+              <Input
+                handleChange={({ target: { value } }) => dispatch({
+                  value, sectionKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
+                })}
+                key={fieldKey}
+                id={instance.fields[fieldKey].label}
+                value={instance.fields[fieldKey].value}
+                label={instance.fields[fieldKey].label}
+              />
+              <button
+                type="button"
+                onClick={() => dispatch({
+                  type: ACTIONS.SET_ITEM_TOTAL,
+                  sectionKey,
+                  componentKey,
+                  componentTotal: {
+                    sectionKey,
+                    componentKey,
+                    fieldKey,
+                  },
+                })}
+              >
+                Set field as item total
+              </button>
+            </>
           ))}
+          {instance.componentTotal && (
+            <>
+              <h4>
+                Item total:
+                {' '}
+                {worksheetData[instance.componentTotal.sectionKey]
+                  .components[instance.componentTotal.componentKey]
+                  .fields[instance.componentTotal.fieldKey].value}
+              </h4>
+              <button
+                type="button"
+                onClick={() => dispatch({
+                  type: ACTIONS.UNSET_ITEM_TOTAL,
+                  sectionKey,
+                  componentKey,
+                })}
+              >
+                Unset item total
+              </button>
+            </>
+          )}
         </fieldset>
       )}
     </WorksheetContext.Consumer>

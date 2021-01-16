@@ -11,6 +11,7 @@ export default function Table({ instance, sectionKey, componentKey }) {
   // const { value } = instance;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selected, setSelected] = useState({});
 
   function onCellsChanged(grid, changes) {
     const updateGrid = grid;
@@ -112,6 +113,7 @@ export default function Table({ instance, sectionKey, componentKey }) {
             data={instance.value}
             valueRenderer={(cell) => cell.value}
           // dataRenderer={(cell) => cell.expr}
+            onSelect={(selection) => setSelected(selection)}
             onCellsChanged={(changes) => {
               const value = onCellsChanged(instance.value, changes);
               return dispatch({
@@ -119,6 +121,49 @@ export default function Table({ instance, sectionKey, componentKey }) {
               });
             }}
           />
+          <button
+            type="button"
+            onClick={() => {
+              if (selected.end) {
+                dispatch({
+                  type: ACTIONS.SET_ITEM_TOTAL,
+                  sectionKey,
+                  componentKey,
+                  componentTotal: {
+                    sectionKey,
+                    componentKey,
+                    cell: {
+                      row: selected.end.i,
+                      col: selected.end.j,
+                    },
+                  },
+                });
+              }
+            }}
+          >
+            Set selected cell as item total
+          </button>
+          {instance.componentTotal && (
+            <>
+              <h4>
+                Item total:
+                {' '}
+                {worksheetData[instance.componentTotal.sectionKey]
+                  .components[instance.componentTotal.componentKey]
+                  .value[instance.componentTotal.cell.row][instance.componentTotal.cell.col].value}
+              </h4>
+              <button
+                type="button"
+                onClick={() => dispatch({
+                  type: ACTIONS.UNSET_ITEM_TOTAL,
+                  sectionKey,
+                  componentKey,
+                })}
+              >
+                Unset item total
+              </button>
+            </>
+          )}
         </div>
       )}
     </WorksheetContext.Consumer>
