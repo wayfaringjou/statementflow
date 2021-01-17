@@ -1,7 +1,11 @@
 import React, { useState, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
+import { saveAs } from 'file-saver';
+import { Packer } from 'docx';
 import WorksheetContext from '../WorksheetContext';
 import componentHelper from '../helpers/componentHelper';
+import CreateDocument from '../helpers/generateDocHelper';
+
 import AppContext from '../AppContext';
 import Section from '../Section';
 
@@ -49,6 +53,16 @@ function reducer(state, action) {
     default:
       return state;
   }
+}
+
+function generateDoc(data, filename) {
+  const newDoc = CreateDocument(data);
+
+  Packer.toBlob(newDoc).then((blob) => {
+    console.log(blob);
+    saveAs(blob, `${filename}.docx`);
+    console.log('Document created successfully');
+  });
 }
 
 export default function Worksheet({
@@ -108,8 +122,13 @@ export default function Worksheet({
                   />
                 ))}
               <section>
-                <button type="submit">Save</button>
-                <button type="button">Generate Docx</button>
+                {/* <button type="submit">Save</button> */}
+                <button
+                  type="button"
+                  onClick={() => generateDoc(worksheetData, 'statement')}
+                >
+                  Generate Docx
+                </button>
               </section>
             </form>
           </div>
