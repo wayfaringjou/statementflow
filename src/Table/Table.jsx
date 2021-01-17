@@ -136,6 +136,7 @@ export default function Table({ instance, sectionKey, componentKey }) {
                       row: selected.end.i,
                       col: selected.end.j,
                     },
+                    value: instance.value[selected.end.i][selected.end.j].value,
                   },
                 });
               }

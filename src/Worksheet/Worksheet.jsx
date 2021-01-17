@@ -31,6 +31,27 @@ function reducer(state, action) {
           .components[action.componentKey]
           .value = action.value;
       }
+
+      if (modifiedState[action.sectionKey]
+        .components[action.componentKey]
+        .componentTotal) {
+        if (modifiedState[action.sectionKey]
+          .components[action.componentKey]
+          .type === 'table') {
+          modifiedState[action.sectionKey]
+            .components[action.componentKey]
+            .componentTotal.value = action
+              .value[modifiedState[action.sectionKey]
+                .components[action.componentKey]
+                .componentTotal.cell.row][modifiedState[action.sectionKey]
+                .components[action.componentKey]
+                .componentTotal.cell.col].value;
+        } else {
+          modifiedState[action.sectionKey]
+            .components[action.componentKey]
+            .componentTotal.value = action.value;
+        }
+      }
       return modifiedState;
     case ACTIONS.DEL_ITEM:
       delete modifiedState[action.sectionKey]

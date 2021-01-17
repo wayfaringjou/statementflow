@@ -14,7 +14,7 @@ export default function WorksheetList({ worksheetHistory, clients }) {
                 {worksheet.modified}
               </span>
             </li>
-            <li>
+            <li key={worksheet.clientId}>
               Client:
               <span className="history-client">
                 {clients

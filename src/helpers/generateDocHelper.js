@@ -20,8 +20,6 @@ export default function CreateDocument(data) {
         }),
       );
       componentKeys.forEach((componentKey) => {
-        console.log(componentKey);
-        console.log(data[sectionKey].components);
         const componentName = data[sectionKey].components[componentKey].name;
         const componentTotal = data[sectionKey].components[componentKey].componentTotal.value;
         paragraphs.push(
@@ -42,12 +40,9 @@ export default function CreateDocument(data) {
       });
     });
 
-  console.log(paragraphs);
-
   doc.addSection({
     children: paragraphs,
   });
 
-  console.log(doc);
   return doc;
 }

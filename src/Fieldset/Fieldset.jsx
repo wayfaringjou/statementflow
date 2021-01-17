@@ -21,10 +21,10 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
-        <fieldset className="worksheet-fieldset" form="worksheet">
+        <fieldset className="worksheet-fieldset" form="worksheet" key={componentKey}>
           {instance.name && <legend><h3>{instance.name}</h3></legend>}
           {fieldKeys.map((fieldKey) => (
-            <>
+            <div className="input-field" key={`${componentKey}-${fieldKey}`}>
               <Input
                 handleChange={({ target: { value } }) => dispatch({
                   value, sectionKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
@@ -44,12 +44,13 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
                     sectionKey,
                     componentKey,
                     fieldKey,
+                    value: instance.fields[fieldKey].value,
                   },
                 })}
               >
                 Set field as item total
               </button>
-            </>
+            </div>
           ))}
           {instance.componentTotal && (
             <>

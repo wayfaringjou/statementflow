@@ -28,7 +28,7 @@ const table3 = [
   ],
   [{ value: 'Dummy Bank' },
     { value: 'Main Account' },
-    { value: 400.00, isTotal: true }],
+    { value: 400.00 }],
 ];
 
 const table4 = [
