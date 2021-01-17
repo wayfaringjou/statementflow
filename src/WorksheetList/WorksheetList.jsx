@@ -7,14 +7,14 @@ export default function WorksheetList({ worksheetHistory, clients }) {
       <h2>Worksheet History</h2>
       <article>
         {worksheetHistory.map((worksheet) => (
-          <ul>
-            <li key={worksheet.id}>
+          <ul key={worksheet.id}>
+            <li key={`${worksheet.id}-modified`}>
               Modified:
               <span className="history-modified">
                 {worksheet.modified}
               </span>
             </li>
-            <li key={worksheet.clientId}>
+            <li key={`${worksheet.id}-client`}>
               Client:
               <span className="history-client">
                 {clients

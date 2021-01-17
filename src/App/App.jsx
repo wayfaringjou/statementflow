@@ -6,6 +6,7 @@ import Worksheet from '../Worksheet';
 import Header from '../Header';
 import Banner from '../Banner';
 import Modal from '../Modal';
+import NewWorksheetPrompt from '../NewWorksheetPrompt';
 
 // TODO implement API
 import {
@@ -53,6 +54,31 @@ export default function App() {
       />
     </>
   );
+
+  function handleNewWorksheet(historyData, newWorksheetData, callback) {
+    const updatedHistory = historyData;
+    updatedHistory.unshift(newWorksheetData);
+    callback(updatedHistory);
+  }
+
+  function handleNewClient(clientsData, newClientData, callback) {
+    const updatedClients = clientsData;
+    updatedClients.push(newClientData);
+    callback(updatedClients);
+  }
+
+  function handleNewStatement(statementsData, newStatementData, callback) {
+    const updatedStatements = statementsData;
+    updatedStatements.unshift(newStatementData);
+    callback(updatedStatements);
+  }
+
+  function handleStatementUpdate(statementsData, updatedStatement, statementIndex, callback) {
+    const updatedStatements = statementsData;
+    updatedStatements[statementIndex] = updatedStatement;
+    callback(updatedStatements);
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -70,6 +96,30 @@ export default function App() {
         />
         <Header />
         <main>
+          <button
+            type="button"
+            onClick={() => {
+              setModalContent(
+                <NewWorksheetPrompt
+                  setModalContent={setModalContent}
+                  onModalClose={handleModalClose}
+                  clients={clients}
+                  addNewClient={(c) => handleNewClient(clients, c, setClients)}
+                  worksheetHistory={worksheetHistory}
+                  addNewWorksheet={(w) => handleNewWorksheet(
+                    worksheetHistory, w, setWorksheetHistory,
+                  )}
+                  worksheetTemplates={worksheetTemplates}
+                  addNewStatement={(s) => handleNewStatement(
+                    clientsStatementData, s, setClientsStatementData,
+                  )}
+                />,
+              );
+              handleModalOpen();
+            }}
+          >
+            New Worksheet
+          </button>
           {routes()}
         </main>
 

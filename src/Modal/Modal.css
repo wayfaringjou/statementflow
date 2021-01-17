@@ -27,5 +27,6 @@
   background-color: var(--light);
   padding: var(--s600);
   z-index: 1000;
+  width: 85vw;
 }
 

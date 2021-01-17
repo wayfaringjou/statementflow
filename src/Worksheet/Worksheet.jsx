@@ -90,27 +90,41 @@ export default function Worksheet({
   worksheetTemplates,
   worksheetHistory,
   clientsStatementData,
+  clients,
+  onSubmit,
 }) {
-  let { worksheetId } = useParams();
+  const { worksheetId } = useParams();
 
-  worksheetId = parseInt(worksheetId, 10);
+  // worksheetId = parseInt(worksheetId, 10);
   // Identify current worksheet details
   const currentWorksheet = worksheetHistory
     .find((worksheet) => worksheet.id === worksheetId);
   // Identify current client
-  const currentClient = clientsStatementData
+  console.log(clientsStatementData);
+  const currentClientStatementData = clientsStatementData
     .find((statement) => statement.clientId === currentWorksheet.clientId);
   // Identify current worksheet template
   const currentTemplate = worksheetTemplates
     .find((template) => template.id === currentWorksheet.templateId);
 
-  const initialState = { ...currentClient.values };
+  const currentClientIndex = clientsStatementData
+    .map((statement) => statement.clientId).indexOf(currentWorksheet.clientId);
+
+  const currentClientInfo = clients
+    .find((client) => client.id === currentWorksheet.clientId);
+
+  const initialState = { ...currentClientStatementData.values };
 
   const [worksheetData, dispatch] = useReducer(reducer, initialState);
   const sectionKeys = Object.keys(worksheetData);
 
   function handleSubmit(event) {
     event.preventDefault();
+    const modifiedStatementData = clientsStatementData;
+    modifiedStatementData[currentClientIndex].values = worksheetData;
+    // onSubmit(modifiedStatementData);
+    console.log(modifiedStatementData);
+    return modifiedStatementData;
   }
 
   return (
@@ -126,7 +140,8 @@ export default function Worksheet({
         >
           <div id="worksheet">
             <h2>Worksheet</h2>
-            <form id="worksheet" onSubmit={handleSubmit}>
+            <h3>{`Client: ${currentClientInfo.name}`}</h3>
+            <form id="worksheet" onSubmit={(e) => onSubmit(handleSubmit(e))}>
               {/* <i className="material-icons">face</i> */}
               {sectionKeys
                 .map((key) => (
@@ -142,8 +157,8 @@ export default function Worksheet({
                     onModalClose={onModalClose}
                   />
                 ))}
-              <section>
-                {/* <button type="submit">Save</button> */}
+              <section className="save-prompt">
+                <button type="submit">Save</button>
                 <button
                   type="button"
                   onClick={() => generateDoc(worksheetData, 'statement')}
