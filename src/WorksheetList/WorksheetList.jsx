@@ -12,7 +12,7 @@ export default function WorksheetList({ worksheetHistory, clients }) {
             <li key={`${worksheet.id}-modified`}>
               Modified:
               <span className="history-modified">
-                {worksheet.modified}
+                {new Date(worksheet.modified).toDateString()}
               </span>
             </li>
             <li key={`${worksheet.id}-client`}>
