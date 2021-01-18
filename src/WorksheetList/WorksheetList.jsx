@@ -5,6 +5,7 @@ export default function WorksheetList({ worksheetHistory, clients }) {
   return (
     <div id="worksheet-list">
       <h2>Worksheet History</h2>
+      <p>Click on &apos;Modify&apos; below to open a worksheet:</p>
       <article>
         {worksheetHistory.map((worksheet) => (
           <ul key={worksheet.id}>

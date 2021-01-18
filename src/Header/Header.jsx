@@ -2,20 +2,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../AppContext';
 import Modal from '../Modal';
+import NewWorksheetPrompt from '../NewWorksheetPrompt';
 import './Header.css';
 
-export default function Header() {
-  const modalContent = (
-    <>
-      <h3>Create new from template</h3>
-      <ul>
-        <li>
-          <Link to="/worksheet/new">Personal</Link>
-        </li>
-      </ul>
-    </>
-  );
-
+export default function Header({
+  clients,
+  addNewClient,
+  worksheetHistory,
+  addNewWorksheet,
+  worksheetTemplates,
+  addNewStatement,
+}) {
   return (
     <AppContext.Consumer>
       {({
@@ -38,7 +35,18 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => {
-                    setModalContent(modalContent);
+                    setModalContent(
+                      <NewWorksheetPrompt
+                        setModalContent={setModalContent}
+                        onModalClose={onModalClose}
+                        clients={clients}
+                        addNewClient={addNewClient}
+                        worksheetHistory={worksheetHistory}
+                        addNewWorksheet={addNewWorksheet}
+                        worksheetTemplates={worksheetTemplates}
+                        addNewStatement={addNewStatement}
+                      />,
+                    );
                     onModalOpen();
                   }}
                 >

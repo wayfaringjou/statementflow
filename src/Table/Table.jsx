@@ -53,6 +53,7 @@ export default function Table({ instance, sectionKey, componentKey }) {
       {({ worksheetData, dispatch }) => (
         <div className="worksheet-table">
           {instance.name && <h3>{instance.name}</h3>}
+          {(instance.description) && <p>{instance.description}</p>}
           <div className="table-menu">
             <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
             {isMenuOpen && (

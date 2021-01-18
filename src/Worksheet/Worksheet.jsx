@@ -5,9 +5,9 @@ import { Packer } from 'docx';
 import WorksheetContext from '../WorksheetContext';
 import componentHelper from '../helpers/componentHelper';
 import CreateDocument from '../helpers/generateDocHelper';
-
 import AppContext from '../AppContext';
 import Section from '../Section';
+import './Worksheet.css';
 
 export const ACTIONS = {
   CHANGE_DATA: 'change-data',
@@ -80,7 +80,6 @@ function generateDoc(data, filename) {
   const newDoc = CreateDocument(data);
 
   Packer.toBlob(newDoc).then((blob) => {
-    console.log(blob);
     saveAs(blob, `${filename}.docx`);
     console.log('Document created successfully');
   });
@@ -91,7 +90,7 @@ export default function Worksheet({
   worksheetHistory,
   clientsStatementData,
   clients,
-  onSubmit,
+  onSaveStatement,
 }) {
   const { worksheetId } = useParams();
 
@@ -100,15 +99,14 @@ export default function Worksheet({
   const currentWorksheet = worksheetHistory
     .find((worksheet) => worksheet.id === worksheetId);
   // Identify current client
-  console.log(clientsStatementData);
   const currentClientStatementData = clientsStatementData
-    .find((statement) => statement.clientId === currentWorksheet.clientId);
+    .find((statement) => statement.id === currentWorksheet.statementDataId);
   // Identify current worksheet template
   const currentTemplate = worksheetTemplates
     .find((template) => template.id === currentWorksheet.templateId);
 
   const currentClientIndex = clientsStatementData
-    .map((statement) => statement.clientId).indexOf(currentWorksheet.clientId);
+    .map((statement) => statement.id).indexOf(currentWorksheet.statementDataId);
 
   const currentClientInfo = clients
     .find((client) => client.id === currentWorksheet.clientId);
@@ -117,15 +115,6 @@ export default function Worksheet({
 
   const [worksheetData, dispatch] = useReducer(reducer, initialState);
   const sectionKeys = Object.keys(worksheetData);
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const modifiedStatementData = clientsStatementData;
-    modifiedStatementData[currentClientIndex].values = worksheetData;
-    // onSubmit(modifiedStatementData);
-    console.log(modifiedStatementData);
-    return modifiedStatementData;
-  }
 
   return (
     <AppContext.Consumer>
@@ -141,7 +130,19 @@ export default function Worksheet({
           <div id="worksheet">
             <h2>Worksheet</h2>
             <h3>{`Client: ${currentClientInfo.name}`}</h3>
-            <form id="worksheet" onSubmit={(e) => onSubmit(handleSubmit(e))}>
+            <form
+              id="worksheet"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const update = {
+                  data: worksheetData,
+                  index: currentClientIndex,
+                };
+                onSaveStatement(update);
+                setModalContent(<h2>Data stored.</h2>);
+                onModalOpen();
+              }}
+            >
               {/* <i className="material-icons">face</i> */}
               {sectionKeys
                 .map((key) => (
@@ -158,6 +159,12 @@ export default function Worksheet({
                   />
                 ))}
               <section className="save-prompt">
+                <h2>Save and export</h2>
+                <p>
+                  Click &apos;Save&apos; to store data or
+                  &apos;Generate Docx&apos;
+                  to download a statement in &apos;.docx&apos; format.
+                </p>
                 <button type="submit">Save</button>
                 <button
                   type="button"

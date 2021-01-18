@@ -17,21 +17,14 @@ export default function Section({
 }) {
   const componentKeys = Object.keys(instance.components);
   const templateKeys = Object.keys(worksheetTemplate[sectionKey].components);
-  console.log(`Just assigned Component keys ${componentKeys}`);
-  console.log(instance);
-  console.log(`Just assigned Template keys ${templateKeys}`);
   const activeKeys = () => {
-    // console.log(componentKeys, templateKeys);
     return templateKeys
       .filter((key) => componentKeys.includes(key));
   };
   const inactiveKeys = () => {
-    // console.log(templateKeys);
     return templateKeys
       .filter((key) => !componentKeys.includes(key));
   };
-  console.log(`Active keys returned: ${activeKeys()}`);
-  console.log(`Inactive keys returned: ${inactiveKeys()}`);
   // const [activeKeys, setActiveKeys] = useState(getActiveKeys(componentKeys, templateKeys));
   // const [inactiveKeys, setInactiveKeys] = useState(getInactiveKeys(componentKeys, templateKeys));
   // const difference = arr1.filter((x) => !arr2.includes(x));
@@ -40,7 +33,6 @@ export default function Section({
     <>
       <h3>Choose item to add to this section.</h3>
       <ul>
-        {console.log(`Generating list with inactive: ${inactiveKeys()}`)}
         {(inactiveKeys().length > 0) && inactiveKeys().map((componentKey) => (
           <li key={componentKey}>
             <button
@@ -51,7 +43,6 @@ export default function Section({
                 });
                 // setInactiveKeys(getInactiveKeys());
                 // setActiveKeys(getActiveKeys());
-                // console.log(inactiveKeys);
                 // setModalContent(removeItemModal);
                 onModalClose();
               }}
@@ -67,7 +58,6 @@ export default function Section({
     <>
       <h3>Choose item to remove from this section.</h3>
       <ul>
-        {console.log(`Generating list with active ${activeKeys()}`)}
         {(activeKeys().length > 0) && activeKeys().map((componentKey) => (
           <li key={componentKey}>
             <button
@@ -76,7 +66,6 @@ export default function Section({
                 dispatch({ sectionKey, componentKey, type: ACTIONS.DEL_ITEM });
                 // setInactiveKeys(getInactiveKeys());
                 // setActiveKeys(getActiveKeys());
-                // console.log(activeKeys());
                 // setModalContent(removeItemModal);
                 onModalClose();
               }}
@@ -92,6 +81,8 @@ export default function Section({
 
     <section className="worksheet-section stack">
       <h2>{instance.sectionTitle}</h2>
+      {(instance.description) && <p>{instance.description}</p>}
+      {(inactiveKeys().length > 0) && (
       <button
         type="button"
         onClick={() => {
@@ -101,6 +92,8 @@ export default function Section({
       >
         Add item inside this section
       </button>
+      )}
+      {(activeKeys().length > 0) && (
       <button
         type="button"
         onClick={() => {
@@ -110,6 +103,7 @@ export default function Section({
       >
         Remove item from this section
       </button>
+      )}
       {componentKeys
         .map((key) => componentHelper(instance.components[key], sectionKey, key))}
     </section>
