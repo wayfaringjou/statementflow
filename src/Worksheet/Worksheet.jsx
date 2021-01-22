@@ -1,15 +1,17 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { saveAs } from 'file-saver';
 import { Packer } from 'docx';
+import useFetch from '../customHooks/useFetch';
+import config from '../config';
 import WorksheetContext from '../WorksheetContext';
-import componentHelper from '../helpers/componentHelper';
 import CreateDocument from '../helpers/generateDocHelper';
 import AppContext from '../AppContext';
 import Section from '../Section';
 import './Worksheet.css';
 
 export const ACTIONS = {
+  LOAD_WORKSHEET_DATA: 'load-worksheet-data',
   CHANGE_DATA: 'change-data',
   DEL_ITEM: 'del-item',
   ADD_ITEM: 'add-item',
@@ -18,8 +20,12 @@ export const ACTIONS = {
 };
 
 function reducer(state, action) {
-  const modifiedState = { ...state };
+  let modifiedState = { ...state };
   switch (action.type) {
+    case ACTIONS.LOAD_WORKSHEET_DATA: {
+      modifiedState = action.fetchResponse;
+      return modifiedState;
+    }
     case ACTIONS.CHANGE_DATA:
       if (action.fieldKey) {
         modifiedState[action.sectionKey]
@@ -86,34 +92,77 @@ function generateDoc(data, filename) {
 }
 
 export default function Worksheet({
-  worksheetTemplates,
-  worksheetHistory,
-  clientsStatementData,
-  clients,
   onSaveStatement,
 }) {
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const fetchUrl = (endpoint) => `${config.API_BASE_URL}/${endpoint}`;
+  const fetchOptions = (method, body) => (
+    body
+      ? {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+          Authorization: `Bearer ${config.API_KEY}`,
+        },
+        body: JSON.stringify(body),
+      }
+      : {
+        method,
+        headers: {
+          Authorization: `Bearer ${config.API_KEY}`,
+        },
+      });
+
+  const fetchData = async (url, options) => {
+    let resData;
+    try {
+      const res = await fetch(url, options);
+      resData = await res.json();
+    } catch (error) {
+      setErrorMsg(error.message);
+    }
+    return resData;
+  };
+
+  async function getThisWorksheet(worksheetId) {
+    const selectedWorksheet = await fetchData(
+      fetchUrl(`worksheets/${worksheetId}`),
+      fetchOptions('GET'),
+    );
+    const client = await fetchData(
+      fetchUrl(`clients/${selectedWorksheet.clientId}`),
+      fetchOptions('GET'),
+    );
+    const template = await fetchData(
+      fetchUrl(`templates/${selectedWorksheet.templateId}`),
+      fetchOptions('GET'),
+    );
+    const statement = await fetchData(
+      fetchUrl(`statements/${selectedWorksheet.statementDataId}`),
+      fetchOptions('GET'),
+    );
+    console.log(selectedWorksheet);
+    return { client, template, statement };
+  }
+
+  const [worksheetData, dispatch] = useReducer(reducer, {});
+  const [thisWorksheet, setThisWorksheet] = useState({});
+
+  const [reload, setReload] = useState(false);
   const { worksheetId } = useParams();
+  useEffect(async () => {
+    const fetchedWorksheet = await getThisWorksheet(worksheetId);
+    console.log(fetchedWorksheet);
+    setThisWorksheet({ ...fetchedWorksheet });
+    dispatch({
+      type: ACTIONS.LOAD_WORKSHEET_DATA,
+      fetchResponse: fetchedWorksheet.statement.values,
+    });
+  }, [reload]);
 
-  // worksheetId = parseInt(worksheetId, 10);
-  // Identify current worksheet details
-  const currentWorksheet = worksheetHistory
-    .find((worksheet) => worksheet.id === worksheetId);
-  // Identify current client
-  const currentClientStatementData = clientsStatementData
-    .find((statement) => statement.id === currentWorksheet.statementDataId);
-  // Identify current worksheet template
-  const currentTemplate = worksheetTemplates
-    .find((template) => template.id === currentWorksheet.templateId);
+  // const initialState = { ...currentClientStatementData.values };
 
-  const currentClientIndex = clientsStatementData
-    .map((statement) => statement.id).indexOf(currentWorksheet.statementDataId);
-
-  const currentClientInfo = clients
-    .find((client) => client.id === currentWorksheet.clientId);
-
-  const initialState = { ...currentClientStatementData.values };
-
-  const [worksheetData, dispatch] = useReducer(reducer, initialState);
   const sectionKeys = Object.keys(worksheetData);
 
   return (
@@ -129,14 +178,15 @@ export default function Worksheet({
         >
           <div id="worksheet">
             <h2>Worksheet</h2>
-            <h3>{`Client: ${currentClientInfo.name}`}</h3>
+            {console.log(thisWorksheet)}
+            {thisWorksheet.client && (<h3>{`Client: ${thisWorksheet.client.name}`}</h3>)}
             <form
               id="worksheet"
               onSubmit={(e) => {
                 e.preventDefault();
                 const update = {
                   data: worksheetData,
-                  index: currentClientIndex,
+                  // TODO: index: currentClientIndex,
                 };
                 onSaveStatement(update);
                 setModalContent(<h2>Data stored.</h2>);
@@ -151,7 +201,7 @@ export default function Worksheet({
                     sectionKey={key}
                     instance={worksheetData[key]}
                     worksheetData={worksheetData}
-                    worksheetTemplate={currentTemplate.template}
+                    worksheetTemplate={thisWorksheet.template.template}
                     dispatch={dispatch}
                     setModalContent={setModalContent}
                     onModalOpen={onModalOpen}

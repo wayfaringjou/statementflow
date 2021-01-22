@@ -1,14 +1,11 @@
-/* eslint-disable arrow-body-style */
-import React, { useState } from 'react';
-import AppContext from '../AppContext';
+import React from 'react';
+import PropTypes from 'prop-types';
 import componentHelper from '../helpers/componentHelper';
-import Modal from '../Modal';
 import { ACTIONS } from '../Worksheet';
 
 export default function Section({
   instance,
   sectionKey,
-  worksheetData,
   worksheetTemplate,
   dispatch,
   setModalContent,
@@ -17,17 +14,10 @@ export default function Section({
 }) {
   const componentKeys = Object.keys(instance.components);
   const templateKeys = Object.keys(worksheetTemplate[sectionKey].components);
-  const activeKeys = () => {
-    return templateKeys
-      .filter((key) => componentKeys.includes(key));
-  };
-  const inactiveKeys = () => {
-    return templateKeys
-      .filter((key) => !componentKeys.includes(key));
-  };
-  // const [activeKeys, setActiveKeys] = useState(getActiveKeys(componentKeys, templateKeys));
-  // const [inactiveKeys, setInactiveKeys] = useState(getInactiveKeys(componentKeys, templateKeys));
-  // const difference = arr1.filter((x) => !arr2.includes(x));
+  const activeKeys = () => templateKeys
+    .filter((key) => componentKeys.includes(key));
+  const inactiveKeys = () => templateKeys
+    .filter((key) => !componentKeys.includes(key));
 
   const addItemModal = (
     <>
@@ -41,9 +31,6 @@ export default function Section({
                 dispatch({
                   sectionKey, componentKey, type: ACTIONS.ADD_ITEM, template: worksheetTemplate,
                 });
-                // setInactiveKeys(getInactiveKeys());
-                // setActiveKeys(getActiveKeys());
-                // setModalContent(removeItemModal);
                 onModalClose();
               }}
             >
@@ -64,9 +51,6 @@ export default function Section({
               type="button"
               onClick={() => {
                 dispatch({ sectionKey, componentKey, type: ACTIONS.DEL_ITEM });
-                // setInactiveKeys(getInactiveKeys());
-                // setActiveKeys(getActiveKeys());
-                // setModalContent(removeItemModal);
                 onModalClose();
               }}
             >
@@ -110,3 +94,23 @@ export default function Section({
 
   );
 }
+
+Section.propTypes = {
+  onModalClose: PropTypes.func.isRequired,
+  instance: PropTypes.shape({
+    sectionTitle: PropTypes.string,
+    description: PropTypes.string,
+    components: PropTypes.objectOf(PropTypes.object),
+  }),
+  sectionKey: PropTypes.string,
+  worksheetTemplate: PropTypes.objectOf(PropTypes.object),
+  dispatch: PropTypes.func.isRequired,
+  setModalContent: PropTypes.func.isRequired,
+  onModalOpen: PropTypes.func.isRequired,
+};
+
+Section.defaultProps = {
+  instance: {},
+  sectionKey: '',
+  worksheetTemplate: {},
+};

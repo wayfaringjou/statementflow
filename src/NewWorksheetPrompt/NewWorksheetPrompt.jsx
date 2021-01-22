@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 export default function NewWorksheetPrompt({
-  setModalContent,
   onModalClose,
   clients,
   addNewClient,
-  worksheetHistory,
   addNewWorksheet,
   worksheetTemplates,
   addNewStatement,
 }) {
-  const [newClientObj, setNewClientObj] = useState({ name: '', id: uuidv4() });
+  const [newClientObj, setNewClientObj] = useState({ name: '' });
   const [templateInstance, setTemplateInstance] = useState({});
-  const [newWorksheetObj, setNewWorksheetObj] = useState({
-    id: uuidv4(),
-    statementDataId: uuidv4(),
-  });
 
   const [renderNameForm, setRenderNameForm] = useState(false);
   const [renderClientList, setRenderClientList] = useState(false);
   const [promptState, setPromptState] = useState(undefined);
 
-  const clientList = (
+  const clientListPrompt = (
     <>
       <h3>Select client for new worksheet</h3>
     </>
   );
 
-  const newClient = (
+  const newClientPrompt = (
     <>
       <h3>Enter client&apos;s name</h3>
     </>
@@ -43,7 +37,7 @@ export default function NewWorksheetPrompt({
           <button
             type="button"
             onClick={() => {
-              setPromptState(clientList);
+              setPromptState(clientListPrompt);
               setRenderClientList(true);
             }}
           >
@@ -54,7 +48,7 @@ export default function NewWorksheetPrompt({
           <button
             type="button"
             onClick={() => {
-              setPromptState(newClient);
+              setPromptState(newClientPrompt);
               setRenderNameForm(true);
             }}
           >
@@ -66,17 +60,12 @@ export default function NewWorksheetPrompt({
   );
 
   const history = useHistory();
-  /*
-  function handleChangeRoute(id) {
-    useHistory()
-  }
-  */
 
   return (
-    <div className="new-worksheet-prompt">
+    <div id="new-worksheet-prompt">
       <h2>New worksheet</h2>
       {(promptState === undefined) && (
-        <>
+        <article id="select-template-prompt">
           <h3>Select a template for the new Worksheet:</h3>
           <ul>
             {worksheetTemplates.map((template) => (
@@ -93,33 +82,28 @@ export default function NewWorksheetPrompt({
               </li>
             ))}
           </ul>
-        </>
+        </article>
       )}
       {promptState}
       {(renderNameForm) && (
         <>
           <form
             id="nameForm"
-            onSubmit={(e) => {
+            onSubmit={async (e) => {
               e.preventDefault();
-              // setNewClientObj({ ...newClientObj });
-              addNewClient(newClientObj);
-              const updatedWorksheetObj = ({
-                ...newWorksheetObj,
-                modified: new Date().toISOString(),
-                clientId: newClientObj.id,
-                templateId: templateInstance.id,
-              });
-              setNewWorksheetObj(updatedWorksheetObj);
 
-              addNewWorksheet(updatedWorksheetObj);
-              addNewStatement({
-                clientId: newClientObj.id,
+              const newClient = await addNewClient(newClientObj);
+              const newStatement = await addNewStatement({
+                clientId: newClient.id,
                 values: templateInstance.template,
-                id: newWorksheetObj.statementDataId,
+              });
+              const newWorksheet = await addNewWorksheet({
+                clientId: newClient.id,
+                templateId: templateInstance.id,
+                statementDataId: newStatement.id,
               });
               onModalClose();
-              history.push(`/worksheets/${newWorksheetObj.id}`);
+              history.push(`/worksheets/${newWorksheet.id}`);
             }}
           >
             <input
@@ -144,23 +128,20 @@ export default function NewWorksheetPrompt({
           <li key={client.id}>
             <button
               type="button"
-              onClick={() => {
-                const updatedWorksheetObj = ({
-                  ...newWorksheetObj,
-                  modified: new Date().toISOString(),
-                  clientId: client.id,
-                  templateId: templateInstance.id,
-                });
-                setNewWorksheetObj(updatedWorksheetObj);
-
-                addNewWorksheet(updatedWorksheetObj);
-                addNewStatement({
+              // Posting new worksheet for existing client
+              onClick={async () => {
+                // Post new statement and get id
+                const newStatement = await addNewStatement({
                   clientId: client.id,
                   values: templateInstance.template,
-                  id: newWorksheetObj.statementDataId,
+                });
+                const newWorksheet = await addNewWorksheet({
+                  clientId: client.id,
+                  templateId: templateInstance.id,
+                  statementDataId: newStatement.id,
                 });
                 onModalClose();
-                history.push(`/worksheets/${newWorksheetObj.id}`);
+                history.push(`/worksheets/${newWorksheet.id}`);
               }}
             >
               {client.name}
@@ -172,3 +153,28 @@ export default function NewWorksheetPrompt({
     </div>
   );
 }
+
+NewWorksheetPrompt.propTypes = {
+  onModalClose: PropTypes.func.isRequired,
+  clients: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+  ),
+  worksheetTemplates: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      template: PropTypes.objectOf(PropTypes.object),
+    }),
+  ),
+  addNewClient: PropTypes.func.isRequired,
+  addNewWorksheet: PropTypes.func.isRequired,
+  addNewStatement: PropTypes.func.isRequired,
+};
+
+NewWorksheetPrompt.defaultProps = {
+  clients: [],
+  worksheetTemplates: [],
+};

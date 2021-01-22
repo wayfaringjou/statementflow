@@ -1,10 +1,10 @@
 import React from 'react';
 import Fieldset from '../Fieldset';
 import Table from '../Table';
-import Section from '../Section';
+// import Section from '../Section';
 
 const Components = {
-  section: Section,
+//  section: Section,
   fieldset: Fieldset,
   table: Table,
 };
