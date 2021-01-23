@@ -30,7 +30,11 @@ export default function Table({ instance, sectionKey, componentKey }) {
   }
 
   function delRow(grid) {
-    if (grid.length > 1) {
+    if (instance.componentTotal) {
+      if ((grid.length - 1) > instance.componentTotal.cell.row) {
+        grid.pop();
+      }
+    } else if (grid.length > 1) {
       grid.pop();
     }
     return grid;
@@ -42,7 +46,11 @@ export default function Table({ instance, sectionKey, componentKey }) {
   }
 
   function delCol(grid) {
-    if (grid[0].length > 1) {
+    if (instance.componentTotal) {
+      if ((grid[0].length - 1) > instance.componentTotal.cell.col) {
+        grid.forEach((row) => row.pop());
+      }
+    } else if (grid[0].length > 1) {
       grid.forEach((row) => row.pop());
     }
     return grid;

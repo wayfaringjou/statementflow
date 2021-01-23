@@ -16,7 +16,7 @@ export default function App() {
   const fetchOptions = (method, body) => (
     body
       ? {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
           Authorization: `Bearer ${config.API_KEY}`,
@@ -58,17 +58,12 @@ export default function App() {
 
   // Fetch data from api on load.
   useEffect(async () => {
+    console.log('loading data');
     setClients(await fetchData(fetchUrl('clients'), fetchOptions('GET')));
     setWorkSheetTemplates(await fetchData(fetchUrl('templates'), fetchOptions('GET')));
     setWorksheetHistory(await fetchData(fetchUrl('worksheets'), fetchOptions('GET')));
     // setClientsStatementData(await fetchData(fetchUrl('statements'), fetchOptions('GET')));
   }, [reload]);
-
-  function handleStatementUpdate(statementsData, updatedStatement, statementIndex, callback) {
-    const updatedStatements = statementsData;
-    updatedStatements[statementIndex] = updatedStatement;
-    callback(updatedStatements);
-  }
 
   const routes = () => (
     <>

@@ -27,6 +27,7 @@ function reducer(state, action) {
       return modifiedState;
     }
     case ACTIONS.CHANGE_DATA:
+      console.log('data changed');
       if (action.fieldKey) {
         modifiedState[action.sectionKey]
           .components[action.componentKey]
@@ -91,16 +92,14 @@ function generateDoc(data, filename) {
   });
 }
 
-export default function Worksheet({
-  onSaveStatement,
-}) {
+export default function Worksheet() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const fetchUrl = (endpoint) => `${config.API_BASE_URL}/${endpoint}`;
   const fetchOptions = (method, body) => (
     body
       ? {
-        method: 'POST',
+        method,
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
           Authorization: `Bearer ${config.API_KEY}`,
@@ -161,7 +160,17 @@ export default function Worksheet({
     });
   }, [reload]);
 
-  // const initialState = { ...currentClientStatementData.values };
+  async function handleStatementUpdate(updatedStatement, statementId, callback) {
+    console.log('updating to');
+    console.log(statementId);
+    const res = await fetchData(
+      fetchUrl(`statements/${statementId}`),
+      fetchOptions('PATCH', updatedStatement),
+    );
+    console.log(res);
+    callback(!reload);
+    return res;
+  }
 
   const sectionKeys = Object.keys(worksheetData);
 
@@ -185,10 +194,12 @@ export default function Worksheet({
               onSubmit={(e) => {
                 e.preventDefault();
                 const update = {
-                  data: worksheetData,
+                  values: worksheetData,
                   // TODO: index: currentClientIndex,
                 };
-                onSaveStatement(update);
+                // onSaveStatement(update);
+
+                handleStatementUpdate(update, thisWorksheet.statement.id, setReload);
                 setModalContent(<h2>Data stored.</h2>);
                 onModalOpen();
               }}
