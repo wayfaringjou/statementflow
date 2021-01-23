@@ -58,7 +58,6 @@ export default function App() {
 
   // Fetch data from api on load.
   useEffect(async () => {
-    console.log('loading data');
     setClients(await fetchData(fetchUrl('clients'), fetchOptions('GET')));
     setWorkSheetTemplates(await fetchData(fetchUrl('templates'), fetchOptions('GET')));
     setWorksheetHistory(await fetchData(fetchUrl('worksheets'), fetchOptions('GET')));

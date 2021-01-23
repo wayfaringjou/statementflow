@@ -27,7 +27,6 @@ function reducer(state, action) {
       return modifiedState;
     }
     case ACTIONS.CHANGE_DATA:
-      console.log('data changed');
       if (action.fieldKey) {
         modifiedState[action.sectionKey]
           .components[action.componentKey]
@@ -141,7 +140,6 @@ export default function Worksheet() {
       fetchUrl(`statements/${selectedWorksheet.statementDataId}`),
       fetchOptions('GET'),
     );
-    console.log(selectedWorksheet);
     return { client, template, statement };
   }
 
@@ -152,7 +150,6 @@ export default function Worksheet() {
   const { worksheetId } = useParams();
   useEffect(async () => {
     const fetchedWorksheet = await getThisWorksheet(worksheetId);
-    console.log(fetchedWorksheet);
     setThisWorksheet({ ...fetchedWorksheet });
     dispatch({
       type: ACTIONS.LOAD_WORKSHEET_DATA,
@@ -161,13 +158,10 @@ export default function Worksheet() {
   }, [reload]);
 
   async function handleStatementUpdate(updatedStatement, statementId, callback) {
-    console.log('updating to');
-    console.log(statementId);
     const res = await fetchData(
       fetchUrl(`statements/${statementId}`),
       fetchOptions('PATCH', updatedStatement),
     );
-    console.log(res);
     callback(!reload);
     return res;
   }
@@ -187,7 +181,6 @@ export default function Worksheet() {
         >
           <div id="worksheet">
             <h2>Worksheet</h2>
-            {console.log(thisWorksheet)}
             {thisWorksheet.client && (<h3>{`Client: ${thisWorksheet.client.name}`}</h3>)}
             <form
               id="worksheet"
