@@ -179,19 +179,17 @@ export default function Worksheet() {
             dispatch,
           }}
         >
-          <div id="worksheet">
+          <div id="worksheet" className="">
             <h2>Worksheet</h2>
             {thisWorksheet.client && (<h3>{`Client: ${thisWorksheet.client.name}`}</h3>)}
             <form
               id="worksheet"
+              className="grid-wrapper"
               onSubmit={(e) => {
                 e.preventDefault();
                 const update = {
                   values: worksheetData,
-                  // TODO: index: currentClientIndex,
                 };
-                // onSaveStatement(update);
-
                 handleStatementUpdate(update, thisWorksheet.statement.id, setReload);
                 setModalContent(<h2>Data stored.</h2>);
                 onModalOpen();
@@ -212,7 +210,7 @@ export default function Worksheet() {
                     onModalClose={onModalClose}
                   />
                 ))}
-              <section className="save-prompt">
+              <section id="save-prompt" className="col span4 span8 span12">
                 <h2>Save and export</h2>
                 <p>
                   Click &apos;Save&apos; to store data or

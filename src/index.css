@@ -4,12 +4,15 @@
 :root {
   /* Design tokens */
   /* Colors */
-  --dark: #121111;
-  --light: #f8f8f8;
-  --primary: #fdd110;
-  --secondary: #ea1c5c;
-  --secondary-shade: #da0044;
-  --tertiary: #55dde0;
+  --dark: #030303;
+  --light: #fefeff;
+  --shade: #f3f4f6;
+  --primary: #4600e0;
+  --primary-shade: #0000ad;
+  --secondary: #00c2d1;
+  --secondary-shade: #0091a0;
+  --tertiary: #f9e900;
+  --tertiary-shade: #c2b700;
   /* Scale */
   --s300: 0.833rem;
   --s400: 1rem;
@@ -20,11 +23,11 @@
   --s900: 2.488rem;
   /* Breakpoints */
   --xs: 0;
-  --sm: 16em;
-  --md: 48em;
-  --lg: 62em;
-  --xl: 75em;
-  --xxl: 87.5em;
+  --sm: 36em; /* 576px */
+  --md: 48em; /* 768px */
+  --lg: 60em; /* 960px */
+  --xl: 75em; /* 1200px */
+  --xxl: 87.5em; /* 1400px */
 }
 
 /* Composition */
@@ -37,6 +40,7 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 1.75;
+  background-color: var(--dark);
 }
 
 p {
@@ -90,6 +94,11 @@ h6 {
 small,
 .text_small {
   font-size: 0.833rem;
+}
+
+.main-container {
+  margin: 0 var(--s400);
+  background-color: var(--light);
 }
 
 /* Utilities */
@@ -147,7 +156,7 @@ small,
   grid-column: auto / span 4;
 }
 
-@media only screen and (min-width: var(--sm)) {
+@media only screen and (min-width: 36em) {
   /* [class*='grid-'] {} */
   h1 {
     font-size: 3.052rem;
@@ -180,19 +189,52 @@ small,
     gap: var(--s400);
   }
 
-  .col.span1 {
-    grid-column: auto / span 2;
+  .col.span5 {
+    grid-column: auto / span 5;
   }
 
-  .col.span2 {
-    grid-column: auto / span 4;
-  }
-
-  .col.span3 {
+  .col.span6 {
     grid-column: auto / span 6;
   }
 
-  .col.span4 {
+  .col.span7 {
+    grid-column: auto / span 7;
+  }
+
+  .col.span8 {
     grid-column: auto / span 8;
+  }
+}
+
+@media only screen and (min-width: 48em) {
+  .grid-wrapper {
+    gap: var(--s600);
+  }
+
+  .main-container {
+    margin: 0 var(--s600);
+  }
+}
+
+@media only screen and (min-width: 60em) {
+  .grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .col.span9 {
+    grid-column: auto / span 9;
+  }
+
+  .col.span10 {
+    grid-column: auto / span 10;
+  }
+
+  .col.span11 {
+    grid-column: auto / span 11;
+  }
+
+  .col.span12 {
+    grid-column: auto / span 12;
   }
 }

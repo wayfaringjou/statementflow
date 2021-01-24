@@ -63,31 +63,35 @@ export default function Section({
   );
   return (
 
-    <section className="worksheet-section stack">
-      <h2>{instance.sectionTitle}</h2>
-      {(instance.description) && <p>{instance.description}</p>}
-      {(inactiveKeys().length > 0) && (
-      <button
-        type="button"
-        onClick={() => {
-          setModalContent(addItemModal);
-          onModalOpen();
-        }}
-      >
-        Add item inside this section
-      </button>
-      )}
-      {(activeKeys().length > 0) && (
-      <button
-        type="button"
-        onClick={() => {
-          setModalContent(removeItemModal);
-          onModalOpen();
-        }}
-      >
-        Remove item from this section
-      </button>
-      )}
+    <section className="worksheet-section stack col span4 span8 span12 grid-wrapper">
+      <header className="col span4 span8 span12">
+        <h2>{instance.sectionTitle}</h2>
+        <i className="material-icons">menu</i>
+        {(instance.description) && <p>{instance.description}</p>}
+        {(inactiveKeys().length > 0) && (
+        <button
+          type="button"
+          onClick={() => {
+            setModalContent(addItemModal);
+            onModalOpen();
+          }}
+        >
+          Add item inside this section
+          <i className="material-icons">menu</i>
+        </button>
+        )}
+        {(activeKeys().length > 0) && (
+        <button
+          type="button"
+          onClick={() => {
+            setModalContent(removeItemModal);
+            onModalOpen();
+          }}
+        >
+          Remove item from this section
+        </button>
+        )}
+      </header>
       {componentKeys
         .map((key) => componentHelper(instance.components[key], sectionKey, key))}
     </section>

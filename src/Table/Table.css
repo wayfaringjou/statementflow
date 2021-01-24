@@ -5,3 +5,11 @@
 .cell {
   min-width: 100px !important;
 }
+
+.worksheet-table table {
+  background-color: aqua;
+}
+
+.table-content {
+  overflow-x: auto;
+}

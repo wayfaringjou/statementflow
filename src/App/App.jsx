@@ -113,7 +113,7 @@ export default function App() {
         setModalContent,
       }}
     >
-      <div className="App">
+      <div id="App" className="main-container">
         <Modal
           modalOpen={isModalOpen}
           onModalClose={handleModalClose}

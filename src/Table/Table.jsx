@@ -59,10 +59,12 @@ export default function Table({ instance, sectionKey, componentKey }) {
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
-        <div className="worksheet-table">
-          {instance.name && <h3>{instance.name}</h3>}
-          {(instance.description) && <p>{instance.description}</p>}
-          <div className="table-menu">
+        <article className="worksheet-table col span4 span8">
+          <header>
+            {instance.name && <h3>{instance.name}</h3>}
+            {(instance.description) && <p>{instance.description}</p>}
+          </header>
+          <section className="table-menu">
             <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
             {isMenuOpen && (
               <ul>
@@ -117,19 +119,21 @@ export default function Table({ instance, sectionKey, componentKey }) {
               </ul>
 
             )}
-          </div>
-          <ReactDataSheet
-            data={instance.value}
-            valueRenderer={(cell) => cell.value}
-          // dataRenderer={(cell) => cell.expr}
-            onSelect={(selection) => setSelected(selection)}
-            onCellsChanged={(changes) => {
-              const value = onCellsChanged(instance.value, changes);
-              return dispatch({
-                value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
-              });
-            }}
-          />
+          </section>
+          <section className="table-content">
+
+            <ReactDataSheet
+              data={instance.value}
+              valueRenderer={(cell) => cell.value}
+              onSelect={(selection) => setSelected(selection)}
+              onCellsChanged={(changes) => {
+                const value = onCellsChanged(instance.value, changes);
+                return dispatch({
+                  value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                });
+              }}
+            />
+          </section>
           <button
             type="button"
             onClick={() => {
@@ -174,7 +178,7 @@ export default function Table({ instance, sectionKey, componentKey }) {
               </button>
             </>
           )}
-        </div>
+        </article>
       )}
     </WorksheetContext.Consumer>
   );
