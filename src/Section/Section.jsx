@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faCaretDown, faCoffee, faEllipsisH, faEllipsisV,
+} from '@fortawesome/free-solid-svg-icons';
 import componentHelper from '../helpers/componentHelper';
 import { ACTIONS } from '../Worksheet';
+import './Section.css';
 
 export default function Section({
   instance,
@@ -63,35 +68,41 @@ export default function Section({
   );
   return (
 
-    <section className="worksheet-section stack col span4 span8 span12 grid-wrapper">
-      <header className="col span4 span8 span12">
+    <section className="worksheet-section flow col span4 span8 span12 grid-wrapper">
+      <header className="section-header col span4 span8 span12 shade flex-row-parent s400-v-pad">
         <h2>{instance.sectionTitle}</h2>
-        <i className="material-icons">menu</i>
         {(instance.description) && <p>{instance.description}</p>}
+        <nav className="section-menu">
+          <button type="button" className="primary">
+            <FontAwesomeIcon icon={faEllipsisH} />
+          </button>
+        </nav>
+      </header>
+
+      <aside className="col span4 span8 span12">
         {(inactiveKeys().length > 0) && (
-        <button
-          type="button"
-          onClick={() => {
-            setModalContent(addItemModal);
-            onModalOpen();
-          }}
-        >
-          Add item inside this section
-          <i className="material-icons">menu</i>
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              setModalContent(addItemModal);
+              onModalOpen();
+            }}
+          >
+            Add item inside this section
+          </button>
         )}
         {(activeKeys().length > 0) && (
-        <button
-          type="button"
-          onClick={() => {
-            setModalContent(removeItemModal);
-            onModalOpen();
-          }}
-        >
-          Remove item from this section
-        </button>
+          <button
+            type="button"
+            onClick={() => {
+              setModalContent(removeItemModal);
+              onModalOpen();
+            }}
+          >
+            Remove item from this section
+          </button>
         )}
-      </header>
+      </aside>
       {componentKeys
         .map((key) => componentHelper(instance.components[key], sectionKey, key))}
     </section>

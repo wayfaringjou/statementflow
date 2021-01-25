@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import AppContext from '../AppContext';
@@ -21,7 +23,10 @@ export default function Header({
         <header id="main-header" className="flex-row-parent">
           <h2>
             <Link to="/">
-              StatementFlow
+              <span className="logo-icon">
+                <FontAwesomeIcon icon={faBook} />
+              </span>
+              <span className="logo-text">StatementFlow</span>
             </Link>
           </h2>
           <nav id="main-nav">
@@ -33,6 +38,7 @@ export default function Header({
               </li>
               <li>
                 <button
+                  className="shade-bg"
                   type="button"
                   onClick={() => {
                     setModalContent(
@@ -50,7 +56,10 @@ export default function Header({
                     onModalOpen();
                   }}
                 >
-                  New Worksheet
+                  <FontAwesomeIcon icon={faPlusSquare} />
+                  <span className="sm-visually-hidden">
+                    New Worksheet
+                  </span>
                 </button>
               </li>
             </ul>

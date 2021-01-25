@@ -77,6 +77,10 @@ function reducer(state, action) {
       delete modifiedState[action.sectionKey]
         .components[action.componentKey].componentTotal;
       return modifiedState;
+    case ACTIONS.SET_AS_NOTE:
+      return modifiedState;
+    case ACTIONS.UNSET_AS_NOTE:
+      return modifiedState;
     default:
       return state;
   }
@@ -179,9 +183,18 @@ export default function Worksheet() {
             dispatch,
           }}
         >
-          <div id="worksheet" className="">
-            <h2>Worksheet</h2>
-            {thisWorksheet.client && (<h3>{`Client: ${thisWorksheet.client.name}`}</h3>)}
+          <div id="worksheet" className="rounded-top s400-h-pad light-bg">
+            <header className="worksheet-header s400-v-pad s400-h-pad">
+              <h2>Worksheet</h2>
+              {thisWorksheet.client && (
+              <h3>
+                Client:
+                <span className="client-header s400-v-pad s400-h-pad dark-bg rounded">
+                  {thisWorksheet.client.name}
+                </span>
+              </h3>
+              )}
+            </header>
             <form
               id="worksheet"
               className="grid-wrapper"
@@ -195,7 +208,6 @@ export default function Worksheet() {
                 onModalOpen();
               }}
             >
-              {/* <i className="material-icons">face</i> */}
               {sectionKeys
                 .map((key) => (
                   <Section

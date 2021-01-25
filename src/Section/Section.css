@@ -1,0 +1,19 @@
+.worksheet-section {
+
+}
+
+.section-header {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-header > * {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.section-menu > button {
+  color: var(--dark);
+  background-color: unset;
+}

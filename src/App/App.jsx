@@ -113,7 +113,7 @@ export default function App() {
         setModalContent,
       }}
     >
-      <div id="App" className="main-container">
+      <div id="App" className="main-container primary-bg">
         <Modal
           modalOpen={isModalOpen}
           onModalClose={handleModalClose}
