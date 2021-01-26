@@ -1,21 +1,12 @@
-import React, { useReducer } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import WorksheetContext from '../WorksheetContext';
 import Input from '../Input';
 import { ACTIONS } from '../Worksheet';
-import AppContext from '../AppContext';
 
-export default function Fieldset({ instance, sectionKey, componentKey }) {
-  /*
-  const initialState = instance.fields;
-
-  function reducer(state, { value, index }) {
-    const updatedItem = { ...state[index] };
-    updatedItem.value = value;
-    return { ...state, [index]: updatedItem };
-  }
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-*/
+export default function Fieldset({
+  instance, sectionKey, itemKey, componentKey,
+}) {
   const fieldKeys = Object.keys(instance.fields);
 
   return (
@@ -29,7 +20,7 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
               <div className="input-field" key={`${componentKey}-${fieldKey}`}>
                 <Input
                   handleChange={({ target: { value } }) => dispatch({
-                    value, sectionKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
+                    value, sectionKey, itemKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
                   })}
                   key={fieldKey}
                   id={instance.fields[fieldKey].label}
@@ -41,9 +32,11 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
                   onClick={() => dispatch({
                     type: ACTIONS.SET_ITEM_TOTAL,
                     sectionKey,
+                    itemKey,
                     componentKey,
                     componentTotal: {
                       sectionKey,
+                      itemKey,
                       componentKey,
                       fieldKey,
                       value: instance.fields[fieldKey].value,
@@ -68,6 +61,7 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
                 onClick={() => dispatch({
                   type: ACTIONS.UNSET_ITEM_TOTAL,
                   sectionKey,
+                  itemKey,
                   componentKey,
                 })}
               >
@@ -81,3 +75,24 @@ export default function Fieldset({ instance, sectionKey, componentKey }) {
     </WorksheetContext.Consumer>
   );
 }
+
+Fieldset.propTypes = {
+  instance: PropTypes.oneOfType([
+    PropTypes.shape({
+      fields: PropTypes.objectOf(PropTypes.object),
+      description: PropTypes.string,
+      name: PropTypes.string,
+      type: PropTypes.string,
+    }),
+    PropTypes.shape({
+      fields: PropTypes.objectOf(PropTypes.object),
+      descriptions: PropTypes.string,
+      name: PropTypes.string,
+      type: PropTypes.string,
+      componentTotal: PropTypes.objectOf(PropTypes.object),
+    }),
+  ]).isRequired,
+  sectionKey: PropTypes.string.isRequired,
+  itemKey: PropTypes.string.isRequired,
+  componentKey: PropTypes.string.isRequired,
+};

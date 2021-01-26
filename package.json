@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.6.0",
     "docx": "^5.4.1",
     "file-saver": "^2.0.5",
+    "object-path": "^0.11.5",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-datasheet": "^1.4.8",

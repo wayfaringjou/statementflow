@@ -15,7 +15,7 @@ export default function CreateDocument(data) {
       const componentKeys = Object.keys(data[sectionKey].components);
       paragraphs.push(
         new Paragraph({
-          text: data[sectionKey].sectionTitle,
+          text: data[sectionKey].sectionName,
           heading: HeadingLevel.HEADING_1,
         }),
       );

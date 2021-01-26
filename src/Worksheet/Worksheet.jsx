@@ -2,6 +2,8 @@ import React, { useState, useEffect, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { saveAs } from 'file-saver';
 import { Packer } from 'docx';
+// Access deep properties using a path
+import objectPath from 'object-path';
 import useFetch from '../customHooks/useFetch';
 import config from '../config';
 import WorksheetContext from '../WorksheetContext';
@@ -20,27 +22,38 @@ export const ACTIONS = {
 };
 
 function reducer(state, action) {
+  // Create a new object to hold changes.
   let modifiedState = { ...state };
+  // Destructure key-path related values
+  const {
+    sectionKey, itemKey, componentKey, fieldKey,
+  } = action;
+  // Set key-path string for component
+  const componentPath = `${sectionKey}.items[${itemKey}].components[${componentKey}]`;
+  console.log(action);
+  console.log(sectionKey, itemKey, componentKey, fieldKey);
+  console.log(componentPath);
   switch (action.type) {
     case ACTIONS.LOAD_WORKSHEET_DATA: {
       modifiedState = action.fetchResponse;
       return modifiedState;
     }
     case ACTIONS.CHANGE_DATA:
-      if (action.fieldKey) {
-        modifiedState[action.sectionKey]
-          .components[action.componentKey]
-          .fields[action.fieldKey]
-          .value = action.value;
+      // Take into account the aditional nesting for fieldset components
+      if (fieldKey) {
+        // Pass obj, path and value to objectPath to set the new value
+        objectPath.set(modifiedState, `${componentPath}.${fieldKey}`, action.value);
+        // modifiedState[action.sectionKey]
+        //  .components[action.componentKey]
+        //  .fields[action.fieldKey]
+        //  .value = action.value;
       } else {
         modifiedState[action.sectionKey]
           .components[action.componentKey]
           .value = action.value;
       }
-
-      if (modifiedState[action.sectionKey]
-        .components[action.componentKey]
-        .componentTotal) {
+      console.log(objectPath.get(modifiedState, `${componentPath}.componentTotal`));
+      if (objectPath.get(modifiedState, `${componentPath}.componentTotal`)) {
         if (modifiedState[action.sectionKey]
           .components[action.componentKey]
           .type === 'table') {
