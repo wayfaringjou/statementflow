@@ -22,14 +22,16 @@ export const ACTIONS = {
 };
 
 function reducer(state, action) {
-  // Create a new object to hold changes.
+  // Create a new mutable object to hold changes.
   let modifiedState = { ...state };
   // Destructure key-path related values
   const {
     sectionKey, itemKey, componentKey, fieldKey,
   } = action;
+  // Set key-path string for item
+  const itemPath = `${sectionKey}.items.${itemKey}`;
   // Set key-path string for component
-  const componentPath = `${sectionKey}.items[${itemKey}].components[${componentKey}]`;
+  const componentPath = `${itemPath}.components.${componentKey}`;
   console.log(action);
   console.log(sectionKey, itemKey, componentKey, fieldKey);
   console.log(componentPath);
@@ -39,56 +41,45 @@ function reducer(state, action) {
       return modifiedState;
     }
     case ACTIONS.CHANGE_DATA:
-      // Take into account the aditional nesting for fieldset components
+      // Take into account the extra nesting for fieldset components, check if payload has fieldKey
       if (fieldKey) {
         // Pass obj, path and value to objectPath to set the new value
-        objectPath.set(modifiedState, `${componentPath}.${fieldKey}`, action.value);
-        // modifiedState[action.sectionKey]
-        //  .components[action.componentKey]
-        //  .fields[action.fieldKey]
-        //  .value = action.value;
+        objectPath.set(modifiedState, `${componentPath}.fields.${fieldKey}.value`, action.value);
       } else {
-        modifiedState[action.sectionKey]
-          .components[action.componentKey]
-          .value = action.value;
+        // Set new value inside component to the value passed by the payload
+        objectPath.set(modifiedState, `${componentPath}.value`, action.value);
       }
-      console.log(objectPath.get(modifiedState, `${componentPath}.componentTotal`));
-      if (objectPath.get(modifiedState, `${componentPath}.componentTotal`)) {
-        if (modifiedState[action.sectionKey]
-          .components[action.componentKey]
-          .type === 'table') {
-          modifiedState[action.sectionKey]
-            .components[action.componentKey]
-            .componentTotal.value = action
-              .value[modifiedState[action.sectionKey]
-                .components[action.componentKey]
-                .componentTotal.cell.row][modifiedState[action.sectionKey]
-                .components[action.componentKey]
-                .componentTotal.cell.col].value;
+      console.log(objectPath.get(modifiedState, `${itemPath}.itemTotal`));
+      // Update values for components set as item total, check if state has total key for item
+      if (objectPath.has(modifiedState, `${itemPath}.itemTotal`)) {
+        // For tables, change value inside cell
+        if (objectPath.get(modifiedState, `${componentPath}.type`) === 'table') {
+          const { row, col } = objectPath.get(modifiedState, `${itemPath}.itemTotal.cell`);
+          objectPath.set(modifiedState, `${itemPath}.itemTotal.value`, action.value[row][col].value);
         } else {
-          modifiedState[action.sectionKey]
-            .components[action.componentKey]
-            .componentTotal.value = action.value;
+          // For fields, change flat value
+          objectPath.set(modifiedState, `${itemPath}.itemTotal.value`, action.value);
         }
       }
+      // return mutated state
       return modifiedState;
     case ACTIONS.DEL_ITEM:
-      delete modifiedState[action.sectionKey]
-        .components[action.componentKey];
+      // Remove key-path from client's statement data
+      objectPath.del(modifiedState, `${sectionKey}.items.${itemKey}`);
       return modifiedState;
     case ACTIONS.ADD_ITEM:
-      modifiedState[action.sectionKey]
-        .components[action.componentKey] = action.template[action.sectionKey]
-          .components[action.componentKey];
+      // Add removed item using original template as reference
+      objectPath.set(
+        modifiedState,
+        `${sectionKey}.items.${itemKey}`,
+        action.template[action.sectionKey].items[action.itemKey],
+      );
       return modifiedState;
     case ACTIONS.SET_ITEM_TOTAL:
-      modifiedState[action.sectionKey]
-        .components[action.componentKey]
-        .componentTotal = action.componentTotal;
+      objectPath.set(modifiedState, `${sectionKey}.items.${itemKey}.itemTotal`, action.itemTotal);
       return modifiedState;
     case ACTIONS.UNSET_ITEM_TOTAL:
-      delete modifiedState[action.sectionKey]
-        .components[action.componentKey].componentTotal;
+      objectPath.del(modifiedState, `${sectionKey}.items${itemKey}.itemTotal`);
       return modifiedState;
     case ACTIONS.SET_AS_NOTE:
       return modifiedState;
@@ -184,7 +175,7 @@ export default function Worksheet() {
   }
 
   const sectionKeys = Object.keys(worksheetData);
-
+  console.log(thisWorksheet.template);
   return (
     <AppContext.Consumer>
       {({
@@ -193,6 +184,7 @@ export default function Worksheet() {
         <WorksheetContext.Provider
           value={{
             worksheetData,
+            // worksheetTemplate: thisWorksheet.template,
             dispatch,
           }}
         >
@@ -226,8 +218,8 @@ export default function Worksheet() {
                   <Section
                     key={key}
                     sectionKey={key}
-                    instance={worksheetData[key]}
-                    worksheetData={worksheetData}
+                    sectionInstance={worksheetData[key]}
+                    // worksheetData={worksheetData}
                     worksheetTemplate={thisWorksheet.template.template}
                     dispatch={dispatch}
                     setModalContent={setModalContent}

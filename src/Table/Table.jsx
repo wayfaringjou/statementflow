@@ -7,7 +7,9 @@ import WorksheetContext from '../WorksheetContext';
 import { ACTIONS } from '../Worksheet';
 
 // eslint-disable-next-line react/prop-types
-export default function Table({ instance, sectionKey, componentKey }) {
+export default function Table({
+  itemInstance, componentInstance, sectionKey, itemKey, componentKey,
+}) {
   // const { value } = instance;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,8 +32,8 @@ export default function Table({ instance, sectionKey, componentKey }) {
   }
 
   function delRow(grid) {
-    if (instance.componentTotal) {
-      if ((grid.length - 1) > instance.componentTotal.cell.row) {
+    if (itemInstance.itemTotal) {
+      if ((grid.length - 1) > itemInstance.itemTotal.cell.row) {
         grid.pop();
       }
     } else if (grid.length > 1) {
@@ -46,8 +48,8 @@ export default function Table({ instance, sectionKey, componentKey }) {
   }
 
   function delCol(grid) {
-    if (instance.componentTotal) {
-      if ((grid[0].length - 1) > instance.componentTotal.cell.col) {
+    if (itemInstance.itemTotal) {
+      if ((grid[0].length - 1) > itemInstance.itemTotal.cell.col) {
         grid.forEach((row) => row.pop());
       }
     } else if (grid[0].length > 1) {
@@ -61,8 +63,8 @@ export default function Table({ instance, sectionKey, componentKey }) {
       {({ worksheetData, dispatch }) => (
         <article className="worksheet-table col span4 span8">
           <header>
-            {instance.name && <h3>{instance.name}</h3>}
-            {(instance.description) && <p>{instance.description}</p>}
+            {componentInstance.name && <h3>{componentInstance.name}</h3>}
+            {(componentInstance.description) && <p>{componentInstance.description}</p>}
           </header>
           <section className="table-menu">
             <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
@@ -72,9 +74,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                   <button
                     type="button"
                     onClick={() => {
-                      const value = addRow(instance.value);
+                      const value = addRow(componentInstance.value);
                       return dispatch({
-                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
                       });
                     }}
                   >
@@ -83,9 +85,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                   <button
                     type="button"
                     onClick={() => {
-                      const value = delRow(instance.value);
+                      const value = delRow(componentInstance.value);
                       return dispatch({
-                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
                       });
                     }}
                   >
@@ -96,9 +98,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                   <button
                     type="button"
                     onClick={() => {
-                      const value = addCol(instance.value);
+                      const value = addCol(componentInstance.value);
                       return dispatch({
-                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
                       });
                     }}
                   >
@@ -107,9 +109,9 @@ export default function Table({ instance, sectionKey, componentKey }) {
                   <button
                     type="button"
                     onClick={() => {
-                      const value = delCol(instance.value);
+                      const value = delCol(componentInstance.value);
                       return dispatch({
-                        value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
                       });
                     }}
                   >
@@ -123,13 +125,13 @@ export default function Table({ instance, sectionKey, componentKey }) {
           <section className="table-content">
 
             <ReactDataSheet
-              data={instance.value}
+              data={componentInstance.value}
               valueRenderer={(cell) => cell.value}
               onSelect={(selection) => setSelected(selection)}
               onCellsChanged={(changes) => {
-                const value = onCellsChanged(instance.value, changes);
+                const value = onCellsChanged(componentInstance.value, changes);
                 return dispatch({
-                  value, sectionKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                  value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
                 });
               }}
             />
@@ -141,15 +143,17 @@ export default function Table({ instance, sectionKey, componentKey }) {
                 dispatch({
                   type: ACTIONS.SET_ITEM_TOTAL,
                   sectionKey,
+                  itemKey,
                   componentKey,
-                  componentTotal: {
+                  itemTotal: {
                     sectionKey,
+                    itemKey,
                     componentKey,
                     cell: {
                       row: selected.end.i,
                       col: selected.end.j,
                     },
-                    value: instance.value[selected.end.i][selected.end.j].value,
+                    value: componentInstance.value[selected.end.i][selected.end.j].value,
                   },
                 });
               }
@@ -157,27 +161,31 @@ export default function Table({ instance, sectionKey, componentKey }) {
           >
             Set selected cell as item total
           </button>
-          {instance.componentTotal && (
+          {/* componentInstance.componentTotal && (
             <>
               <h4>
                 Item total:
                 {' '}
-                {worksheetData[instance.componentTotal.sectionKey]
-                  .components[instance.componentTotal.componentKey]
-                  .value[instance.componentTotal.cell.row][instance.componentTotal.cell.col].value}
+                {worksheetData[componentInstance.componentTotal.sectionKey]
+                  .items[componentInstance.componentTotal.itemKey]
+                  .components[componentInstance.componentTotal.componentKey]
+                  .value[componentInstance.componentTotal.cell.row]
+                  [componentInstance.componentTotal.cell.col]
+                  .value}
               </h4>
               <button
                 type="button"
                 onClick={() => dispatch({
                   type: ACTIONS.UNSET_ITEM_TOTAL,
                   sectionKey,
+                  itemKey,
                   componentKey,
                 })}
               >
                 Unset item total
               </button>
             </>
-          )}
+          ) */}
         </article>
       )}
     </WorksheetContext.Consumer>

@@ -1,0 +1,5 @@
+.dialog {
+  position: absolute;
+  background-color: var(--light);
+  border: var(--shade) thin solid;
+}

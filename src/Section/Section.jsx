@@ -1,24 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEllipsisH,
-} from '@fortawesome/free-solid-svg-icons';
+import Icon from '@mdi/react';
+import { mdiDotsHorizontal } from '@mdi/js';
 import Item from '../Item';
 import { ACTIONS } from '../Worksheet';
 import './Section.css';
 
 export default function Section({
-  instance,
+  sectionInstance,
   sectionKey,
-  worksheetData,
+  // worksheetData,
   worksheetTemplate,
   dispatch,
   setModalContent,
   onModalOpen,
   onModalClose,
 }) {
-  const itemKeys = Object.keys(instance.items);
+  const itemKeys = Object.keys(sectionInstance.items);
   const templateKeys = Object.keys(worksheetTemplate[sectionKey].items);
   const activeKeys = () => templateKeys
     .filter((key) => itemKeys.includes(key));
@@ -60,7 +58,7 @@ export default function Section({
                 onModalClose();
               }}
             >
-              {instance.items[itemKey].itemName}
+              {sectionInstance.items[itemKey].itemName}
             </button>
           </li>
         ))}
@@ -70,14 +68,17 @@ export default function Section({
   return (
 
     <section className="worksheet-section flow col span4 span8 span12 grid-wrapper">
-      <header className="section-header col span4 span8 span12 shade flex-row-parent s400-v-pad">
-        <h2>{instance.sectionName}</h2>
-        {(instance.description) && <p>{instance.description}</p>}
-        <nav className="section-menu">
-          <button type="button" className="primary">
-            <FontAwesomeIcon icon={faEllipsisH} />
-          </button>
-        </nav>
+      <header className="section-header col span4 span8 span12 shade flex-row-parent s400-left-pad shade-bg">
+        <h2>{sectionInstance.sectionName}</h2>
+        {(sectionInstance.description) && <p>{sectionInstance.description}</p>}
+        <button type="button" className="dark-bg">
+          <Icon
+            path={mdiDotsHorizontal}
+            title="New Worksheet"
+            size={1}
+            color="currentColor"
+          />
+        </button>
       </header>
 
       <aside className="col span4 span8 span12">
@@ -110,13 +111,13 @@ export default function Section({
             key={key}
             itemKey={key}
             sectionKey={sectionKey}
-            instance={instance.items[key]}
-            worksheetData={worksheetData}
-            worksheetTemplate={worksheetTemplate}
-            dispatch={dispatch}
-            setModalContent={setModalContent}
-            onModalOpen={onModalOpen}
-            onModalClose={onModalClose}
+            itemInstance={sectionInstance.items[key]}
+            // worksheetData={worksheetData}
+            // worksheetTemplate={worksheetTemplate}
+            // dispatch={dispatch}
+            // setModalContent={setModalContent}
+            // onModalOpen={onModalOpen}
+            // onModalClose={onModalClose}
           />
         ))}
     </section>

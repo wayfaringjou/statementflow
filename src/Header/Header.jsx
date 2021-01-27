@@ -1,7 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Icon from '@mdi/react';
+import { mdiFilePlus } from '@mdi/js';
 import AppContext from '../AppContext';
 import Modal from '../Modal';
 import NewWorksheetPrompt from '../NewWorksheetPrompt';
@@ -24,7 +24,12 @@ export default function Header({
           <h2>
             <Link to="/">
               <span className="logo-icon">
-                <FontAwesomeIcon icon={faBook} />
+                <Icon
+                  path={mdiFilePlus}
+                  title="New Worksheet"
+                  size={1}
+                  color="currentColor"
+                />
               </span>
               <span className="logo-text">StatementFlow</span>
             </Link>
@@ -56,7 +61,12 @@ export default function Header({
                     onModalOpen();
                   }}
                 >
-                  <FontAwesomeIcon icon={faPlusSquare} />
+                  <Icon
+                    path={mdiFilePlus}
+                    title="New Worksheet"
+                    size={1}
+                    color="currentColor"
+                  />
                   <span className="sm-visually-hidden">
                     New Worksheet
                   </span>

@@ -7,6 +7,7 @@ import Worksheet from '../Worksheet';
 import Header from '../Header';
 import Banner from '../Banner';
 import Modal from '../Modal';
+import Dialog from '../Dialog';
 import Description from '../Description';
 
 export default function App() {
@@ -47,11 +48,18 @@ export default function App() {
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
+  //  Global state for dialog control
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogContent, setDialogContent] = useState('');
+  const [dialogOriginPosition, setDialogOriginPosition] = useState('');
+  const handleDialogOpen = () => setIsDialogOpen(true);
+  const handleDialogClose = () => setIsDialogOpen(false);
+  const handleDialogToggle = () => setIsDialogOpen(!isDialogOpen);
+
   // State to hold api data
   const [clients, setClients] = useState([]);
   const [worksheetTemplates, setWorkSheetTemplates] = useState([]);
   const [worksheetHistory, setWorksheetHistory] = useState([]);
-  // const [clientsStatementData, setClientsStatementData] = useState([]);
 
   // Change this value to trigger useEffect
   const [reload, setReload] = useState(false);
@@ -61,7 +69,6 @@ export default function App() {
     setClients(await fetchData(fetchUrl('clients'), fetchOptions('GET')));
     setWorkSheetTemplates(await fetchData(fetchUrl('templates'), fetchOptions('GET')));
     setWorksheetHistory(await fetchData(fetchUrl('worksheets'), fetchOptions('GET')));
-    // setClientsStatementData(await fetchData(fetchUrl('statements'), fetchOptions('GET')));
   }, [reload]);
 
   const routes = () => (
@@ -111,6 +118,13 @@ export default function App() {
         onModalOpen: handleModalOpen,
         onModalClose: handleModalClose,
         setModalContent,
+        isDialogOpen,
+        onDialogOpen: handleDialogOpen,
+        onDialogClose: handleDialogClose,
+        onDialogToggle: handleDialogToggle,
+        setDialogContent,
+        dialogOriginPosition,
+        setDialogOriginPosition,
       }}
     >
       <div id="App" className="main-container primary-bg">
@@ -118,6 +132,12 @@ export default function App() {
           modalOpen={isModalOpen}
           onModalClose={handleModalClose}
           modalContent={modalContent}
+        />
+        <Dialog
+          dialogOpen={isDialogOpen}
+          onDialogClose={handleDialogClose}
+          dialogContent={dialogContent}
+          dialogOriginPosition={dialogOriginPosition}
         />
         <Header
           setModalContent={setModalContent}
@@ -141,7 +161,6 @@ export default function App() {
           )}
           {routes()}
         </main>
-
       </div>
     </AppContext.Provider>
   );

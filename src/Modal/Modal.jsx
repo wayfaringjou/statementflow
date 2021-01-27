@@ -8,10 +8,10 @@ export default function Modal({ modalContent, modalOpen, onModalClose }) {
   return createPortal(
     <>
       <div className="overlay" />
-      <article className="modal">
+      <aside className="modal">
         <button type="button" onClick={onModalClose}>Close</button>
         <span>{modalContent}</span>
-      </article>
+      </aside>
     </>,
     document.getElementById('portal'),
   );

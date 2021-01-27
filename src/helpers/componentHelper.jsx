@@ -9,25 +9,28 @@ const Components = {
   instructionitem: InstructionItem,
 };
 
-export default function componentHelper(instance, sectionKey, itemKey, componentKey) {
+export default function componentHelper(itemInstance, sectionKey, itemKey, componentKey) {
+  // Set component instance from item instance and key
+  const componentInstance = itemInstance.components[componentKey];
   // Check for component type in 'Components'
-  if (typeof Components[instance.componentType] !== 'undefined') {
+  if (typeof Components[componentInstance.componentType] !== 'undefined') {
     // Pass instance data and info about the component's location as props
-    return React.createElement(Components[instance.componentType], {
+    return React.createElement(Components[componentInstance.componentType], {
       key: componentKey,
       componentKey,
       itemKey,
       sectionKey,
-      instance,
+      itemInstance,
+      componentInstance,
     });
   }
   // Return this prompt if component type isn't found
   return React.createElement(
     () => (
       <div>
-        {`The component ${instance.componentType} has not been created yet.`}
+        {`The component ${componentInstance.componentType} has not been created yet.`}
       </div>
     ),
-    { key: instance.componentPosition },
+    { key: componentInstance.componentPosition },
   );
 }

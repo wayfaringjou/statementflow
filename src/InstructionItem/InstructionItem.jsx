@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function InstructionItem({ instance }) {
+export default function InstructionItem({ componentInstance }) {
   return (
     <ul className="instruction-block">
       <li className="instruction-item">
-        {instance.instruction}
+        {componentInstance.instruction}
       </li>
     </ul>
   );

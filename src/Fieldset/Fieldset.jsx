@@ -5,17 +5,17 @@ import Input from '../Input';
 import { ACTIONS } from '../Worksheet';
 
 export default function Fieldset({
-  instance, sectionKey, itemKey, componentKey,
+  componentInstance, sectionKey, itemKey, componentKey,
 }) {
-  const fieldKeys = Object.keys(instance.fields);
+  const fieldKeys = Object.keys(componentInstance.fields);
 
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
         <article className="worksheet-fieldset col span4 span8">
           <fieldset form="worksheet" key={componentKey}>
-            {instance.name && <legend><h3>{instance.name}</h3></legend>}
-            {(instance.description) && <p>{instance.description}</p>}
+            {componentInstance.name && <legend><h4>{componentInstance.name}</h4></legend>}
+            {(componentInstance.description) && <p>{componentInstance.description}</p>}
             {fieldKeys.map((fieldKey) => (
               <div className="input-field" key={`${componentKey}-${fieldKey}`}>
                 <Input
@@ -23,9 +23,9 @@ export default function Fieldset({
                     value, sectionKey, itemKey, componentKey, fieldKey, type: ACTIONS.CHANGE_DATA,
                   })}
                   key={fieldKey}
-                  id={instance.fields[fieldKey].label}
-                  value={instance.fields[fieldKey].value}
-                  label={instance.fields[fieldKey].label}
+                  id={componentInstance.fields[fieldKey].label}
+                  value={componentInstance.fields[fieldKey].value}
+                  label={componentInstance.fields[fieldKey].label}
                 />
                 <button
                   type="button"
@@ -34,12 +34,12 @@ export default function Fieldset({
                     sectionKey,
                     itemKey,
                     componentKey,
-                    componentTotal: {
+                    itemTotal: {
                       sectionKey,
                       itemKey,
                       componentKey,
                       fieldKey,
-                      value: instance.fields[fieldKey].value,
+                      value: componentInstance.fields[fieldKey].value,
                     },
                   })}
                 >
@@ -47,14 +47,14 @@ export default function Fieldset({
                 </button>
               </div>
             ))}
-            {instance.componentTotal && (
+            {/* componentInstance.componentTotal && (
             <>
               <h4>
                 Item total:
                 {' '}
-                {worksheetData[instance.componentTotal.sectionKey]
-                  .components[instance.componentTotal.componentKey]
-                  .fields[instance.componentTotal.fieldKey].value}
+                {worksheetData[componentInstance.componentTotal.sectionKey]
+                  .components[componentInstance.componentTotal.componentKey]
+                  .fields[componentInstance.componentTotal.fieldKey].value}
               </h4>
               <button
                 type="button"
@@ -68,7 +68,7 @@ export default function Fieldset({
                 Unset item total
               </button>
             </>
-            )}
+            ) */}
           </fieldset>
         </article>
       )}
@@ -77,7 +77,7 @@ export default function Fieldset({
 }
 
 Fieldset.propTypes = {
-  instance: PropTypes.oneOfType([
+  componentInstance: PropTypes.oneOfType([
     PropTypes.shape({
       fields: PropTypes.objectOf(PropTypes.object),
       description: PropTypes.string,
