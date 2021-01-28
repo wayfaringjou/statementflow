@@ -10,7 +10,7 @@ export default function Dialog({ dialogContent, dialogOpen, dialogOriginPosition
       className="dialog"
       style={{
         top: dialogOriginPosition.top + dialogOriginPosition.height,
-        left: dialogOriginPosition.left,
+        right: dialogOriginPosition.right - document.body.clientWidth,
       }}
     >
       {dialogContent}

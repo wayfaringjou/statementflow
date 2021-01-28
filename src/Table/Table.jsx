@@ -62,9 +62,10 @@ export default function Table({
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
         <article className="worksheet-table col span4 span8">
-          <header>
-            {componentInstance.name && <h3>{componentInstance.name}</h3>}
-            {(componentInstance.description) && <p>{componentInstance.description}</p>}
+          <header className="table-header">
+            {componentInstance.componentName && <h3>{componentInstance.componentName}</h3>}
+            {(componentInstance.componentDescription) && (
+              <p>{componentInstance.componentDescription}</p>)}
           </header>
           <section className="table-menu">
             <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
@@ -123,7 +124,6 @@ export default function Table({
             )}
           </section>
           <section className="table-content">
-
             <ReactDataSheet
               data={componentInstance.value}
               valueRenderer={(cell) => cell.value}

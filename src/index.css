@@ -3,6 +3,7 @@
 :root {
   /* Design tokens */
   /* Colors */
+  /* Old Values
   --dark: #030303;
   --light: #fefeff;
   --shade: #f3f4f6;
@@ -13,6 +14,18 @@
   --secondary-shade: #0091a0;
   --tertiary: #f9e900;
   --tertiary-shade: #c2b700;
+  */
+  --dark: #2e2c2f;
+  --light: #f9f8f8;
+  --shade: #cdd3ce;
+  --shade-dark: #c0c1c3;
+  --primary: #4600e0;
+  --primary-shade: #0000ad;
+  --secondary: #006c67;
+  --secondary-shade: #0091a0;
+  --tertiary: #f9e900;
+  --tertiary-shade: #c2b700;
+
   /* Scale */
   --s300: 0.833rem;
   --s400: 1rem;
@@ -120,6 +133,23 @@ button {
   padding: var(--s400);
 }
 
+fieldset {
+  border: 0;
+}
+
+label {
+  text-transform: uppercase;
+}
+
+input {
+  border: 0;
+  border-bottom: medium solid var(--primary);
+  background-color: unset;
+  padding: 0 var(--s400);
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
 main {
   margin: 0;
   padding: 0;
@@ -135,18 +165,28 @@ main {
   margin-top: var(--flow-space, 1rem);
 }
 
-.s400-v-pad {
+.s400-h-pad {
   padding-left: var(--s400);
   padding-right: var(--s400);
+}
+
+.s300-h-pad {
+  padding-left: var(--s300);
+  padding-right: var(--s300);
 }
 
 .s400-left-pad {
   padding-left: var(--s400);
 }
 
-.s400-h-pad {
+.s400-v-pad {
   padding-top: var(--s400);
   padding-bottom: var(--s400);
+}
+
+.s300-v-pad {
+  padding-top: var(--s300);
+  padding-bottom: var(--s300);
 }
 
 .rounded {
@@ -154,7 +194,7 @@ main {
 }
 
 .rounded-top {
-  border-radius: var(--s800) var(--s800) 0 0;
+  border-radius: var(--s400) var(--s400) 0 0;
 }
 
 .main-container {

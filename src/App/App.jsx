@@ -9,6 +9,7 @@ import Banner from '../Banner';
 import Modal from '../Modal';
 import Dialog from '../Dialog';
 import Description from '../Description';
+import './App.css';
 
 export default function App() {
   const [errorMsg, setErrorMsg] = useState('');
@@ -153,7 +154,7 @@ export default function App() {
             s, setReload,
           )}
         />
-        <main>
+        <main className="main-block">
           {(errorMsg) && (
           <section className="error_msg">
             <h3>{errorMsg}</h3>

@@ -3,13 +3,21 @@
 }
 
 .cell {
-  min-width: 100px !important;
+  min-width: 12ch !important;
+  min-height: 1ch !important;
+  height: 2rem !important;
+  width: fit-content !important;
+  padding: 4px !important;
 }
 
 .worksheet-table table {
-  background-color: aqua;
+  background-color: var(--light);
 }
 
 .table-content {
   overflow-x: auto;
+}
+
+.table-content tr:nth-child(even) {
+  background-color: var(--shade);
 }

@@ -2,7 +2,28 @@
   padding-top: 1rem;
 }
 
-.client-header {
-  display:block;
-  text-align: center;
+.client-header-name {
+  display: block;
+  font-weight: 700;
+  padding-left: var(--s400);
+}
+
+.client-header-label,
+.statement-date-label {
+  text-transform: uppercase;
+  font-size: var(--s500);
+}
+
+.statement-date > input {
+  font-size: var(--s600);
+  font-weight: 700;
+}
+
+.template-name {
+  font-weight: 700;
+  border-bottom: thin solid var(--shade);
+}
+
+.worksheet-header {
+  margin: 0 0 var(--s400);
 }

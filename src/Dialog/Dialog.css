@@ -2,4 +2,30 @@
   position: absolute;
   background-color: var(--light);
   border: var(--shade) thin solid;
+  width: fit-content;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.dialog > ul {
+  list-style: none;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.dialog button {
+  width: 100%;
+  text-align: left;
+  background-color: unset;
+  color: var(--dark);
+}
+
+.dialog button > * {
+  vertical-align: middle;
+}
+
+.dialog button > svg {
+  width: 1rem;
+  margin-right: 8px;
 }

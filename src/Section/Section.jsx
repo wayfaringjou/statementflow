@@ -1,20 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react';
-import { mdiDotsHorizontal } from '@mdi/js';
+import { mdiDotsHorizontal, mdiMinusBoxOutline, mdiPlusBoxOutline } from '@mdi/js';
 import Item from '../Item';
+import useClientRect from '../customHooks/useClientRect';
 import { ACTIONS } from '../Worksheet';
+import AppContext from '../AppContext';
 import './Section.css';
 
 export default function Section({
   sectionInstance,
   sectionKey,
-  // worksheetData,
   worksheetTemplate,
   dispatch,
   setModalContent,
   onModalOpen,
   onModalClose,
+  onDialogClose,
 }) {
   const itemKeys = Object.keys(sectionInstance.items);
   const templateKeys = Object.keys(worksheetTemplate[sectionKey].items);
@@ -65,70 +67,104 @@ export default function Section({
       </ul>
     </>
   );
-  return (
-
-    <section className="worksheet-section flow col span4 span8 span12 grid-wrapper">
-      <header className="section-header col span4 span8 span12 shade flex-row-parent s400-left-pad shade-bg">
-        <h2>{sectionInstance.sectionName}</h2>
-        {(sectionInstance.description) && <p>{sectionInstance.description}</p>}
-        <button type="button" className="dark-bg">
-          <Icon
-            path={mdiDotsHorizontal}
-            title="New Worksheet"
-            size={1}
-            color="currentColor"
-          />
-        </button>
-      </header>
-
-      <aside className="col span4 span8 span12">
-        {(inactiveKeys().length > 0) && (
+  const sectionMenu = (
+    <ul
+      id="section-menu-dialog"
+    >
+      {(inactiveKeys().length > 0) && (
+        <li>
           <button
             type="button"
             onClick={() => {
               setModalContent(addItemModal);
               onModalOpen();
+              onDialogClose();
             }}
           >
+            <Icon
+              path={mdiPlusBoxOutline}
+              title="Add Item"
+              color="currentColor"
+            />
             Add item inside this section
           </button>
-        )}
-        {(activeKeys().length > 0) && (
+        </li>
+      )}
+      {(activeKeys().length > 0) && (
+        <li>
           <button
             type="button"
             onClick={() => {
               setModalContent(removeItemModal);
               onModalOpen();
+              onDialogClose();
             }}
           >
-            Remove item from this section
+            <Icon
+              path={mdiMinusBoxOutline}
+              title="Remove Item"
+              color="currentColor"
+            />
+            <span className="menu-option">Remove item from this section</span>
           </button>
-        )}
-      </aside>
-      {itemKeys
-        .map((key) => (
-          <Item
-            key={key}
-            itemKey={key}
-            sectionKey={sectionKey}
-            itemInstance={sectionInstance.items[key]}
-            // worksheetData={worksheetData}
-            // worksheetTemplate={worksheetTemplate}
-            // dispatch={dispatch}
-            // setModalContent={setModalContent}
-            // onModalOpen={onModalOpen}
-            // onModalClose={onModalClose}
-          />
-        ))}
-    </section>
+        </li>
+      )}
+    </ul>
+  );
+  const [rect, ref] = useClientRect();
+  return (
+    <AppContext.Consumer>
+      {({
+        isDialogOpen,
+        onDialogToggle,
+        setDialogContent,
+        setDialogOriginPosition,
+      }) => (
+        <section className="worksheet-section flow col span4 span8 span12 grid-wrapper">
+          <header className="section-header col span4 span8 span12 flex-row-parent s400-left-pad dark-bg">
+            <h2>{sectionInstance.sectionName}</h2>
+            {(sectionInstance.description) && <p>{sectionInstance.description}</p>}
+            <button
+              type="button"
+              ref={ref}
+              className="dialog-parent"
+              aria-expanded={isDialogOpen}
+              aria-controls="section-menu-dialog"
+              onClick={() => {
+                setDialogOriginPosition(rect);
+                setDialogContent(sectionMenu);
+                onDialogToggle();
+              }}
+            >
+              <Icon
+                path={mdiDotsHorizontal}
+                title="New Worksheet"
+                size={1.2}
+                color="currentColor"
+              />
+            </button>
+          </header>
 
+          {itemKeys
+            .map((key) => (
+              <Item
+                key={key}
+                itemKey={key}
+                sectionKey={sectionKey}
+                itemInstance={sectionInstance.items[key]}
+              />
+            ))}
+        </section>
+      )}
+    </AppContext.Consumer>
   );
 }
 
 Section.propTypes = {
   onModalClose: PropTypes.func.isRequired,
-  instance: PropTypes.shape({
+  sectionInstance: PropTypes.shape({
     sectionName: PropTypes.string,
+    sectionPosition: PropTypes.number,
     description: PropTypes.string,
     items: PropTypes.objectOf(PropTypes.object),
   }),
@@ -137,10 +173,11 @@ Section.propTypes = {
   dispatch: PropTypes.func.isRequired,
   setModalContent: PropTypes.func.isRequired,
   onModalOpen: PropTypes.func.isRequired,
+  onDialogClose: PropTypes.func.isRequired,
 };
 
 Section.defaultProps = {
-  instance: {},
+  sectionInstance: {},
   sectionKey: '',
   worksheetTemplate: {},
 };

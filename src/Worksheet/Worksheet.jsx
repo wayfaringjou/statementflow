@@ -4,6 +4,8 @@ import { saveAs } from 'file-saver';
 import { Packer } from 'docx';
 // Access deep properties using a path
 import objectPath from 'object-path';
+import Icon from '@mdi/react';
+import { mdiPencilOutline } from '@mdi/js';
 import useFetch from '../customHooks/useFetch';
 import config from '../config';
 import WorksheetContext from '../WorksheetContext';
@@ -153,6 +155,7 @@ export default function Worksheet() {
 
   const [worksheetData, dispatch] = useReducer(reducer, {});
   const [thisWorksheet, setThisWorksheet] = useState({});
+  const [statementDate, setStatementDate] = useState('');
 
   const [reload, setReload] = useState(false);
   const { worksheetId } = useParams();
@@ -163,6 +166,11 @@ export default function Worksheet() {
       type: ACTIONS.LOAD_WORKSHEET_DATA,
       fetchResponse: fetchedWorksheet.statement.values,
     });
+    if (fetchedWorksheet.statement) {
+      console.log(fetchedWorksheet.statement.statementDate);
+      const formatedDate = new Intl.DateTimeFormat('fr-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(fetchedWorksheet.statement.statementDate));
+      setStatementDate(formatedDate);
+    }
   }, [reload]);
 
   async function handleStatementUpdate(updatedStatement, statementId, callback) {
@@ -179,7 +187,11 @@ export default function Worksheet() {
   return (
     <AppContext.Consumer>
       {({
-        isModalOpen, onModalClose, onModalOpen, setModalContent,
+        isModalOpen,
+        onModalClose,
+        onModalOpen,
+        setModalContent,
+        onDialogClose,
       }) => (
         <WorksheetContext.Provider
           value={{
@@ -188,16 +200,32 @@ export default function Worksheet() {
             dispatch,
           }}
         >
-          <div id="worksheet" className="rounded-top s400-h-pad light-bg">
+          <div id="worksheet" className="rounded-top s400-v-pad light-bg">
             <header className="worksheet-header s400-v-pad s400-h-pad">
-              <h2>Worksheet</h2>
+              {thisWorksheet.template && (
+                <h2 className="template-name">
+                  {thisWorksheet.template.name}
+                </h2>
+              )}
               {thisWorksheet.client && (
-              <h3>
-                Client:
-                <span className="client-header s400-v-pad s400-h-pad dark-bg rounded">
-                  {thisWorksheet.client.name}
-                </span>
-              </h3>
+                <div className="client-header">
+                  <h3 className="client-header-label">Client:</h3>
+                  <h3 className="client-header-name">
+                    {thisWorksheet.client.name}
+                  </h3>
+                </div>
+              )}
+              {thisWorksheet.statement && (
+                <div className="statement-date">
+                  <h3 className="statement-date-label">
+                    Statement Date:
+                  </h3>
+                  <input
+                    type="date"
+                    value={statementDate}
+                    onChange={({ target: { value } }) => setStatementDate(value)}
+                  />
+                </div>
               )}
             </header>
             <form
@@ -207,6 +235,7 @@ export default function Worksheet() {
                 e.preventDefault();
                 const update = {
                   values: worksheetData,
+                  statementDate: new Date(statementDate),
                 };
                 handleStatementUpdate(update, thisWorksheet.statement.id, setReload);
                 setModalContent(<h2>Data stored.</h2>);
@@ -220,6 +249,7 @@ export default function Worksheet() {
                     sectionKey={key}
                     sectionInstance={worksheetData[key]}
                     // worksheetData={worksheetData}
+                    onDialogClose={onDialogClose}
                     worksheetTemplate={thisWorksheet.template.template}
                     dispatch={dispatch}
                     setModalContent={setModalContent}

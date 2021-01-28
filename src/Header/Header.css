@@ -1,19 +1,29 @@
 /*
 */
-#main-header {
-  padding: var(--s400);
+#main-header > .backdrop {
   align-items: flex-start;
 }
 
-#main-header > * {
+#main-header > .backdrop > * {
   flex-basis: auto;
-
+  padding: var(--s400);
+  height: 3.5rem;
 }
 
 #main-header h2 {
   display: inline;
+  margin: 0;
 }
 
+#main-header button {
+  padding: 0;
+  background-color: unset;
+  color: currentColor;
+}
+
+#main-header svg {
+  width: 1.5rem;
+}
 #main-nav > ul {
   list-style: none;
   padding: 0;
@@ -24,6 +34,10 @@
 
 #main-nav > ul > li {
   margin-inline-start: var(--s400);
+}
+
+.logo {
+  max-width: 24px;
 }
 
 .logo-text {

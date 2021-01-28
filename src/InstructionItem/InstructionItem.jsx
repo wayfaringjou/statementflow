@@ -12,11 +12,11 @@ export default function InstructionItem({ componentInstance }) {
 }
 
 InstructionItem.propTypes = {
-  instance: PropTypes.shape({
+  componentInstance: PropTypes.shape({
     instruction: PropTypes.string,
   }),
 };
 
 InstructionItem.defaultProps = {
-  instance: { intruction: '' },
+  componentInstance: { intruction: '' },
 };
