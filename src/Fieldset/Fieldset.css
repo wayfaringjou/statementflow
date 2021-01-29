@@ -1,0 +1,26 @@
+.input-field > * {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.input-field > button {
+  color: var(--dark);
+  background-color: unset;
+  border-radius: 0;
+  height: 100%;
+}
+
+.input-field > button > svg {
+  vertical-align: middle;
+}
+
+.input-field > h3 {
+  margin: 0;
+}
+
+
+.set-total-button {
+  background-color: unset;
+  color: var(--dark);
+}

@@ -3,6 +3,12 @@ import React, { useState } from 'react';
 import ReactDataSheet from 'react-datasheet';
 import 'react-datasheet/lib/react-datasheet.css';
 import './Table.css';
+import Icon from '@mdi/react';
+import {
+  mdiDotsHorizontal, mdiKeyboardReturn, mdiTableRowPlusAfter, mdiTableRowRemove,
+} from '@mdi/js';
+import AppContext from '../AppContext';
+import useClientRect from '../customHooks/useClientRect';
 import WorksheetContext from '../WorksheetContext';
 import { ACTIONS } from '../Worksheet';
 
@@ -33,8 +39,10 @@ export default function Table({
 
   function delRow(grid) {
     if (itemInstance.itemTotal) {
-      if ((grid.length - 1) > itemInstance.itemTotal.cell.row) {
-        grid.pop();
+      if (itemInstance.itemTotal.cell) {
+        if ((grid.length - 1) > itemInstance.itemTotal.cell.row) {
+          grid.pop();
+        }
       }
     } else if (grid.length > 1) {
       grid.pop();
@@ -57,111 +65,145 @@ export default function Table({
     }
     return grid;
   }
-
-  return (
-    <WorksheetContext.Consumer>
-      {({ worksheetData, dispatch }) => (
-        <article className="worksheet-table col span4 span8">
-          <header className="table-header">
-            {componentInstance.componentName && <h3>{componentInstance.componentName}</h3>}
-            {(componentInstance.componentDescription) && (
-              <p>{componentInstance.componentDescription}</p>)}
-          </header>
-          <section className="table-menu">
-            <button type="button" onClick={() => setIsMenuOpen(!isMenuOpen)}>table menu</button>
-            {isMenuOpen && (
-              <ul>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const value = addRow(componentInstance.value);
-                      return dispatch({
-                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
-                      });
-                    }}
-                  >
-                    Add row
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const value = delRow(componentInstance.value);
-                      return dispatch({
-                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
-                      });
-                    }}
-                  >
-                    Delete row
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const value = addCol(componentInstance.value);
-                      return dispatch({
-                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
-                      });
-                    }}
-                  >
-                    Add column
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const value = delCol(componentInstance.value);
-                      return dispatch({
-                        value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
-                      });
-                    }}
-                  >
-                    Delete column
-                  </button>
-                </li>
-              </ul>
-
-            )}
-          </section>
-          <section className="table-content">
-            <ReactDataSheet
-              data={componentInstance.value}
-              valueRenderer={(cell) => cell.value}
-              onSelect={(selection) => setSelected(selection)}
-              onCellsChanged={(changes) => {
-                const value = onCellsChanged(componentInstance.value, changes);
-                return dispatch({
-                  value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
-                });
-              }}
-            />
-          </section>
-          <button
-            type="button"
-            onClick={() => {
-              if (selected.end) {
-                dispatch({
-                  type: ACTIONS.SET_ITEM_TOTAL,
+  const [rect, ref] = useClientRect();
+  const handleRenderDialog = (closeDialogFunc, dispatchFunc) => (
+    <ul
+      id="table-menu-dialog"
+      onMouseOut={() => {
+        closeDialogFunc();
+      }}
+      onBlur={closeDialogFunc()}
+    >
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            const value = addRow(componentInstance.value);
+            closeDialogFunc();
+            return dispatchFunc({
+              value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
+            });
+          }}
+        >
+          <Icon
+            path={mdiTableRowPlusAfter}
+            title="Add row to table"
+            color="currentColor"
+          />
+          <span className="menu-option">
+            Add row to table
+          </span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            const value = delRow(componentInstance.value);
+            closeDialogFunc();
+            return dispatchFunc({
+              value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
+            });
+          }}
+        >
+          <Icon
+            path={mdiTableRowRemove}
+            title="Remove row from table"
+            color="currentColor"
+          />
+          <span className="menu-option">
+            Delete row from table
+          </span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          onClick={() => {
+            if (selected.end) {
+              dispatchFunc({
+                type: ACTIONS.SET_ITEM_TOTAL,
+                sectionKey,
+                itemKey,
+                componentKey,
+                itemTotal: {
                   sectionKey,
                   itemKey,
                   componentKey,
-                  itemTotal: {
-                    sectionKey,
-                    itemKey,
-                    componentKey,
-                    cell: {
-                      row: selected.end.i,
-                      col: selected.end.j,
-                    },
-                    value: componentInstance.value[selected.end.i][selected.end.j].value,
+                  cell: {
+                    row: selected.end.i,
+                    col: selected.end.j,
                   },
-                });
-              }
-            }}
-          >
-            Set selected cell as item total
-          </button>
-          {/* componentInstance.componentTotal && (
+                  value: componentInstance.value[selected.end.i][selected.end.j].value,
+                },
+              });
+            }
+            closeDialogFunc();
+          }}
+        >
+          <Icon
+            path={mdiKeyboardReturn}
+            title="Set last selected cell as item total"
+            color="currentColor"
+          />
+          Set last selected cell as item total
+        </button>
+      </li>
+    </ul>
+  );
+
+  return (
+    <AppContext.Consumer>
+      {({
+        isDialogOpen,
+        onDialogToggle,
+        onDialogClose,
+        setDialogContent,
+        setDialogOriginPosition,
+      }) => (
+        <WorksheetContext.Consumer>
+          {({ worksheetData, dispatch }) => (
+            <article className="worksheet-table col span4 span8">
+              <header className="table-header flex-row-parent">
+                {componentInstance.componentName && <h4>{componentInstance.componentName}</h4>}
+                <button
+                  type="button"
+                  ref={ref}
+                  onClick={() => {
+                    setDialogOriginPosition(rect);
+                    setDialogContent(
+                      handleRenderDialog(onDialogClose, dispatch),
+                    );
+                    onDialogToggle();
+                  }}
+                >
+                  <Icon
+                    path={mdiDotsHorizontal}
+                    title="Item menu"
+                    size={1}
+                  />
+                </button>
+
+              </header>
+              <section className="component-description">
+                {(componentInstance.componentDescription) && (
+                <p>{componentInstance.componentDescription}</p>)}
+              </section>
+              <section className="table-content">
+                <ReactDataSheet
+                  data={componentInstance.value}
+                  valueRenderer={(cell) => cell.value}
+                  onSelect={(selection) => setSelected(selection)}
+                  onCellsChanged={(changes) => {
+                    const value = onCellsChanged(componentInstance.value, changes);
+                    return dispatch({
+                      value, sectionKey, itemKey, componentKey, type: ACTIONS.CHANGE_DATA,
+                    });
+                  }}
+                />
+              </section>
+
+              {/* componentInstance.componentTotal && (
             <>
               <h4>
                 Item total:
@@ -186,8 +228,10 @@ export default function Table({
               </button>
             </>
           ) */}
-        </article>
+            </article>
+          )}
+        </WorksheetContext.Consumer>
       )}
-    </WorksheetContext.Consumer>
+    </AppContext.Consumer>
   );
 }

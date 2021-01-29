@@ -21,3 +21,31 @@
 .table-content tr:nth-child(even) {
   background-color: var(--shade);
 }
+
+.table-header {
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: thin solid var(--shade);
+  margin-bottom: var(--s400);
+}
+
+.table-header > * {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+}
+
+.table-header > button {
+  color: var(--dark);
+  background-color: unset;
+  border-radius: 0;
+  height: 100%;
+}
+
+.table-header > button > svg {
+  vertical-align: middle;
+}
+
+.table-header > h3 {
+  margin: 0;
+}

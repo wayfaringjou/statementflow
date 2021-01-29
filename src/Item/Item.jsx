@@ -7,13 +7,14 @@ import componentHelper from '../helpers/componentHelper';
 import useClientRect from '../customHooks/useClientRect';
 import Note from '../Note';
 import './Item.css';
+import { ACTIONS } from '../Worksheet';
 
 export default function Item({
   itemInstance,
   sectionKey,
   itemKey,
   // worksheetTemplate,
-  // dispatch,
+  dispatch,
   // setModalContent,
   // onModalOpen,
   // onModalClose,
@@ -100,7 +101,7 @@ export default function Item({
             >
               <Icon
                 path={mdiDotsHorizontal}
-                title="New Worksheet"
+                title="Item menu"
                 size={1}
                 color="currentColor"
               />
@@ -112,13 +113,32 @@ export default function Item({
               .map((key) => componentHelper(itemInstance, sectionKey, itemKey, key))}
           </section>
           {itemInstance.itemTotal && (
-          <section className="item-total shade-bg s400-v-pad s400-h-pad rounded">
+          <section className="item-total s400-v-pad s400-h-pad rounded">
             <h4>{`${itemInstance.itemName}: ${itemInstance.itemTotal.value}`}</h4>
+            <button
+              type="button"
+              onClick={() => {
+                dispatch({
+                  type: ACTIONS.ADD_NOTE,
+                  sectionKey,
+                  itemKey,
+                  itemNote: {
+                    name: itemInstance.itemName,
+                    description: itemInstance.itemDescription,
+                  },
+                });
+              }}
+            >
+              Add note for this total
+            </button>
           </section>
           )}
           {itemInstance.itemNote && (
           <Note
             noteContents={itemInstance.itemNote}
+            itemTotal={itemInstance.itemTotal}
+            sectionKey={sectionKey}
+            itemKey={itemKey}
           />
           )}
         </article>
@@ -135,9 +155,7 @@ Item.propTypes = {
     itemNote: PropTypes.shape({
       description: PropTypes.string,
       name: PropTypes.string,
-      tableReference: PropTypes.shape({
-        cols: PropTypes.arrayOf(PropTypes.number),
-      }),
+      tableReference: PropTypes.arrayOf(PropTypes.array),
     }),
     itemPosition: PropTypes.number,
     itemTotal: PropTypes.shape({

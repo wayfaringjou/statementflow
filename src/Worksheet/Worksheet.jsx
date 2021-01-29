@@ -21,6 +21,8 @@ export const ACTIONS = {
   ADD_ITEM: 'add-item',
   SET_ITEM_TOTAL: 'set-item-total',
   UNSET_ITEM_TOTAL: 'unset-item-total',
+  ADD_NOTE: 'add-note',
+  DEL_NOTE: 'del-note',
 };
 
 function reducer(state, action) {
@@ -51,12 +53,21 @@ function reducer(state, action) {
         // Set new value inside component to the value passed by the payload
         objectPath.set(modifiedState, `${componentPath}.value`, action.value);
       }
-      console.log(objectPath.get(modifiedState, `${itemPath}.itemTotal`));
+
       // Update values for components set as item total, check if state has total key for item
-      if (objectPath.has(modifiedState, `${itemPath}.itemTotal`)) {
+      // and the changed component matches the one set as total
+      if (objectPath
+        .has(modifiedState, `${itemPath}.itemTotal`)
+      && componentKey === objectPath
+        .get(modifiedState, `${itemPath}.itemTotal.componentKey`)) {
+        // Update item value if it is the same path
+        const stateItemTotal = objectPath.get(modifiedState, `${itemPath}.itemTotal`);
+
+        console.log(stateItemTotal);
         // For tables, change value inside cell
-        if (objectPath.get(modifiedState, `${componentPath}.type`) === 'table') {
+        if (objectPath.get(modifiedState, `${componentPath}.componentType`) === 'table') {
           const { row, col } = objectPath.get(modifiedState, `${itemPath}.itemTotal.cell`);
+          console.log(action.value);
           objectPath.set(modifiedState, `${itemPath}.itemTotal.value`, action.value[row][col].value);
         } else {
           // For fields, change flat value
@@ -83,9 +94,13 @@ function reducer(state, action) {
     case ACTIONS.UNSET_ITEM_TOTAL:
       objectPath.del(modifiedState, `${sectionKey}.items${itemKey}.itemTotal`);
       return modifiedState;
-    case ACTIONS.SET_AS_NOTE:
+    case ACTIONS.ADD_NOTE:
+      console.log(action);
+      objectPath.set(modifiedState, `${itemPath}.itemNote`, action.itemNote);
       return modifiedState;
-    case ACTIONS.UNSET_AS_NOTE:
+    case ACTIONS.DEL_NOTE:
+      console.log(action);
+      objectPath.del(modifiedState, `${itemPath}.itemNote`);
       return modifiedState;
     default:
       return state;
@@ -167,7 +182,6 @@ export default function Worksheet() {
       fetchResponse: fetchedWorksheet.statement.values,
     });
     if (fetchedWorksheet.statement) {
-      console.log(fetchedWorksheet.statement.statementDate);
       const formatedDate = new Intl.DateTimeFormat('fr-CA', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(fetchedWorksheet.statement.statementDate));
       setStatementDate(formatedDate);
     }
@@ -183,7 +197,6 @@ export default function Worksheet() {
   }
 
   const sectionKeys = Object.keys(worksheetData);
-  console.log(thisWorksheet.template);
   return (
     <AppContext.Consumer>
       {({

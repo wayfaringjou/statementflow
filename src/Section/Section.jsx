@@ -152,6 +152,7 @@ export default function Section({
                 itemKey={key}
                 sectionKey={sectionKey}
                 itemInstance={sectionInstance.items[key]}
+                dispatch={dispatch}
               />
             ))}
         </section>

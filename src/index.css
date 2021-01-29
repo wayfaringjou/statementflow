@@ -17,11 +17,11 @@
   */
   --dark: #2e2c2f;
   --light: #f9f8f8;
-  --shade: #cdd3ce;
+  --shade: #e1e3e5;
   --shade-dark: #c0c1c3;
   --primary: #4600e0;
   --primary-shade: #0000ad;
-  --secondary: #006c67;
+  --secondary: #0daf94;
   --secondary-shade: #0091a0;
   --tertiary: #f9e900;
   --tertiary-shade: #c2b700;
@@ -141,13 +141,15 @@ label {
   text-transform: uppercase;
 }
 
-input {
+input,
+textarea {
   border: 0;
   border-bottom: medium solid var(--primary);
-  background-color: unset;
+  background-color: var(--shade);
   padding: 0 var(--s400);
   margin-bottom: 1rem;
   width: 100%;
+  font-size: var(--s500);
 }
 
 main {

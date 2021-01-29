@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Icon from '@mdi/react';
+import { mdiKeyboardReturn } from '@mdi/js';
 import WorksheetContext from '../WorksheetContext';
 import Input from '../Input';
 import { ACTIONS } from '../Worksheet';
+import './Fieldset.css';
 
 export default function Fieldset({
   componentInstance, sectionKey, itemKey, componentKey,
@@ -14,8 +17,10 @@ export default function Fieldset({
       {({ dispatch }) => (
         <article className="worksheet-fieldset col span4 span8">
           <fieldset form="worksheet" key={componentKey}>
-            {componentInstance.name && <legend><h4>{componentInstance.name}</h4></legend>}
-            {(componentInstance.description) && <p>{componentInstance.description}</p>}
+            {componentInstance.componentName && (
+              <legend><h4>{componentInstance.componentName}</h4></legend>)}
+            {(componentInstance.componentDescription) && (
+              <p>{componentInstance.componentDescription}</p>)}
             {fieldKeys.map((fieldKey) => (
               <div className="input-field" key={`${componentKey}-${fieldKey}`}>
                 <Input
@@ -28,6 +33,7 @@ export default function Fieldset({
                   label={componentInstance.fields[fieldKey].label}
                 />
                 <button
+                  className="set-total-button"
                   type="button"
                   onClick={() => dispatch({
                     type: ACTIONS.SET_ITEM_TOTAL,
@@ -43,7 +49,12 @@ export default function Fieldset({
                     },
                   })}
                 >
-                  Set field as item total
+                  <Icon
+                    path={mdiKeyboardReturn}
+                    title="Set field as item total"
+                    size={1}
+                    color="currentColor"
+                  />
                 </button>
               </div>
             ))}

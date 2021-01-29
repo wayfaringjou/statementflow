@@ -1,0 +1,10 @@
+.item-note {
+  margin-top: var(--s400);
+}
+
+.item-note label {
+  font-size: var(--s600);
+  text-transform: unset;
+  font-weight: 700;
+  color: var(--secondary);
+}
