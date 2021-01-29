@@ -280,7 +280,7 @@ export default function Worksheet() {
                 <button type="submit">Save</button>
                 <button
                   type="button"
-                  onClick={() => generateDoc(worksheetData, 'statement')}
+                  onClick={() => generateDoc({ thisWorksheet, worksheetData }, 'statement')}
                 >
                   Generate Docx
                 </button>
