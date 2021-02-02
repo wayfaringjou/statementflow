@@ -1,3 +1,4 @@
+/*
 .item-header {
   justify-content: space-between;
   align-items: center;
@@ -30,4 +31,50 @@
   margin: 0;
   color: var(--secondary);
   font-weight: 700;
+}
+*/
+
+.worksheet-item {
+  background-color: var(--shade-light);
+  border-radius: 0.5rem;
+  padding: 1rem 0;
+  border: thin solid var(--shade);
+}
+
+.item-header {
+  padding: 1rem 1rem;
+  background-color: var(--secondary);
+  color: var(--light);
+  margin: 0;
+  border-radius: 0.5rem;
+}
+
+.item-header > h3 {
+  margin: 0;
+  border-bottom: thin solid var(--light);
+}
+
+.item-total {
+  border: thick solid var(--secondary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: var(--secondary);
+  background-color: var(--light);
+  text-align: right;
+}
+
+.item-total > h4 {
+  text-align: left;
+  font-size: var(--s700);
+  font-weight: 900;
+}
+
+.total-caption {
+  text-transform: uppercase;
+  color: var(--dark);
+  font-weight: 500;
+  text-align: left;
+}
+
+.add-note {
 }

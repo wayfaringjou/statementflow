@@ -5,7 +5,7 @@ import { Packer } from 'docx';
 // Access deep properties using a path
 import objectPath from 'object-path';
 import Icon from '@mdi/react';
-import { mdiPencilOutline } from '@mdi/js';
+import { mdiContentSaveOutline, mdiFileExportOutline, mdiPencilOutline } from '@mdi/js';
 import useFetch from '../customHooks/useFetch';
 import config from '../config';
 import WorksheetContext from '../WorksheetContext';
@@ -243,7 +243,7 @@ export default function Worksheet() {
             </header>
             <form
               id="worksheet"
-              className="grid-wrapper"
+              className="grid-ele-wrapper"
               onSubmit={(e) => {
                 e.preventDefault();
                 const update = {
@@ -270,20 +270,39 @@ export default function Worksheet() {
                     onModalClose={onModalClose}
                   />
                 ))}
-              <section id="save-prompt" className="col span4 span8 span12">
+              <section id="save-prompt" className="col span4 span8 span12 dark-bg">
                 <h2>Save and export</h2>
                 <p>
                   Click &apos;Save&apos; to store data or
                   &apos;Generate Docx&apos;
                   to download a statement in &apos;.docx&apos; format.
                 </p>
-                <button type="submit">Save</button>
-                <button
-                  type="button"
-                  onClick={() => generateDoc({ thisWorksheet, worksheetData }, 'statement')}
-                >
-                  Generate Docx
-                </button>
+                <section className="save-actions">
+
+                  <button type="submit">
+                    <Icon
+                      path={mdiContentSaveOutline}
+                      title="Save data"
+                      color="currentColor"
+                    />
+                    <span className="btn-label">
+                      Save
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => generateDoc({ thisWorksheet, worksheetData }, 'statement')}
+                  >
+                    <Icon
+                      path={mdiFileExportOutline}
+                      title="Export as docx"
+                      color="currentColor"
+                    />
+                    <span className="btn-label">
+                      Export as Docx
+                    </span>
+                  </button>
+                </section>
               </section>
             </form>
           </div>

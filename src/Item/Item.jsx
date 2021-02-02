@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mdiDotsHorizontal, mdiNotePlusOutline, mdiNoteRemoveOutline } from '@mdi/js';
+import {
+  mdiDotsHorizontal, mdiNotebookEditOutline, mdiNotePlusOutline, mdiNoteRemoveOutline,
+} from '@mdi/js';
 import Icon from '@mdi/react';
 import AppContext from '../AppContext';
 import componentHelper from '../helpers/componentHelper';
@@ -18,6 +20,7 @@ export default function Item({
   // setModalContent,
   // onModalOpen,
   // onModalClose,
+  reloadSectionTotal,
 }) {
   const componentKeys = Object.keys(itemInstance.components);
   const [rect, ref] = useClientRect();
@@ -82,41 +85,35 @@ export default function Item({
         setDialogContent,
         setDialogOriginPosition,
       }) => (
-        <article className="worksheet-item col span4 span8 span12">
-          <header className="item-header flex-row-parent">
+        <article className="worksheet-item col span4 span8 span12 grid-ele-wrapper">
+          <header className="item-header grid-ele-header col span4 span8 span12">
             <h3>{itemInstance.itemName}</h3>
-            <button
-              type="button"
-              ref={ref}
-              className="dialog-parent"
-              aria-expanded={isDialogOpen}
-              aria-controls="item-menu-dialog"
-              onClick={() => {
-                setDialogOriginPosition(rect);
-                setDialogContent(
-                  handleRenderDialog(onDialogClose),
-                );
-                onDialogToggle();
-              }}
-            >
-              <Icon
-                path={mdiDotsHorizontal}
-                title="Item menu"
-                size={1}
-                color="currentColor"
-              />
-            </button>
           </header>
-          <section className="item-components">
-            {/* This function takes item's instance and keys */}
-            {componentKeys
-              .map((key) => componentHelper(itemInstance, sectionKey, itemKey, key))}
+
+          {(itemInstance.itemDescription) && (
+          <section className="grid-ele-desc col span4 span8 span12">
+            <p>{itemInstance.itemDescription}</p>
           </section>
+          )}
+
+          <section className="item-components grid-ele-content col span4 span8 span12 grid-ele-wrapper">
+            {/* componentHelper takes item's
+             instance and keys as argumnets */}
+            {componentKeys
+              .map((key) => componentHelper(itemInstance,
+                sectionKey, itemKey, key, reloadSectionTotal))}
+          </section>
+
           {itemInstance.itemTotal && (
-          <section className="item-total s400-v-pad s400-h-pad rounded">
+          <section className="item-total col span4 span8 span12">
+            <p className="total-caption">
+              Total value for:
+            </p>
             <h4>{`${itemInstance.itemName}: ${itemInstance.itemTotal.value}`}</h4>
+
             <button
               type="button"
+              className="add-note"
               onClick={() => {
                 dispatch({
                   type: ACTIONS.ADD_NOTE,
@@ -129,10 +126,19 @@ export default function Item({
                 });
               }}
             >
-              Add note for this total
+              <Icon
+                path={mdiNotebookEditOutline}
+                title="Add note reference for this total"
+                color="currentColor"
+              />
+              <span className="btn-label">
+                Add note for total
+              </span>
             </button>
+
           </section>
           )}
+
           {itemInstance.itemNote && (
           <Note
             noteContents={itemInstance.itemNote}

@@ -1,5 +1,15 @@
-.save-prompt {
-  padding-top: 1rem;
+#save-prompt {
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.save-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-actions > button + button {
+  margin-left: 1rem;
 }
 
 .client-header-name {

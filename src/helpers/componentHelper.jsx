@@ -9,7 +9,8 @@ const Components = {
   instructionitem: InstructionItem,
 };
 
-export default function componentHelper(itemInstance, sectionKey, itemKey, componentKey) {
+export default function componentHelper(itemInstance,
+  sectionKey, itemKey, componentKey, reloadSectionTotal) {
   // Set component instance from item instance and key
   const componentInstance = itemInstance.components[componentKey];
   // Check for component type in 'Components'
@@ -22,6 +23,7 @@ export default function componentHelper(itemInstance, sectionKey, itemKey, compo
       sectionKey,
       itemInstance,
       componentInstance,
+      reloadSectionTotal,
     });
   }
   // Return this prompt if component type isn't found

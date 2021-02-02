@@ -19,8 +19,22 @@
   margin: 0;
 }
 
-
 .set-total-button {
   background-color: unset;
   color: var(--dark);
+}
+
+.fieldset-content {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  padding: 0 1rem;
+}
+
+.fieldset-content input {
+  height: 2.5rem;
+}
+
+.fieldset-actions {
+  display: flex;
+  justify-content: flex-end;
 }

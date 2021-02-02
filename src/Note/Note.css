@@ -1,5 +1,15 @@
 .item-note {
-  margin-top: var(--s400);
+  padding: 1rem;
+  background-color: var(--light);
+  border: thick solid var(--secondary);
+  border-radius: 0.5rem;
+}
+
+.note-action {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
 }
 
 .item-note label {
@@ -7,4 +17,40 @@
   text-transform: unset;
   font-weight: 700;
   color: var(--secondary);
+}
+
+.item-note textarea {
+  margin: 0;
+}
+
+.note-caption {
+  text-transform: uppercase;
+  color: var(--dark);
+  font-weight: 500;
+  text-align: left;
+  margin: 0;
+  align-self: center;
+}
+
+.reference-action {
+  margin-top: 1rem;
+  justify-content: flex-end;
+}
+
+.table-reference {
+  overflow-x: auto;
+}
+
+.table-reference table {
+  border: 0;
+  min-width: 100%;
+}
+
+.table-reference tr:first-of-type {
+  color: var(--secondary);
+}
+
+.table-reference td {
+  border: 0;
+  width: max-content;
 }

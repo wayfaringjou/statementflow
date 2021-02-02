@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto:400");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap");
 
 :root {
   /* Design tokens */
@@ -19,6 +19,7 @@
   --light: #f9f8f8;
   --shade: #e1e3e5;
   --shade-dark: #c0c1c3;
+  --shade-light: #eaecf0;
   --primary: #4600e0;
   --primary-shade: #0000ad;
   --secondary: #0daf94;
@@ -77,7 +78,7 @@ h2,
 h3,
 h4,
 h5 {
-  margin: 0 0 1em;
+  margin: 0 0 1rem;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   line-height: 1.3em;
@@ -129,12 +130,73 @@ button {
   background-color: var(--primary);
   color: var(--light);
   border: 0;
-  border-radius: var(--s300);
-  padding: var(--s400);
+  padding: 0;
+  border-radius: 0.25rem;
+  padding-right: 1rem;
+  padding-left: 0.75rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  min-width: 4rem;
+  height: 2.25rem;
+  width: max-content;
+}
+
+button > svg {
+  width: 1.125rem;
+  margin-right: 0.25rem;
+}
+
+button > .btn-label {
+  margin-left: 0.25rem;
+}
+
+button > * {
+  vertical-align: middle;
+}
+
+button:disabled {
+  background-color: var(--shade);
+  color: var(--dark);
+}
+
+button.outlined {
+  background-color: unset;
+  border: thin solid var(--shade);
+  color: var(--primary);
+}
+
+button.text {
+  background-color: unset;
+  border: 0;
+  color: var(--primary);
+}
+
+button.outlined:disabled,
+button.text:disabled {
+  color: var(--shade-dark);
+}
+
+button.toggle {
+  padding: 0.75rem;
+  margin: 0 0.0625rem;
+  height: unset;
+  min-width: unset;
+  background-color: var(--light);
+  color: currentColor;
+  border: thin solid var(--shade-dark);
+}
+
+button.toggle > svg {
+  width: 1.5rem;
+  padding: 0;
+  margin: 0;
 }
 
 fieldset {
   border: 0;
+  padding: 0;
+  margin: 0;
 }
 
 label {
@@ -145,16 +207,45 @@ input,
 textarea {
   border: 0;
   border-bottom: medium solid var(--primary);
-  background-color: var(--shade);
+  background-color: var(--shade-light);
   padding: 0 var(--s400);
   margin-bottom: 1rem;
   width: 100%;
-  font-size: var(--s500);
+  font-size: var(--s400);
+  border-radius: 0.25rem;
+}
+
+legend {
+  width: 100%;
 }
 
 main {
   margin: 0;
   padding: 0;
+}
+
+table {
+  width: max-content;
+  border-collapse: collapse;
+  border-bottom: thick solid var(--primary);
+  width: 100%;
+}
+
+tr:nth-of-type(even) {
+  background-color: var(--shade-light);
+}
+td:first-of-type {
+  border-left: 0;
+}
+
+td {
+  min-width: 1vw;
+  min-height: 1.75rem;
+  height: 2rem;
+  padding: 0.35rem;
+  border: thin solid var(--shade-dark);
+  text-align: center;
+  vertical-align: middle;
 }
 /* Composition */
 
@@ -235,7 +326,7 @@ main {
 
 /* Utilities */
 
-.grid-wrapper {
+.grid-ele-wrapper {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--s400);
@@ -296,6 +387,54 @@ main {
   white-space: nowrap;
 }
 
+.card {
+  padding: 0.5rem 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 8px 0 var(--shade-dark);
+  border: thin solid var(--shade-dark);
+  margin: 0 0 1rem;
+  background-color: var(--light);
+}
+
+.card-header {
+  padding: 0 1rem;
+}
+
+.card-header > h4 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  border-bottom: thin solid var(--shade-dark);
+}
+
+.card-subtitle {
+  padding: 0 1rem;
+  color: var(--dark);
+}
+
+.card-subtitle p {
+  margin: 0 0 1rem;
+}
+
+.card-rich-content {
+  padding: 0.5rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.card-actions {
+  padding: 0;
+}
+
+.card-actions > ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: flex-end;
+}
+
+.card-actions > ul > li {
+}
+
 @media only screen and (min-width: 36em) {
   /* [class*='grid-'] {} */
   h1 {
@@ -323,7 +462,7 @@ main {
     font-size: 0.8rem;
   }
 
-  .grid-wrapper {
+  .grid-ele-wrapper {
     display: grid;
     grid-template-columns: repeat(8, minmax(0, 1fr));
     gap: var(--s400);
@@ -346,8 +485,20 @@ main {
   }
 }
 
+.grid-ele-header {
+}
+
+.grid-ele-menu {
+}
+
+.grid-ele-desc {
+}
+
+.gird-ele-context {
+}
+
 @media only screen and (min-width: 48em) {
-  .grid-wrapper {
+  .grid-ele-wrapper {
     gap: var(--s600);
   }
 
@@ -357,7 +508,7 @@ main {
 }
 
 @media only screen and (min-width: 60em) {
-  .grid-wrapper {
+  .grid-ele-wrapper {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
   }

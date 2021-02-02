@@ -1,3 +1,4 @@
+/*
 .worksheet-section {
 }
 
@@ -26,4 +27,52 @@
 
 .section-header > h2 {
   margin: 0;
+}
+*/
+
+.section-header {
+  padding: 1rem;
+}
+
+.section-header > h2 {
+  margin: 0;
+}
+
+.section-desc {
+  border-radius: 0.5rem;
+  background-color: var(--shade);
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.section-actions {
+  padding: 0 1rem;
+}
+
+.section-desc > p {
+  margin-bottom: 0;
+}
+
+.section-add-remove {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-end;
+}
+
+.section-total {
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.section-total > h3 {
+  font-weight: 900;
+  text-align: right;
+  margin: 0;
+}
+
+.section-total > h3:first-of-type {
+  border-bottom: medium solid var(--light);
+  text-align: left;
 }

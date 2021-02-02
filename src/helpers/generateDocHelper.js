@@ -10,8 +10,6 @@ import {
   TextRun,
   Header,
   SectionVerticalAlignValue,
-  indent,
-  IIndentAttributesProperties,
 } from 'docx';
 
 export default function CreateDocument(data) {
@@ -65,7 +63,9 @@ export default function CreateDocument(data) {
       );
       itemKeys.forEach((itemKey) => {
         const { itemName } = data.worksheetData[sectionKey].items[itemKey];
-        const itemTotal = data.worksheetData[sectionKey].items[itemKey].itemTotal.value;
+        const itemTotal = data.worksheetData[sectionKey].items[itemKey].itemTotal
+          ? data.worksheetData[sectionKey].items[itemKey].itemTotal.value
+          : 0;
         statementElements.push(
           new Paragraph({
             children: [
