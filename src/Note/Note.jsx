@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDataSheet from 'react-datasheet';
 import objectPath from 'object-path';
 import Icon from '@mdi/react';
@@ -10,16 +10,17 @@ import './Note.css';
 import { ACTIONS } from '../Worksheet';
 
 const constructRefTable = (wsData, totalObj) => {
-  const { sectionKey, itemKey, componentKey } = totalObj;
+  const {
+    sectionKey, itemKey, componentKey, cell,
+  } = totalObj;
   const tableData = [...objectPath.get(wsData,
     `${sectionKey}.items.${itemKey}.components.${componentKey}.value`)];
   const refTable = tableData.map((row) => {
     const refRow = [];
     refRow.push(row[0]);
-    refRow.push(row[row.length - 1]);
+    refRow.push(row[cell.col]);
     return refRow;
   });
-  refTable.unshift([{ disabledEvents: true, value: 'Description' }, { disabledEvents: true, value: 'Amount' }]);
   return refTable;
 };
 
@@ -30,7 +31,13 @@ export default function Note({
   itemKey,
 }) {
   const [description, setDescription] = useState(noteContents.description);
-  const [tableReference, setTableReference] = useState([]);
+
+  const [tableReference, setTableReference] = useState(noteContents.tableReference);
+
+  useEffect(() => {
+    console.log('reloaded');
+    setTableReference(noteContents.tableReference);
+  });
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
@@ -94,11 +101,21 @@ export default function Note({
 
                 {(noteContents.tableReference) && (
                   <table>
+                    <thead>
+                      <td>Description</td>
+                      <td>Amount</td>
+                    </thead>
                     <tbody>
-                      {noteContents.tableReference.map((row) => (
-                        <tr>
-                          {row.map((cell) => (
-                            <td>{cell.value}</td>
+                      {noteContents.tableReference.map((row, rowI) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <tr key={`row-${rowI}`}>
+                          {row.map((cell, cellI) => (
+                            <td
+                              // eslint-disable-next-line react/no-array-index-key
+                              key={`${rowI}-${cellI}`}
+                            >
+                              {cell.value}
+                            </td>
                           ))}
                         </tr>
                       ))}

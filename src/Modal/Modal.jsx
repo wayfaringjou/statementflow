@@ -1,3 +1,5 @@
+import { mdiClose } from '@mdi/js';
+import Icon from '@mdi/react';
 import React from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.css';
@@ -9,8 +11,24 @@ export default function Modal({ modalContent, modalOpen, onModalClose }) {
     <>
       <div className="overlay" />
       <aside className="modal">
-        <button type="button" onClick={onModalClose}>Close</button>
-        <span>{modalContent}</span>
+        <section className="dialog-action flow">
+          <button
+            className="toggle"
+            type="button"
+            onClick={onModalClose}
+          >
+            <Icon
+              path={mdiClose}
+              title="Close dialog"
+              color="currentColor"
+            />
+          </button>
+        </section>
+        <section
+          className="dialog-content"
+        >
+          {modalContent}
+        </section>
       </aside>
     </>,
     document.getElementById('portal'),

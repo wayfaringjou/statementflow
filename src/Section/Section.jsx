@@ -43,11 +43,12 @@ export default function Section({
   const addItemModal = (
     <>
       <h3>Choose item to add to this section.</h3>
-      <ul>
+      <ul className="flow">
         {(inactiveKeys().length > 0) && inactiveKeys().map((itemKey) => (
           <li key={itemKey}>
             <button
               type="button"
+              className="outlined"
               onClick={() => {
                 dispatch({
                   sectionKey, itemKey, type: ACTIONS.ADD_ITEM, template: worksheetTemplate,
@@ -65,11 +66,12 @@ export default function Section({
   const removeItemModal = (
     <>
       <h3>Choose item to remove from this section.</h3>
-      <ul>
+      <ul className="flow">
         {(activeKeys().length > 0) && activeKeys().map((itemKey) => (
           <li key={itemKey}>
             <button
               type="button"
+              className="outlined"
               onClick={() => {
                 dispatch({ sectionKey, itemKey, type: ACTIONS.DEL_ITEM });
                 onModalClose();

@@ -74,6 +74,28 @@ function reducer(state, action) {
           objectPath.set(modifiedState, `${itemPath}.itemTotal.value`, action.value);
         }
       }
+
+      // If item has a note and a table reference
+      // And if the table referenced changed value
+      // Update values for the note
+      if ((objectPath
+        .has(modifiedState, `${itemPath}.itemNote`)
+        && objectPath
+          .has(modifiedState, `${itemPath}.itemNote.tableReference`))
+        && componentKey === objectPath
+          .get(modifiedState, `${itemPath}.itemTotal.componentKey`)
+      ) {
+        const refTable = action.value.map((row) => {
+          const refRow = [];
+          const totalCol = objectPath.get(modifiedState, `${itemPath}.itemTotal.cell.col`);
+          refRow.push(row[0]);
+          refRow.push(row[totalCol]);
+          return refRow;
+        });
+        console.log(refTable);
+        objectPath.set(modifiedState, `${itemPath}.itemNote.tableReference`, refTable);
+      }
+
       // return mutated state
       return modifiedState;
     case ACTIONS.DEL_ITEM:
@@ -90,6 +112,28 @@ function reducer(state, action) {
       return modifiedState;
     case ACTIONS.SET_ITEM_TOTAL:
       objectPath.set(modifiedState, `${sectionKey}.items.${itemKey}.itemTotal`, action.itemTotal);
+
+      if ((objectPath
+        .has(modifiedState, `${itemPath}.itemNote`)
+        && objectPath
+          .has(modifiedState, `${itemPath}.itemNote.tableReference`))
+        && componentKey === objectPath
+          .get(modifiedState, `${itemPath}.itemTotal.componentKey`)
+      ) {
+        console.log(action);
+        const tableData = objectPath
+          .get(modifiedState, `${componentPath}.value`);
+        const refTable = tableData.map((row) => {
+          const refRow = [];
+          const totalCol = objectPath.get(modifiedState, `${itemPath}.itemTotal.cell.col`);
+          refRow.push(row[0]);
+          refRow.push(row[totalCol]);
+          return refRow;
+        });
+        console.log(refTable);
+        objectPath.set(modifiedState, `${itemPath}.itemNote.tableReference`, refTable);
+      }
+
       return modifiedState;
     case ACTIONS.UNSET_ITEM_TOTAL:
       objectPath.del(modifiedState, `${sectionKey}.items${itemKey}.itemTotal`);

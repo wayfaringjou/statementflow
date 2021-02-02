@@ -10,12 +10,12 @@
 }
 */
 .overlay {
-  position:fixed;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 1000;
 }
 
@@ -28,5 +28,34 @@
   padding: var(--s600);
   z-index: 1000;
   width: 85vw;
+  border-radius: 0.5rem;
 }
 
+.dialog-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.dialog-content > ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  flex-flow: column wrap;
+}
+
+.dialog-content button {
+  width: 100%;
+  height: max-content;
+  padding: 0.25rem 0;
+}
+
+.dialog-content li {
+  width: 100%;
+}
+
+.dialog-content {
+  --metric-rythm: 1rem;
+}

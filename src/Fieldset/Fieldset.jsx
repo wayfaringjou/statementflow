@@ -52,6 +52,8 @@ export default function Fieldset({
                     label={componentInstance.fields[fieldKey].label}
                     type={componentInstance.fields[fieldKey].type}
                   />
+                  {componentInstance.fields[fieldKey].type === 'number' && (
+
                   <section className="card-actions fieldset-actions">
                     <button
                       className="set-total-button text"
@@ -84,6 +86,7 @@ export default function Fieldset({
                       </span>
                     </button>
                   </section>
+                  )}
                 </div>
               ))}
             </section>
