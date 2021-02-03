@@ -64,13 +64,20 @@ p {
 
 a {
   color: currentColor;
-  text-decoration-color: var(--tertiary);
-  text-decoration-thickness: 2px;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.12rem;
 }
 
 a:hover {
-  color: var(--tertiary);
-  text-decoration-color: var(--secondary);
+  color: currentColor;
+  text-decoration-color: var(--tertiary);
+}
+
+:focus {
+  outline: 0;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.25rem currentColor;
+  color: currentColor;
 }
 
 h1,
@@ -436,11 +443,20 @@ td {
   justify-content: flex-end;
 }
 
-.card-actions > ul > li {
+.media-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.media-container > img {
+  width: 100%;
+  position: absolute;
 }
 
 @media only screen and (min-width: 36em) {
-  /* [class*='grid-'] {} */
   h1 {
     font-size: 3.052rem;
   }
@@ -489,6 +505,7 @@ td {
   }
 }
 
+/*
 .grid-ele-header {
 }
 
@@ -500,14 +517,11 @@ td {
 
 .gird-ele-context {
 }
+*/
 
 @media only screen and (min-width: 48em) {
   .grid-ele-wrapper {
     gap: var(--s600);
-  }
-
-  .main-container {
-    margin: 0 var(--s600);
   }
 }
 

@@ -1,0 +1,37 @@
+#worksheet-history {
+  background-color: var(--light);
+  color: var(--dark);
+  padding: 1rem;
+  min-height: 70vh;
+}
+
+#worksheet-history ul {
+  --metric-rythm: 0.25rem;
+  display: flex;
+  list-style: none;
+  padding: 1rem;
+  flex-direction: column;
+  border-radius: 1rem;
+  background-color: var(--shade-light);
+}
+
+#worksheet-history .history-action {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.modified-label,
+.client-label {
+  text-transform: uppercase;
+  display: block;
+  background-color: var(--light);
+  border-radius: 1rem;
+  padding: 0.05rem 1rem;
+}
+
+.history-modified,
+.history-client {
+  display: block;
+  text-align: center;
+  font-size: var(--s600);
+}

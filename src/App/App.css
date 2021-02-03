@@ -16,3 +16,92 @@
   padding-top: 3.5rem;
 }
 */
+
+.banner {
+  background-color: var(--light);
+  padding: 2rem 1rem 1rem;
+}
+
+.banner-title {
+  background-image: url("../img/photo-1462556791646-c201b8241a94.jpeg");
+  background-color: var(--primary);
+  background-blend-mode: color;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 1rem;
+  box-shadow: 0px 0px 40vw -16px black inset;
+  border-radius: 0.5rem;
+}
+
+.banner-title > h1,
+.banner-title > h2 {
+  margin: 0;
+}
+
+.banner-title > h1 {
+  border-bottom: thin solid var(--light);
+  margin-bottom: 1rem;
+}
+
+.banner-title > h2 {
+  font-weight: 400;
+}
+
+.description {
+  padding: 1rem;
+  background-color: var(--light);
+  color: var(--dark);
+  display: flex;
+  flex-direction: column;
+}
+
+#start-prompt > .start-prompt-title {
+  background-image: url(../img/photo-1554224154-22dec7ec8818.jpeg);
+  background-size: cover;
+  color: var(--light);
+  background-position: -50%;
+  box-shadow: 0px 0px 40vw -16px black inset;
+  padding-left: 1rem;
+}
+
+.start-card {
+  display: flex;
+}
+
+.start-card .media-container {
+  flex: 1 1 14ch;
+}
+
+.start-card img {
+  margin-top: 0.25rem;
+}
+
+.start-card > p {
+  margin-left: 1rem;
+}
+
+#modify-prompt > .modify-prompt-title {
+  background-image: url(../img/photo-1450101499163-c8848c66ca85.jpeg);
+  background-size: cover;
+  color: var(--light);
+  background-position: -50%;
+  box-shadow: 0px 0px 40vw -16px black inset;
+  padding-left: 1rem;
+}
+
+footer {
+  background-color: var(--dark);
+  padding: 1rem;
+}
+
+#App {
+  min-height: 100vh;
+}
+
+@media only screen and (min-width: 60em) {
+  .banner,
+  .description {
+    max-width: 60em;
+    margin: 0 auto;
+  }
+}

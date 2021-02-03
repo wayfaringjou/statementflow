@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react';
-import { mdiDotsHorizontal, mdiMinusBoxOutline, mdiPlusBoxOutline } from '@mdi/js';
+import { mdiMinusBoxOutline, mdiPlusBoxOutline } from '@mdi/js';
 import Item from '../Item';
-import useClientRect from '../customHooks/useClientRect';
 import { ACTIONS } from '../Worksheet';
 import AppContext from '../AppContext';
 import './Section.css';
@@ -86,7 +85,6 @@ export default function Section({
   );
 
   // Custom hook to store coordinates of parents for dialogs
-  const [rect, ref] = useClientRect();
 
   const [thisSectionTotal, setThisSectionTotal] = useState(getSectionTotal(sectionInstance));
 

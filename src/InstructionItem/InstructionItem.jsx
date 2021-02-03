@@ -30,6 +30,8 @@ export default function InstructionItem({ componentInstance }) {
 InstructionItem.propTypes = {
   componentInstance: PropTypes.shape({
     instruction: PropTypes.string,
+    componentName: PropTypes.string,
+    componentDescription: PropTypes.string,
   }),
 };
 

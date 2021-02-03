@@ -46,7 +46,7 @@
   min-width: 100%;
 }
 
-.table-reference tr:first-of-type {
+.table-reference thead {
   color: var(--secondary);
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
+import './NewWorksheetPrompt.css';
 
 export default function NewWorksheetPrompt({
   onModalClose,
@@ -63,10 +64,10 @@ export default function NewWorksheetPrompt({
 
   return (
     <div id="new-worksheet-prompt">
-      <h2>New worksheet</h2>
+      <h3>New worksheet</h3>
       {(promptState === undefined) && (
         <article id="select-template-prompt">
-          <h3>Select a template for the new Worksheet:</h3>
+          <h4>Select a template for the new Worksheet:</h4>
           <ul>
             {worksheetTemplates.map((template) => (
               <li key={template.id}>

@@ -1,7 +1,7 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-param-reassign */
-import React, { useEffect, useState } from 'react';
-import ReactDataSheet from 'react-datasheet';
+import React from 'react';
+import PropTypes from 'prop-types';
 import objectPath from 'object-path';
 import Icon from '@mdi/react';
 import { mdiClose, mdiTablePlus, mdiTableRemove } from '@mdi/js';
@@ -30,14 +30,6 @@ export default function Note({
   sectionKey,
   itemKey,
 }) {
-  const [description, setDescription] = useState(noteContents.description);
-
-  const [tableReference, setTableReference] = useState(noteContents.tableReference);
-
-  useEffect(() => {
-    console.log('reloaded');
-    setTableReference(noteContents.tableReference);
-  });
   return (
     <WorksheetContext.Consumer>
       {({ worksheetData, dispatch }) => (
@@ -70,7 +62,6 @@ export default function Note({
             <textarea
               id="note-description"
               onChange={({ target: { value } }) => {
-                setDescription(value);
                 dispatch({
                   type: ACTIONS.ADD_NOTE,
                   sectionKey,
@@ -91,19 +82,13 @@ export default function Note({
                 className="table-reference"
               >
 
-                {/* (noteContents.tableReference) && (
-                <ReactDataSheet
-                  data={noteContents.tableReference}
-                  valueRenderer={(cell) => cell.value}
-                />
-                )
-                */}
-
                 {(noteContents.tableReference) && (
                   <table>
                     <thead>
-                      <td>Description</td>
-                      <td>Amount</td>
+                      <tr>
+                        <td>Description</td>
+                        <td>Amount</td>
+                      </tr>
                     </thead>
                     <tbody>
                       {noteContents.tableReference.map((row, rowI) => (
@@ -130,7 +115,6 @@ export default function Note({
                     type="button"
                     onClick={() => {
                       const tableRef = constructRefTable({ ...worksheetData }, itemTotal);
-                      setTableReference(tableRef);
                       dispatch({
                         type: ACTIONS.ADD_NOTE,
                         sectionKey,
@@ -157,7 +141,6 @@ export default function Note({
                   <button
                     type="button"
                     onClick={() => {
-                      setTableReference([]);
                       dispatch({
                         type: ACTIONS.ADD_NOTE,
                         sectionKey,
@@ -188,3 +171,31 @@ export default function Note({
     </WorksheetContext.Consumer>
   );
 }
+
+Note.propTypes = {
+  noteContents: PropTypes.oneOf(
+    [
+      PropTypes.shape({
+        description: PropTypes.string,
+        name: PropTypes.string,
+      }),
+      PropTypes.shape({
+        description: PropTypes.string,
+        name: PropTypes.string,
+        tableReference: PropTypes.arrayOf(PropTypes.array),
+      }),
+    ],
+  ).isRequired,
+  itemTotal: PropTypes.shape({
+    componentKey: PropTypes.string,
+    fieldKey: PropTypes.string,
+    itemKey: PropTypes.string,
+    sectionKey: PropTypes.string,
+    value: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+    ]),
+  }).isRequired,
+  sectionKey: PropTypes.string.isRequired,
+  itemKey: PropTypes.string.isRequired,
+};

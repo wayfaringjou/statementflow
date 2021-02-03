@@ -5,14 +5,14 @@ import { Packer } from 'docx';
 // Access deep properties using a path
 import objectPath from 'object-path';
 import Icon from '@mdi/react';
-import { mdiContentSaveOutline, mdiFileExportOutline, mdiPencilOutline } from '@mdi/js';
-import useFetch from '../customHooks/useFetch';
+import { mdiContentSaveOutline, mdiFileExportOutline } from '@mdi/js';
 import config from '../config';
 import WorksheetContext from '../WorksheetContext';
 import CreateDocument from '../helpers/generateDocHelper';
 import AppContext from '../AppContext';
 import Section from '../Section';
 import './Worksheet.css';
+import AppError from '../AppError';
 
 export const ACTIONS = {
   LOAD_WORKSHEET_DATA: 'load-worksheet-data',
@@ -36,9 +36,6 @@ function reducer(state, action) {
   const itemPath = `${sectionKey}.items.${itemKey}`;
   // Set key-path string for component
   const componentPath = `${itemPath}.components.${componentKey}`;
-  console.log(action);
-  console.log(sectionKey, itemKey, componentKey, fieldKey);
-  console.log(componentPath);
   switch (action.type) {
     case ACTIONS.LOAD_WORKSHEET_DATA: {
       modifiedState = action.fetchResponse;
@@ -60,14 +57,9 @@ function reducer(state, action) {
         .has(modifiedState, `${itemPath}.itemTotal`)
       && componentKey === objectPath
         .get(modifiedState, `${itemPath}.itemTotal.componentKey`)) {
-        // Update item value if it is the same path
-        const stateItemTotal = objectPath.get(modifiedState, `${itemPath}.itemTotal`);
-
-        console.log(stateItemTotal);
         // For tables, change value inside cell
         if (objectPath.get(modifiedState, `${componentPath}.componentType`) === 'table') {
           const { row, col } = objectPath.get(modifiedState, `${itemPath}.itemTotal.cell`);
-          console.log(action.value);
           objectPath.set(modifiedState, `${itemPath}.itemTotal.value`, action.value[row][col].value);
         } else {
           // For fields, change flat value
@@ -92,7 +84,6 @@ function reducer(state, action) {
           refRow.push(row[totalCol]);
           return refRow;
         });
-        console.log(refTable);
         objectPath.set(modifiedState, `${itemPath}.itemNote.tableReference`, refTable);
       }
 
@@ -120,7 +111,6 @@ function reducer(state, action) {
         && componentKey === objectPath
           .get(modifiedState, `${itemPath}.itemTotal.componentKey`)
       ) {
-        console.log(action);
         const tableData = objectPath
           .get(modifiedState, `${componentPath}.value`);
         const refTable = tableData.map((row) => {
@@ -130,7 +120,6 @@ function reducer(state, action) {
           refRow.push(row[totalCol]);
           return refRow;
         });
-        console.log(refTable);
         objectPath.set(modifiedState, `${itemPath}.itemNote.tableReference`, refTable);
       }
 
@@ -139,11 +128,9 @@ function reducer(state, action) {
       objectPath.del(modifiedState, `${sectionKey}.items${itemKey}.itemTotal`);
       return modifiedState;
     case ACTIONS.ADD_NOTE:
-      console.log(action);
       objectPath.set(modifiedState, `${itemPath}.itemNote`, action.itemNote);
       return modifiedState;
     case ACTIONS.DEL_NOTE:
-      console.log(action);
       objectPath.del(modifiedState, `${itemPath}.itemNote`);
       return modifiedState;
     default:
@@ -156,7 +143,6 @@ function generateDoc(data, filename) {
 
   Packer.toBlob(newDoc).then((blob) => {
     saveAs(blob, `${filename}.docx`);
-    console.log('Document created successfully');
   });
 }
 
@@ -244,7 +230,6 @@ export default function Worksheet() {
   return (
     <AppContext.Consumer>
       {({
-        isModalOpen,
         onModalClose,
         onModalOpen,
         setModalContent,
@@ -301,18 +286,22 @@ export default function Worksheet() {
             >
               {sectionKeys
                 .map((key) => (
-                  <Section
+                  <AppError
                     key={key}
-                    sectionKey={key}
-                    sectionInstance={worksheetData[key]}
+                  >
+                    <Section
+                      key={key}
+                      sectionKey={key}
+                      sectionInstance={worksheetData[key]}
                     // worksheetData={worksheetData}
-                    onDialogClose={onDialogClose}
-                    worksheetTemplate={thisWorksheet.template.template}
-                    dispatch={dispatch}
-                    setModalContent={setModalContent}
-                    onModalOpen={onModalOpen}
-                    onModalClose={onModalClose}
-                  />
+                      onDialogClose={onDialogClose}
+                      worksheetTemplate={thisWorksheet.template.template}
+                      dispatch={dispatch}
+                      setModalContent={setModalContent}
+                      onModalOpen={onModalOpen}
+                      onModalClose={onModalClose}
+                    />
+                  </AppError>
                 ))}
               <section id="save-prompt" className="col span4 span8 span12 dark-bg">
                 <h2>Save and export</h2>

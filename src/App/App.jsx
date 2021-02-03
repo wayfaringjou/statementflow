@@ -162,6 +162,11 @@ export default function App() {
           )}
           {routes()}
         </main>
+        <footer>
+          <p>
+            © 2020 Joel Del Cueto
+          </p>
+        </footer>
       </div>
     </AppContext.Provider>
   );

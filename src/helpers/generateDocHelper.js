@@ -14,7 +14,6 @@ import {
 
 export default function CreateDocument(data) {
   const doc = new Document();
-  console.log(data);
   const client = data.thisWorksheet.client.name;
   const statementType = data.thisWorksheet.template.name;
   const statementDate = new Intl.DateTimeFormat('en-US', { month: 'long', day: 'numeric', year: 'numeric' }).format(new Date(data.thisWorksheet.statement.statementDate));
@@ -47,7 +46,6 @@ export default function CreateDocument(data) {
       }),
     ],
   });
-  console.log(data.worksheetData);
   const sectionKeys = Object.keys(data.worksheetData);
 
   const statementElements = [];

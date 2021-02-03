@@ -1,36 +1,61 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Link, useHistory } from 'react-router-dom';
+import './WorksheetList.css';
 
 export default function WorksheetList({ worksheetHistory, clients }) {
+  const history = useHistory();
   return (
-    <div id="worksheet-list">
+    <section id="worksheet-history" className="rounded-top">
       <h2>Worksheet History</h2>
       <p>Click on &apos;Modify&apos; below to open a worksheet:</p>
-      <article>
+      <article className="worksheet-list flow">
         {worksheetHistory.map((worksheet) => (
-          <ul key={worksheet.id}>
+          <ul
+            key={worksheet.id}
+            className="flow"
+          >
             <li key={`${worksheet.id}-modified`}>
-              Modified:
+              <span className="modified-label">
+                Modified:
+              </span>
               <span className="history-modified">
                 {new Date(worksheet.modified).toDateString()}
               </span>
             </li>
             <li key={`${worksheet.id}-client`}>
-              Client:
+              <span className="client-label">
+                Client:
+              </span>
               <span className="history-client">
                 {clients
                   .find((client) => client.id === worksheet.clientId)
                   .name}
               </span>
             </li>
-            <li>
-              <Link to={`/worksheets/${worksheet.id}`}>
-                Modify
-              </Link>
+            <li className="history-action">
+              <button
+                type="button"
+                onClick={() => history.push(`/worksheets/${worksheet.id}`)}
+              >
+                <span className="btn-label">
+                  Modify
+                </span>
+              </button>
             </li>
           </ul>
         ))}
       </article>
-    </div>
+    </section>
   );
 }
+
+WorksheetList.propTypes = {
+  worksheetHistory: PropTypes.arrayOf(PropTypes.object),
+  clients: PropTypes.arrayOf(PropTypes.object),
+};
+
+WorksheetList.defaultProps = {
+  worksheetHistory: [],
+  clients: [],
+};
