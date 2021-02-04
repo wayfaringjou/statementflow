@@ -14,11 +14,7 @@ export default function Item({
   itemInstance,
   sectionKey,
   itemKey,
-  // worksheetTemplate,
   dispatch,
-  // setModalContent,
-  // onModalOpen,
-  // onModalClose,
   reloadSectionTotal,
 }) {
   const componentKeys = Object.keys(itemInstance.components);
@@ -32,14 +28,13 @@ export default function Item({
           </header>
 
           {(itemInstance.itemDescription) && (
-          <section className="grid-ele-desc col span4 span8 span12">
+          <section className="grid-ele-desc item-desc col span4 span8 span12">
             <p>{itemInstance.itemDescription}</p>
           </section>
           )}
 
           <section className="item-components grid-ele-content col span4 span8 span12 grid-ele-wrapper">
-            {/* componentHelper takes item's
-             instance and keys as argumnets */}
+            {/* componentHelper takes item's instance and keys as argumnets */}
             {componentKeys
               .map((key) => componentHelper(itemInstance,
                 sectionKey, itemKey, key, reloadSectionTotal))}

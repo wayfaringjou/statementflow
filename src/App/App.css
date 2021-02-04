@@ -1,22 +1,3 @@
-/* Backdrop layout distribution */
-/*
-#main-header {
-  position: fixed;
-  top: 0;
-  width: 100vw;
-}
-
-#main-header > .backdrop {
-  padding: var(--s400);
-  height: 3.5rem;
-  background-color: var(--primary-bg);
-}
-
-#App > main{
-  padding-top: 3.5rem;
-}
-*/
-
 .banner {
   background-color: var(--light);
   padding: 2rem 1rem 1rem;
@@ -53,6 +34,7 @@
   color: var(--dark);
   display: flex;
   flex-direction: column;
+  border-radius: 0 0 var(--s400) var(--s400);
 }
 
 #start-prompt > .start-prompt-title {
@@ -92,16 +74,22 @@
 footer {
   background-color: var(--dark);
   padding: 1rem;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  margin: 0 auto;
 }
 
 #App {
   min-height: 100vh;
+  position: relative;
+  padding-bottom: 6rem;
 }
 
-@media only screen and (min-width: 60em) {
+@media only screen and (min-width: 75em) {
   .banner,
   .description {
-    max-width: 60em;
+    max-width: 75em;
     margin: 0 auto;
   }
 }

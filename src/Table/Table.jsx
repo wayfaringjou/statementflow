@@ -16,8 +16,6 @@ export default function Table({
   itemInstance, componentInstance, sectionKey, itemKey, componentKey,
   reloadSectionTotal,
 }) {
-  // const { value } = instance;
-
   const [selected, setSelected] = useState({});
 
   function onCellsChanged(grid, changes) {
@@ -59,27 +57,8 @@ export default function Table({
               <header className="table-header card-header">
                 {componentInstance.componentName
                 && (<h4>{componentInstance.componentName}</h4>)}
-
-                {/*
-                <button
-                  type="button"
-                  ref={ref}
-                  onClick={() => {
-                    setDialogOriginPosition(rect);
-                    setDialogContent(
-                      handleRenderDialog(onDialogClose, dispatch),
-                    );
-                    onDialogToggle();
-                  }}
-                >
-                  <Icon
-                    path={mdiDotsHorizontal}
-                    title="Item menu"
-                    size={1}
-                  />
-                </button>
-*/}
               </header>
+
               <section className="component-description card-subtitle">
                 {(componentInstance.componentDescription)
                 && (<p>{componentInstance.componentDescription}</p>)}

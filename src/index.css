@@ -71,6 +71,7 @@ a {
 a:hover {
   color: currentColor;
   text-decoration-color: var(--tertiary);
+  box-shadow: 0 0 0 0.25rem currentColor;
 }
 
 :focus {
@@ -200,6 +201,10 @@ button.toggle > svg {
   margin: 0;
 }
 
+button:hover {
+  box-shadow: 0 0 0 0.25rem currentColor inset;
+}
+
 fieldset {
   border: 0;
   padding: 0;
@@ -238,6 +243,15 @@ table {
   width: 100%;
 }
 
+tr {
+  display: flex;
+}
+
+tr > td {
+  flex: 1;
+  min-width: 12ch;
+}
+
 tr:nth-of-type(even) {
   background-color: var(--shade-light);
 }
@@ -250,7 +264,6 @@ td:first-of-type {
 td {
   min-width: 1vw;
   min-height: 1.75rem;
-  height: 2rem;
   padding: 0.35rem;
   border: thin solid var(--shade-dark);
   text-align: center;
@@ -341,6 +354,11 @@ td {
   gap: var(--s400);
 }
 
+.grid-ele-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .with-sidebar {
   display: flex;
   flex-wrap: wrap;
@@ -399,10 +417,8 @@ td {
 .card {
   padding: 0.5rem 0;
   border-radius: 0.5rem;
-  /*box-shadow: 0 8px 8px 0 var(--shade-dark);*/
   box-shadow: 0px 0px 0px 1px rgb(0 0 0 / 10%) inset,
     0px 1px 4px 0px rgb(0 0 0 / 10%);
-  /*border: thin solid var(--shade-dark);*/
   margin: 0 0 1rem;
   background-color: var(--light);
 }
@@ -488,6 +504,22 @@ td {
     gap: var(--s400);
   }
 
+  .col.span1-md {
+    grid-column: auto / span 1;
+  }
+
+  .col.span2-md {
+    grid-column: auto / span 2;
+  }
+
+  .col.span3-md {
+    grid-column: auto / span 3;
+  }
+
+  .col.span4-md {
+    grid-column: auto / span 4;
+  }
+
   .col.span5 {
     grid-column: auto / span 5;
   }
@@ -503,21 +535,17 @@ td {
   .col.span8 {
     grid-column: auto / span 8;
   }
-}
 
-/*
-.grid-ele-header {
-}
+  .grid-ele-header {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
 
-.grid-ele-menu {
+  .grid-ele-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
-
-.grid-ele-desc {
-}
-
-.gird-ele-context {
-}
-*/
 
 @media only screen and (min-width: 48em) {
   .grid-ele-wrapper {
@@ -529,6 +557,38 @@ td {
   .grid-ele-wrapper {
     display: grid;
     grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .col.span1-lg {
+    grid-column: auto / span 1;
+  }
+
+  .col.span2-lg {
+    grid-column: auto / span 2;
+  }
+
+  .col.span3-lg {
+    grid-column: auto / span 3;
+  }
+
+  .col.span4-lg {
+    grid-column: auto / span 4;
+  }
+
+  .col.span5-lg {
+    grid-column: auto / span 5;
+  }
+
+  .col.span6-lg {
+    grid-column: auto / span 6;
+  }
+
+  .col.span7-lg {
+    grid-column: auto / span 7;
+  }
+
+  .col.span8-lg {
+    grid-column: auto / span 8;
   }
 
   .col.span9 {

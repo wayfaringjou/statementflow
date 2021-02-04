@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Icon from '@mdi/react';
-import { mdiFilePlusOutline, mdiFolderClockOutline, mdiHomeOutline } from '@mdi/js';
+import { mdiFilePlusOutline, mdiFolderClockOutline } from '@mdi/js';
 
 import AppContext from '../AppContext';
 import NewWorksheetPrompt from '../NewWorksheetPrompt';

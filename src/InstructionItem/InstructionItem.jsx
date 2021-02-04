@@ -4,7 +4,7 @@ import './InstructionItem.css';
 
 export default function InstructionItem({ componentInstance }) {
   return (
-    <article className="worksheet-instruction col span4 span8 span12 card">
+    <article className="worksheet-instruction col span4 span8 span6-lg card">
 
       {componentInstance.componentName && (
       <header className="card-header">

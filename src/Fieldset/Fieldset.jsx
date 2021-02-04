@@ -15,7 +15,7 @@ export default function Fieldset({
   return (
     <WorksheetContext.Consumer>
       {({ dispatch }) => (
-        <article className="worksheet-fieldset col span4 span8 span12 card">
+        <article className="worksheet-fieldset col span4 span8 span6-lg card">
 
           <fieldset form="worksheet" key={componentKey}>
 

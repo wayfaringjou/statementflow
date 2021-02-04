@@ -97,6 +97,7 @@ export default function NewWorksheetPrompt({
               const newStatement = await addNewStatement({
                 clientId: newClient.id,
                 values: templateInstance.template,
+                statementDate: new Date(),
               });
               const newWorksheet = await addNewWorksheet({
                 clientId: newClient.id,
@@ -135,6 +136,7 @@ export default function NewWorksheetPrompt({
                 const newStatement = await addNewStatement({
                   clientId: client.id,
                   values: templateInstance.template,
+                  statementDate: new Date(),
                 });
                 const newWorksheet = await addNewWorksheet({
                   clientId: client.id,

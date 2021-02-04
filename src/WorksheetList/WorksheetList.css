@@ -3,6 +3,7 @@
   color: var(--dark);
   padding: 1rem;
   min-height: 70vh;
+  border-radius: var(--s400);
 }
 
 #worksheet-history ul {
@@ -34,4 +35,11 @@
   display: block;
   text-align: center;
   font-size: var(--s600);
+}
+
+@media only screen and (min-width: 75em) {
+  #worksheet-history {
+    max-width: 75em;
+    margin: 0 auto;
+  }
 }

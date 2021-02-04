@@ -173,7 +173,7 @@ export default function Note({
 }
 
 Note.propTypes = {
-  noteContents: PropTypes.oneOf(
+  noteContents: PropTypes.oneOfType(
     [
       PropTypes.shape({
         description: PropTypes.string,

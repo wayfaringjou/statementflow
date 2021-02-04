@@ -37,3 +37,17 @@
 .worksheet-header {
   margin: 0 0 var(--s400);
 }
+
+@media only screen and (min-width: 36em) {
+  #save-prompt {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media only screen and (min-width: 75em) {
+  #worksheet{
+    max-width: 75em;
+    margin: auto;
+  }
+}

@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './WorksheetList.css';
 
 export default function WorksheetList({ worksheetHistory, clients }) {
   const history = useHistory();
   return (
-    <section id="worksheet-history" className="rounded-top">
+    <section id="worksheet-history">
       <h2>Worksheet History</h2>
       <p>Click on &apos;Modify&apos; below to open a worksheet:</p>
-      <article className="worksheet-list flow">
+      <article className="worksheet-list grid-ele-wrapper">
         {worksheetHistory.map((worksheet) => (
           <ul
             key={worksheet.id}
-            className="flow"
+            className="flow col span4"
           >
             <li key={`${worksheet.id}-modified`}>
               <span className="modified-label">

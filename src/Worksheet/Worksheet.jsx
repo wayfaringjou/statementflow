@@ -238,11 +238,15 @@ export default function Worksheet() {
         <WorksheetContext.Provider
           value={{
             worksheetData,
-            // worksheetTemplate: thisWorksheet.template,
             dispatch,
           }}
         >
           <div id="worksheet" className="rounded-top s400-v-pad light-bg">
+            {(errorMsg) && (
+            <section className="error_msg">
+              <h3>{errorMsg}</h3>
+            </section>
+            )}
             <header className="worksheet-header s400-v-pad s400-h-pad">
               {thisWorksheet.template && (
                 <h2 className="template-name">
@@ -293,7 +297,6 @@ export default function Worksheet() {
                       key={key}
                       sectionKey={key}
                       sectionInstance={worksheetData[key]}
-                    // worksheetData={worksheetData}
                       onDialogClose={onDialogClose}
                       worksheetTemplate={thisWorksheet.template.template}
                       dispatch={dispatch}
