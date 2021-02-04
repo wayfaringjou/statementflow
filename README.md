@@ -12,7 +12,14 @@ For this first version there is one template available: "Personal Financial Stat
 In future versions I expect to let users create their own templates using the client app. For now, templates have to be created as a JSON document and added using the API.
 
 ## Screenshots
-- 
+- Landing page
+![Landing](./screens/landing.png) 
+
+- Worksheet history with a client
+![Landing](./screens/history.png) 
+
+- Worksheet template
+![Landing](./screens/worksheet.png) 
 
 ## Summary
 The client-side application can interpret template data stored as JSON to generate a form that can serves as a guide to help the user in the preparation of a financial statement.
